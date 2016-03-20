@@ -4,7 +4,12 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
 	Rigidbody2D playerRB;
+
 	bool grounded;
+    public Transform groundCheck;
+    float groundRadius = 0.1f;
+    public LayerMask whatIsGround;
+    float jumpTimer = 0.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -37,11 +42,12 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()
     {
+        if (jumpTimer <= 1.0f) jumpTimer += 0.1f;
+        grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
         playerRB.velocity = new Vector2(0, playerRB.velocity.y);
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             FlipMechanic.direction = Vector2.left;
-            //playerRB.AddForce(new Vector2(-6.5f - playerRB.velocity.x, 0.0f));
             playerRB.velocity = new Vector2(-6.0f, playerRB.velocity.y);
         }
         else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
@@ -49,26 +55,10 @@ public class PlayerController : MonoBehaviour {
             FlipMechanic.direction = Vector2.right;
             playerRB.velocity = new Vector2(6.0f, playerRB.velocity.y);
         }
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && grounded)
+        if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && grounded && jumpTimer > 1.0f)
         {
-            grounded = false;
-            playerRB.AddForce(new Vector2(playerRB.velocity.x, 350.0f));
+            jumpTimer = 0.0f;
+            playerRB.velocity = new Vector2(playerRB.velocity.x, 6.8f);
         }
     }
-
-	void OnCollisionEnter2D(Collision2D collision)
-	{
-		Collider2D collider = collision.collider;
-		if (collider.CompareTag("Wall"))
-		{
-			if (collision.contacts.Length > 0)
-			{
-				ContactPoint2D contact = collision.contacts[0];
-				if (Vector2.Dot(contact.normal, Vector2.up) > 0.5f) //Check ground collision
-				{
-					grounded = true;
-				}
-			}
-		}
-	}
 }
