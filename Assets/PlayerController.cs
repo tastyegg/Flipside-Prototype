@@ -13,10 +13,14 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) ||
-			Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+	void Update ()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
 			FlipMechanic.aniTime = 0.0f;
+		else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) ||
+			Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+			if (FlipMechanic.direction.x == 0)
+				FlipMechanic.aniTime = 0.0f;
 		if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
 		{
 			FlipMechanic.direction = Vector2.left;
@@ -30,7 +34,8 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
 		{
-			FlipMechanic.aniTime = 0.0f;
+			if (FlipMechanic.direction.y == 0)
+				FlipMechanic.aniTime = 0.0f;
 			FlipMechanic.direction = Vector2.up;
 			if (grounded)
 			{
@@ -39,7 +44,8 @@ public class PlayerController : MonoBehaviour {
 			}
 		} else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
 		{
-			FlipMechanic.aniTime = 0.0f;
+			if (FlipMechanic.direction.y == 0)
+				FlipMechanic.aniTime = 0.0f;
 			FlipMechanic.direction = Vector2.down;
 		}
 		FlipMechanic.aniTime += 0.11f;
