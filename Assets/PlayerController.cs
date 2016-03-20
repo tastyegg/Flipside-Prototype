@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             FlipMechanic.direction = Vector2.left;
+            //playerRB.AddForce(new Vector2(-6.5f - playerRB.velocity.x, 0.0f));
             playerRB.velocity = new Vector2(-6.0f, playerRB.velocity.y);
         }
         else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
@@ -48,7 +49,7 @@ public class PlayerController : MonoBehaviour {
             FlipMechanic.direction = Vector2.right;
             playerRB.velocity = new Vector2(6.0f, playerRB.velocity.y);
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) && grounded)
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && grounded)
         {
             grounded = false;
             playerRB.AddForce(new Vector2(playerRB.velocity.x, 350.0f));
