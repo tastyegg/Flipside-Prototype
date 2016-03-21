@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.X))
 			FlipMechanic.aniTime = 0.0f;
 		else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) ||
 			Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))

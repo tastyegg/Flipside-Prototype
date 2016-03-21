@@ -20,7 +20,7 @@ public class FlipMechanic : MonoBehaviour {
 	}
 	
 	void Update () {
-		if (Input.GetKeyUp(KeyCode.Space))
+		if (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.X))
 		{
 			SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
 			previewSprite.color = Color.clear;
@@ -30,7 +30,7 @@ public class FlipMechanic : MonoBehaviour {
 			//else if (direction.y != 0)
             else if (!horizontalFlip)
 				transform.position = new Vector3(transform.position.x, -transform.position.y, transform.position.z);
-		} else if (Input.GetKey(KeyCode.Space))
+		} else if (Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.X))
 		{
 			SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
 			previewSprite.color = Color.blue;
