@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
 	Rigidbody2D playerRB;
+	Vector3 respawnLocation;
 
 	bool grounded;
     public Transform groundCheck;
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		playerRB = GetComponent<Rigidbody2D>();
 		grounded = true;
+		respawnLocation = transform.position;
 	}
 	
 	// Update is called once per frame
@@ -61,4 +63,10 @@ public class PlayerController : MonoBehaviour {
             playerRB.velocity = new Vector2(playerRB.velocity.x, 6.8f);
         }
     }
+
+	void OnBecameInvisible()
+	{
+		playerRB.velocity = Vector2.zero;
+		transform.position = respawnLocation;
+	}
 }
