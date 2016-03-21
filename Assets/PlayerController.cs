@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
@@ -6,40 +7,52 @@ public class PlayerController : MonoBehaviour {
 	Rigidbody2D playerRB;
 	Vector3 respawnLocation;
 
+	bool inSequence;    //Time for frozen animation
 	bool grounded;
     public Transform groundCheck;
-    float groundRadius = 0.1f;
-    public LayerMask whatIsGround;
+	public LayerMask whatIsGround;
+	float groundRadius = 0.1f;
     float jumpTimer = 0.0f;
+	Vector2 recordedVelocity;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
+		inSequence = false;
 		playerRB = GetComponent<Rigidbody2D>();
 		grounded = true;
 		respawnLocation = transform.position;
 	}
 	
+	void Reset()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+
 	// Update is called once per frame
 	void Update ()
 	{
-        if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.X))
-			FlipMechanic.aniTime = 0.0f;
-		else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) ||
-			Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-			if (FlipMechanic.direction.x == 0)
-				FlipMechanic.aniTime = 0.0f;
-		if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-		{
-			if (FlipMechanic.direction.y == 0)
-				FlipMechanic.aniTime = 0.0f;
-			FlipMechanic.direction = Vector2.up;
-		} else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-		{
-			if (FlipMechanic.direction.y == 0)
-				FlipMechanic.aniTime = 0.0f;
-			FlipMechanic.direction = Vector2.down;
-		}
 		FlipMechanic.aniTime += 0.11f;
+		if (!inSequence && (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.LeftShift)))
+		{
+			FlipMechanic.aniTime = 0.0f;
+			if (!Input.GetKey(KeyCode.LeftShift))
+			{
+				inSequence = true;
+				recordedVelocity = playerRB.velocity;
+				playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
+			}
+		}
+		if (inSequence && FlipMechanic.aniTime >= 1.0f)
+		{
+			inSequence = false;
+			playerRB.velocity = recordedVelocity;
+			playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
+		}
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			Reset();
+		}
 	}
 
     void FixedUpdate()
@@ -49,12 +62,10 @@ public class PlayerController : MonoBehaviour {
         playerRB.velocity = new Vector2(0, playerRB.velocity.y);
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            FlipMechanic.direction = Vector2.left;
             playerRB.velocity = new Vector2(-6.0f, playerRB.velocity.y);
         }
         else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
-            FlipMechanic.direction = Vector2.right;
             playerRB.velocity = new Vector2(6.0f, playerRB.velocity.y);
         }
         if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && grounded && jumpTimer > 1.0f)
@@ -66,7 +77,6 @@ public class PlayerController : MonoBehaviour {
 
 	void OnBecameInvisible()
 	{
-		playerRB.velocity = Vector2.zero;
-		transform.position = respawnLocation;
+		Reset();
 	}
 }
