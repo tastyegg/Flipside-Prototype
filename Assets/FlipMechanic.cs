@@ -5,6 +5,7 @@ public class FlipMechanic : MonoBehaviour {
 	public static Vector2 direction;
 	public static float aniTime;
 	GameObject preview;
+    bool flipping; //used to identify middle of flip, toggle on when preview is in effect
 
 	void Start () {
 		direction = Vector2.right;
@@ -15,6 +16,7 @@ public class FlipMechanic : MonoBehaviour {
 		SpriteRenderer previewSprite = preview.AddComponent<SpriteRenderer>();
 		previewSprite.sprite = GetComponent<SpriteRenderer>().sprite;
 		previewSprite.color = Color.clear;
+        flipping = false;
 	}
 	
 	void Update () {
@@ -42,7 +44,7 @@ public class FlipMechanic : MonoBehaviour {
 				preview.transform.eulerAngles = new Vector3(Mathf.Lerp(0, 180, aniTime), 0.0f, 0.0f);
 			}
         }
-        else if (Input.GetKeyUp(KeyCode.LeftAlt))
+        /*else if (Input.GetKeyUp(KeyCode.LeftAlt))
         {
             SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
             previewSprite.color = Color.clear;
@@ -66,6 +68,7 @@ public class FlipMechanic : MonoBehaviour {
                 preview.transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, -transform.position.y, aniTime), transform.position.z);
                 preview.transform.eulerAngles = new Vector3(Mathf.Lerp(0, 180, aniTime), 0.0f, 0.0f);
             }
-        }
+        }*/
 	}
+    
 }
