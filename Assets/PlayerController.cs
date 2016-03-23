@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
-
 	Rigidbody2D playerRB;
 	
 	bool inSequence;    //Time for frozen animation
@@ -98,12 +97,10 @@ public class PlayerController : MonoBehaviour {
 
 	void LoadNextLevel()
 	{
-		Debug.Log("Count:" + SceneManager.sceneCountInBuildSettings);
-		Debug.Log("Idx:" + SceneManager.GetActiveScene().buildIndex);
 		if (SceneManager.sceneCountInBuildSettings > SceneManager.GetActiveScene().buildIndex + 1)
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 		else
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			SceneManager.LoadScene(0);
 	}
 
 	void OnTriggerEnter2D(Collider2D collider)

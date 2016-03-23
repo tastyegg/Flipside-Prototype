@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class FlipMechanic : MonoBehaviour {
+    public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
 	public static float aniTime;
 	GameObject preview;
 	bool inSequence;    //Time for frozen animation
@@ -58,7 +59,7 @@ public class FlipMechanic : MonoBehaviour {
 			}
 			if (Input.GetKey(KeyCode.LeftShift))
 			{
-				previewSprite.color = Color.blue;
+				previewSprite.color = previewColor;
 			
 				if (flipside == 1) {
 					preview.transform.position = new Vector3(Mathf.Lerp(transform.position.x, - transform.position.x, aniTime), transform.position.y, transform.position.z);
