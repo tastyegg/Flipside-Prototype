@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
 	public LayerMask whatIsGround;
 	float groundRadius = 0.1f;
     float jumpTimer = 0.0f;
+	Vector3 recordedPosition;
 	Vector2 recordedVelocity;
 
 	// Use this for initialization
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour {
 		inSequence = false;
 		playerRB = GetComponent<Rigidbody2D>();
 		grounded = true;
+		recordedPosition = transform.position;
 	}
 	
 	void Reset()
@@ -36,6 +38,7 @@ public class PlayerController : MonoBehaviour {
 			if (!Input.GetKey(KeyCode.LeftShift))
 			{
 				inSequence = true;
+				recordedPosition = transform.position;
 				recordedVelocity = playerRB.velocity;
 				playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
 				playerRB.isKinematic = true;
@@ -87,7 +90,7 @@ public class PlayerController : MonoBehaviour {
 
 	void OnCollisionStay2D(Collision2D collision)
 	{
-		if (collision.collider.bounds.Contains(transform.position))
+		if (collision.collider.bounds.Contains(recordedPosition))
 		{
 			GetComponent<ParticleSystem>().Emit(200);
 			GetComponent<SpriteRenderer>().enabled = false;
