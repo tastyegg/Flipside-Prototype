@@ -5,7 +5,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
 	Rigidbody2D playerRB;
-
+	
 	bool inSequence;    //Time for frozen animation
 	bool grounded;
     public Transform groundCheck;
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour {
 				recordedVelocity = playerRB.velocity;
 				playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
 				playerRB.isKinematic = true;
-			} else
+			} else if (Input.GetKeyDown(KeyCode.LeftShift))
 			{
 				recordedVelocity = playerRB.velocity;
 				playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
