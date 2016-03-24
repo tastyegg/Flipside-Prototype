@@ -4,10 +4,16 @@ using System.Collections;
 public class FlipMechanic : MonoBehaviour {
     public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
 	public static float aniTime;
+
 	GameObject preview;
+	Vector3 previewStart;
+	Vector3 previewStartRotation;
+	Vector3 previewGoal;
+	Vector3 previewGoalRotation;
+
 	bool inSequence;    //Time for frozen animation
-	int flipside;	//1 for horizontial, 2 for vertical
-	float destination;
+	int flipside;   //1 for horizontial, 2 for vertical
+	Vector3 destination;
 
 	void Start () {
 		aniTime = 0;
@@ -22,19 +28,72 @@ public class FlipMechanic : MonoBehaviour {
 		flipside = 0;
 	}
 
+	void Flipside()
+	{
+		if (flipside == 1)
+		{
+			transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), transform.position.y, transform.position.z);
+			transform.eulerAngles = new Vector3(0.0f, Mathf.Lerp(0, 180, aniTime), 0.0f);
+		}
+		else if (flipside == 2)
+		{
+			transform.position = new Vector3(transform.position.x, Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
+			transform.eulerAngles = new Vector3(Mathf.Lerp(0, 180, aniTime), 0.0f, 0.0f);
+		}
+		else if (flipside == 3)
+		{
+			transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
+			transform.eulerAngles = new Vector3(Mathf.Lerp(0, 180, aniTime), Mathf.Lerp(0, 180, aniTime), 0.0f);
+		}
+	}
+
+	void FlipsidePreview()
+	{
+		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
+		previewSprite.color = previewColor;
+
+		if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyUp(KeyCode.Z))
+		{
+			aniTime = 0;
+			previewStart = preview.transform.position;
+			previewStartRotation = preview.transform.eulerAngles;
+			if (Input.GetKeyDown(KeyCode.Z))
+			{
+				previewGoal = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
+				previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
+			}
+			else
+			{
+				previewGoal = new Vector3(previewGoal.x, transform.position.y, previewGoal.z);
+				previewGoalRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
+			}
+		}
+		if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyUp(KeyCode.X))
+		{
+			aniTime = 0;
+			previewStart = preview.transform.position;
+			previewStartRotation = preview.transform.eulerAngles;
+			if (Input.GetKeyDown(KeyCode.X))
+			{
+				previewGoal = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
+				previewGoalRotation = new Vector3(previewGoalRotation.x, 180, previewGoalRotation.z);
+			}
+			else
+			{
+				previewGoal = new Vector3(transform.position.x, previewGoal.y, previewGoal.z);
+				previewGoalRotation = new Vector3(previewGoalRotation.x, 0, previewGoalRotation.z);
+			}
+		}
+
+		preview.transform.position = new Vector3(Mathf.Lerp(previewStart.x, previewGoal.x, aniTime), Mathf.Lerp(previewStart.y, previewGoal.y, aniTime), preview.transform.position.z);
+		preview.transform.eulerAngles = new Vector3(Mathf.Lerp(previewStartRotation.x, previewGoalRotation.x, aniTime), Mathf.Lerp(previewStartRotation.y, previewGoalRotation.y, aniTime), preview.transform.position.z);
+	}
+
 	void Update ()
 	{
 		if (inSequence)
 		{
-			if (flipside == 1)
-			{
-				transform.position = new Vector3(Mathf.Lerp(-destination, destination, aniTime), transform.position.y, transform.position.z);
-				transform.eulerAngles = new Vector3(0.0f, Mathf.Lerp(0, 180, aniTime), 0.0f);
-			}
-			else {
-				transform.position = new Vector3(transform.position.x, Mathf.Lerp(-destination, destination, aniTime), transform.position.z);
-				transform.eulerAngles = new Vector3(Mathf.Lerp(0, 180, aniTime), 0.0f, 0.0f);
-			}
+			Flipside();
 			if (aniTime >= 1.0f)
 			{
 				inSequence = false;
@@ -44,43 +103,44 @@ public class FlipMechanic : MonoBehaviour {
 		{
 			SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
 			previewSprite.color = Color.clear;
-
-			if (Input.GetKeyDown(KeyCode.X))
-			{
-				flipside = 1;
-			}
-			else if (Input.GetKeyDown(KeyCode.Z))
-			{
-				flipside = 2;
-			}
-			else if (Input.GetKeyUp(KeyCode.LeftShift))
-			{
-				flipside = 0;
-			}
-			if (Input.GetKey(KeyCode.LeftShift))
-			{
-				previewSprite.color = previewColor;
 			
-				if (flipside == 1) {
-					preview.transform.position = new Vector3(Mathf.Lerp(transform.position.x, - transform.position.x, aniTime), transform.position.y, transform.position.z);
-					preview.transform.eulerAngles = new Vector3(0.0f, Mathf.Lerp(0, 180, aniTime), 0.0f);
-				}
-				else if (flipside == 2) {
-					preview.transform.position = new Vector3(transform.position.x, Mathf.Lerp(transform.position.y, -transform.position.y, aniTime), transform.position.z);
-					preview.transform.eulerAngles = new Vector3(Mathf.Lerp(0, 180, aniTime), 0.0f, 0.0f);
-				}
-				else
+			if (Input.GetKeyDown(KeyCode.LeftShift))
+			{
+				previewStart = transform.position;
+				previewStartRotation = Vector3.zero;
+				previewGoal = transform.position;
+				previewGoalRotation = Vector3.zero;
+			}
+			if (Input.GetKeyUp(KeyCode.LeftShift))
+			{
+				if (Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.X))
 				{
-					preview.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-					preview.transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+					flipside = 0;
+					if (Input.GetKey(KeyCode.Z))
+						flipside += 2;
+					if (Input.GetKey(KeyCode.X))
+						flipside ++;
+					destination = previewGoal;
+					inSequence = true;
+					aniTime = 0.0f;
 				}
+			}
+			else if (Input.GetKey(KeyCode.LeftShift))
+			{
+				FlipsidePreview();
 			}
 			else if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.X))
 			{
-				if (flipside == 1)
-					destination = -transform.position.x;
-				else if (flipside == 2)
-					destination = -transform.position.y;
+				if (Input.GetKey(KeyCode.X))
+				{
+					flipside = 1;
+					destination = new Vector3(-transform.position.x, transform.position.y, transform.position.z);
+				}
+				else if (Input.GetKey(KeyCode.Z))
+				{
+					flipside = 2;
+					destination = new Vector3(transform.position.x, -transform.position.y, transform.position.z);
+				}
 				inSequence = true;
 				aniTime = 0.0f;
 			}
