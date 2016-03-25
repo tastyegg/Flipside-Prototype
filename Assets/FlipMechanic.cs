@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FlipMechanic : MonoBehaviour {
     public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
-	public static float aniTime;
+	public static float aniTime = 0.0f;
 
 	GameObject preview;
 	Vector3 previewStart;
@@ -15,8 +15,8 @@ public class FlipMechanic : MonoBehaviour {
 	int flipside;   //1 for horizontial, 2 for vertical
 	Vector3 destination;
 
-	void Start () {
-		aniTime = 0;
+	void Start ()
+	{
 		inSequence = false;
 		preview = new GameObject(transform.name + " (Preview)");
 		preview.transform.parent = transform.parent;
