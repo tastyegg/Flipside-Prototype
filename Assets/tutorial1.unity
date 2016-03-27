@@ -100,6 +100,7 @@ GameObject:
   - 114: {fileID: 83192182}
   - 198: {fileID: 83192184}
   - 199: {fileID: 83192183}
+  - 58: {fileID: 83192185}
   m_Layer: 16
   m_Name: player
   m_TagString: Player
@@ -113,7 +114,7 @@ BoxCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 83192176}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 3a56be0f139511b41b850a8f7b48def6, type: 2}
   m_IsTrigger: 0
@@ -1749,6 +1750,20 @@ ParticleSystem:
     subEmitterCollision1: {fileID: 0}
     subEmitterDeath: {fileID: 0}
     subEmitterDeath1: {fileID: 0}
+--- !u!58 &83192185
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 83192176}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 3a56be0f139511b41b850a8f7b48def6, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &126983380
 GameObject:
   m_ObjectHideFlags: 0

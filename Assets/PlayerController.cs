@@ -7,9 +7,9 @@ public class PlayerController : MonoBehaviour {
 	
 	bool inSequence;    //Time for frozen animation
 	bool grounded;
-    public Transform groundCheck;
-	public LayerMask whatIsGround;
-	float groundRadius = 0.1f;
+    public Transform groundCheckLeft;
+    public Transform groundCheckRight;
+    public LayerMask whatIsGround;
     float jumpTimer = 0.0f;
 	Vector3 recordedPosition;
 	Vector2 recordedVelocity;
@@ -72,6 +72,10 @@ public class PlayerController : MonoBehaviour {
     {
         if (jumpTimer <= 1.0f) jumpTimer += 0.1f;
         //grounded = checkGround();
+       
+        grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
+        Debug.Log(groundCheckLeft.position);
+        Debug.Log(groundCheckRight.position);
         playerRB.velocity = new Vector2(0, playerRB.velocity.y);
 		if (!playerRB.isKinematic)
 		{
@@ -103,7 +107,7 @@ public class PlayerController : MonoBehaviour {
 
 	void OnCollisionStay2D(Collision2D collision)
 	{
-		grounded = checkGround();
+		//grounded = checkGround();
 		if (collision.collider.bounds.Contains(recordedPosition))
 		{
 			//Kill the player
@@ -116,7 +120,7 @@ public class PlayerController : MonoBehaviour {
 
 	void OnCollisionExit2D(Collision2D collision)
 	{
-		grounded = false;
+		//grounded = false;
 	}
 
 	void LoadNextLevel()
