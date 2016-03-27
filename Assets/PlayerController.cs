@@ -74,8 +74,6 @@ public class PlayerController : MonoBehaviour {
         //grounded = checkGround();
        
         grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
-        Debug.Log(groundCheckLeft.position);
-        Debug.Log(groundCheckRight.position);
         playerRB.velocity = new Vector2(0, playerRB.velocity.y);
 		if (!playerRB.isKinematic)
 		{
