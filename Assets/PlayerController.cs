@@ -135,7 +135,12 @@ public class PlayerController : MonoBehaviour {
 		{
 			GetComponent<ParticleSystem>().Emit(200);
 			Invoke("LoadNextLevel", 2.1f);
-		}
+        }
+        /*else if (collider.gameObject.CompareTag("Portal"))
+        {
+            //run teleport
+        }*/
+        
 	}
 
 	void OnBecameInvisible()
