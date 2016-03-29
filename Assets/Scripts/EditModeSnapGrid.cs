@@ -4,7 +4,7 @@ using System.Collections;
 [ExecuteInEditMode]
 public class EditModeSnapGrid : MonoBehaviour {
     //Changable values
-    public float snapValue = 1;
+    public float snapValue = 0.5f;
     public float depth = 0;
     
 	void Update ()
