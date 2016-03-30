@@ -22,7 +22,7 @@ public class SpawnCannonball : MonoBehaviour {
 	void Update () {
 		if (FlipMechanic.aniTime >= 1.0f)
 			spawnTimer += Time.deltaTime;
-		if (spawnTimer > 0.6f)
+		if (spawnTimer > 0.9f)
 		{
 			GameObject cannonball = new GameObject("Cannonball");
 			cannonball.tag = "Cannonball";
@@ -49,7 +49,7 @@ public class SpawnCannonball : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (collision.collider.CompareTag("Cannonball") && !collision.collider.GetComponent<Rigidbody2D>().isKinematic)
+		if (collision.collider.CompareTag("Cannonball") && !collision.collider.GetComponent<Rigidbody2D>().isKinematic && collision.collider.GetComponent<Cannonball>().killsPlayer)
 		{
 			Destroy(gameObject);
 		}
