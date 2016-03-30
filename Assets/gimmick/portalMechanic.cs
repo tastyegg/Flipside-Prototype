@@ -6,11 +6,14 @@ public class portalMechanic : MonoBehaviour {
     public GameObject player; //links to the player
     int timer;
     bool activated;
+    //bool flip;
+
     
 	// Use this for initialization
 	void Start () {
         timer = 0;
         activated = true;
+        //flip = false;
 	}
 	
 	// Update is called once per frame
@@ -22,13 +25,26 @@ public class portalMechanic : MonoBehaviour {
                 activated = true;
             }
         }
+
+        if (otherEnd.GetComponent<FlipMechanic>().getSeq())
+        {
+            activated = false;
+            timer = 30;
+            //flip = true;
+        }
+        /*else if (flip)
+        {
+            flip = false;
+            activated = true;
+        }*/
 	}
+
 
     void teleport()
     {
         portalMechanic script = otherEnd.GetComponent<portalMechanic>();
         script.activated = false;
-        script.timer = 100;
+        script.timer = 60;
         player.transform.position = otherEnd.transform.position;
         //animation?
     }
