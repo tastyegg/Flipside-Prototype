@@ -11,6 +11,8 @@ public class Cannonball : MonoBehaviour {
 	void Start () {
 		gameObject.AddComponent<CircleCollider2D>();
 		rb = GetComponent<Rigidbody2D>();
+		if (killsPlayer)
+			GetComponent<SpriteRenderer>().color = Color.red;
 	}
 	
 	// Update is called once per frame
