@@ -22,27 +22,24 @@ public class FlipMechanicDynamic : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-		if (!inSequence && !rb.isKinematic && (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.X) || Input.GetKeyUp(KeyCode.LeftShift)))
+		if (!inSequence && !rb.isKinematic && (Input.GetKeyUp(KeyCode.LeftShift)))
 		{
-			if (!Input.GetKey(KeyCode.LeftShift))
+			inSequence = true;
+			recordedPosition = transform.position;
+			recordedVelocity = rb.velocity;
+			if (reverseVelocity)
 			{
-				inSequence = true;
-				recordedPosition = transform.position;
-				recordedVelocity = rb.velocity;
-				if (reverseVelocity)
+				if (FlipMechanic.flipsideD % 2 == 1)
 				{
-					if (Input.GetKeyDown(KeyCode.Z))
-					{
-						recordedVelocity = new Vector2(recordedVelocity.x, -recordedVelocity.y);
-					}
-					if (Input.GetKeyDown(KeyCode.X))
-					{
-						recordedVelocity = new Vector2(-recordedVelocity.x, recordedVelocity.y);
-					}
+					recordedVelocity = new Vector2(recordedVelocity.x, -recordedVelocity.y);
 				}
-				rb.constraints = RigidbodyConstraints2D.FreezeAll;
-				rb.isKinematic = true;
+				if (FlipMechanic.flipsideD > 1)
+				{
+					recordedVelocity = new Vector2(-recordedVelocity.x, recordedVelocity.y);
+				}
 			}
+			rb.constraints = RigidbodyConstraints2D.FreezeAll;
+			rb.isKinematic = true;
 		}
 		if (inSequence && FlipMechanic.aniTime >= 1.0f)
 		{

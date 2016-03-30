@@ -9,6 +9,7 @@ using System.Collections;
 public class FlipMechanic : MonoBehaviour {
     public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
 	public static float aniTime = 0.0f;
+	public static int flipsideD;
 
 	public GameObject preview { get; private set; }
 
@@ -117,6 +118,7 @@ public class FlipMechanic : MonoBehaviour {
 			{
 				if (Input.GetKeyDown(KeyCode.LeftShift))
 				{
+					previewFlipside = 0;
 					previewStart = transform.position;
 					previewStartRotation = Vector3.zero;
 					previewGoal = transform.position;
@@ -129,8 +131,9 @@ public class FlipMechanic : MonoBehaviour {
                 if (previewFlipside != 0)
                 {
                     flipside = previewFlipside;
-                    previewFlipside = 0;
-                    destination = previewGoal;
+					flipsideD = previewFlipside;
+					previewFlipside = 0;
+					destination = previewGoal;
                     inSequence = true;
                     aniTime = 0.0f;
                 }

@@ -31,26 +31,21 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (FlipMechanic.aniTime <= 1.0f)
 			FlipMechanic.aniTime += 8.0f * Time.deltaTime / Time.timeScale;
-		if (!inSequence && !playerRB.isKinematic && (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.LeftShift) ||
-			(Input.GetKeyUp(KeyCode.LeftShift) && (Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.X)))))
+		if (Input.GetKeyDown(KeyCode.LeftShift))
 		{
 			FlipMechanic.aniTime = 0.0f;
-			if (!Input.GetKey(KeyCode.LeftShift))
-			{
-				inSequence = true;
-				recordedPosition = transform.position;
-				recordedVelocity = playerRB.velocity;
-				playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
-				playerRB.isKinematic = true;
-			} else if (Input.GetKeyDown(KeyCode.LeftShift))
-			{
-				Time.timeScale = 0.05f;
-				Time.fixedDeltaTime = 0.02f * Time.timeScale;
-			}
+			Time.timeScale = 0.05f;
+			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}
 		if (Input.GetKeyUp(KeyCode.LeftShift))
 		{
+			inSequence = true;
+			recordedPosition = transform.position;
+			recordedVelocity = playerRB.velocity;
+			playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
+			playerRB.isKinematic = true;
 			FlipMechanic.aniTime = 0.0f;
+
 			Time.timeScale = 1.0f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}
