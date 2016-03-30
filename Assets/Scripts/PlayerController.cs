@@ -4,8 +4,8 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 	Rigidbody2D playerRB;
-	
-	bool inSequence;    //Time for frozen animation
+
+	bool inSequence;	//Time for frozen animation
 	bool grounded;
     public Transform groundCheckLeft;
     public Transform groundCheckRight;
@@ -30,30 +30,23 @@ public class PlayerController : MonoBehaviour {
 	void Update ()
 	{
 		if (FlipMechanic.aniTime <= 1.0f)
-			FlipMechanic.aniTime += 0.11f;
-		if (!inSequence && !playerRB.isKinematic && (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.LeftShift)))
+			FlipMechanic.aniTime += 8.0f * Time.deltaTime / Time.timeScale;
+		if (Input.GetKeyDown(KeyCode.LeftShift))
 		{
+			Time.timeScale = 0.05f;
+			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+		}
+		if (Input.GetKeyUp(KeyCode.LeftShift))
+		{
+			inSequence = true;
+			recordedPosition = transform.position;
+			recordedVelocity = playerRB.velocity;
+			playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
+			playerRB.isKinematic = true;
 			FlipMechanic.aniTime = 0.0f;
-			if (!Input.GetKey(KeyCode.LeftShift))
-			{
-				inSequence = true;
-				recordedPosition = transform.position;
-				recordedVelocity = playerRB.velocity;
-				playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
-				playerRB.isKinematic = true;
-			} else if (Input.GetKeyDown(KeyCode.LeftShift))
-			{
-				Time.timeScale = 0.05f;
-				Time.fixedDeltaTime = 0.02f * Time.timeScale;
-				//recordedVelocity = playerRB.velocity;
-				//playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
-			}
-		} else if (!inSequence && !playerRB.isKinematic && Input.GetKeyUp(KeyCode.LeftShift))
-		{
+
 			Time.timeScale = 1.0f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-			//playerRB.velocity = recordedVelocity;
-			//playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 		}
 		if (inSequence && FlipMechanic.aniTime >= 1.0f)
 		{
@@ -71,7 +64,6 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate()
     {
         if (jumpTimer <= 1.0f) jumpTimer += 0.1f;
-        //grounded = checkGround();
        
         grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
         playerRB.velocity = new Vector2(0, playerRB.velocity.y);
@@ -92,33 +84,23 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
     }
-
-	bool checkGround()
+	
+	void OnCollisionEnter2D(Collision2D collision)
 	{
-		SpriteRenderer sprite = GetComponent<SpriteRenderer>();
-		RaycastHit2D leftRay = Physics2D.Raycast(transform.position - new Vector3(sprite.bounds.size.x, sprite.bounds.size.y) * 0.5f, Vector2.down);
-		RaycastHit2D rightRay = Physics2D.Raycast(transform.position - new Vector3(-sprite.bounds.size.x, sprite.bounds.size.y) * 0.5f, Vector2.down);
-
-		return leftRay.collider != null || rightRay.collider != null;
-		//return Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
+		if (collision.collider.CompareTag("Cannonball") && !collision.collider.GetComponent<Rigidbody2D>().isKinematic && collision.collider.GetComponent<Cannonball>().killsPlayer)
+		{
+			GetComponent<SpriteRenderer>().enabled = false; //This automatically executes OnBecameInvisible()
+			Destroy(collision.collider.gameObject);
+		}
 	}
 
 	void OnCollisionStay2D(Collision2D collision)
 	{
-		//grounded = checkGround();
 		if (collision.collider.bounds.Contains(recordedPosition))
 		{
 			//Kill the player
-			GetComponent<SpriteRenderer>().enabled = false;
-
-			//Invoke("Reset", 1.0f);	//This automatically executes with OnBecameInvisible()
-			//GetComponent<ParticleSystem>().Emit(200);
+			GetComponent<SpriteRenderer>().enabled = false; //This automatically executes OnBecameInvisible()
 		}
-	}
-
-	void OnCollisionExit2D(Collision2D collision)
-	{
-		//grounded = false;
 	}
 
 	void LoadNextLevel()

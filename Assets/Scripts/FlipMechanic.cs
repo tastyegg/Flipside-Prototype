@@ -1,11 +1,18 @@
-﻿using UnityEngine;
+﻿/*
+	Flips the game object around the center x and y position.
+
+*/
+
+using UnityEngine;
 using System.Collections;
 
 public class FlipMechanic : MonoBehaviour {
     public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
 	public static float aniTime = 0.0f;
+	public static int flipsideD;
 
-	GameObject preview;
+	public GameObject preview { get; private set; }
+
 	Vector3 previewStart;
 	Vector3 previewStartRotation;
 	Vector3 previewGoal;
@@ -55,7 +62,8 @@ public class FlipMechanic : MonoBehaviour {
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
 		previewSprite.color = previewColor;
 
-		if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+		if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) ||
+			(Input.GetKeyDown(KeyCode.LeftShift) && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))))
 		{
             if (previewFlipside == 2 || previewFlipside == 3)
             {
@@ -72,7 +80,8 @@ public class FlipMechanic : MonoBehaviour {
             previewStartRotation = preview.transform.eulerAngles;
             previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
         }
-		if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+		if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) ||
+			(Input.GetKeyDown(KeyCode.LeftShift) && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))))
 		{
             if (previewFlipside == 1 || previewFlipside == 3)
             {
@@ -108,21 +117,27 @@ public class FlipMechanic : MonoBehaviour {
 		{
 			SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
 			previewSprite.color = Color.clear;
-			
-			if (Input.GetKeyDown(KeyCode.LeftShift))
+
+			if (Input.GetKey(KeyCode.LeftShift))
 			{
-				previewStart = transform.position;
-				previewStartRotation = Vector3.zero;
-				previewGoal = transform.position;
-				previewGoalRotation = Vector3.zero;
+				if (Input.GetKeyDown(KeyCode.LeftShift))
+				{
+					previewFlipside = 0;
+					previewStart = transform.position;
+					previewStartRotation = Vector3.zero;
+					previewGoal = transform.position;
+					previewGoalRotation = Vector3.zero;
+				}
+				FlipsidePreview();
 			}
-			if (Input.GetKeyUp(KeyCode.LeftShift))
+			else if (Input.GetKeyUp(KeyCode.LeftShift))
 			{
                 if (previewFlipside != 0)
                 {
                     flipside = previewFlipside;
-                    previewFlipside = 0;
-                    destination = previewGoal;
+					flipsideD = previewFlipside;
+					previewFlipside = 0;
+					destination = previewGoal;
                     inSequence = true;
                     aniTime = 0.0f;
                 }
