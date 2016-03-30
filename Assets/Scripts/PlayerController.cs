@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour {
 			FlipMechanic.aniTime += 8.0f * Time.deltaTime / Time.timeScale;
 		if (Input.GetKeyDown(KeyCode.LeftShift))
 		{
-			FlipMechanic.aniTime = 0.0f;
 			Time.timeScale = 0.05f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}

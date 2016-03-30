@@ -60,7 +60,8 @@ public class FlipMechanic : MonoBehaviour {
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
 		previewSprite.color = previewColor;
 
-		if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+		if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) ||
+			(Input.GetKeyDown(KeyCode.LeftShift) && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))))
 		{
             if (previewFlipside == 2 || previewFlipside == 3)
             {
@@ -77,7 +78,8 @@ public class FlipMechanic : MonoBehaviour {
             previewStartRotation = preview.transform.eulerAngles;
             previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
         }
-		if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+		if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) ||
+			(Input.GetKeyDown(KeyCode.LeftShift) && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))))
 		{
             if (previewFlipside == 1 || previewFlipside == 3)
             {
