@@ -112,6 +112,7 @@ public class FlipMechanic : MonoBehaviour {
 			{
 				inSequence = false;
 				flipside = 0;
+				transform.eulerAngles = Vector3.zero;
 			}
 		} else
 		{
