@@ -63,38 +63,38 @@ public class FlipMechanic : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) ||
 			(Input.GetKeyDown(KeyCode.LeftShift) && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))))
 		{
-            if (previewFlipside == 2 || previewFlipside == 3)
+			previewStart = previewGoal;
+			if (previewFlipside > 1)
             {
                 previewFlipside -= 2;
                 previewGoal = new Vector3(previewGoal.x, transform.position.y, previewGoal.z);
             }
-            else if (previewFlipside == 0 || previewFlipside == 1)
+            else if (previewFlipside < 2)
             {
                 previewFlipside += 2;
                 previewGoal = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
             }
             aniTime = 0;
-            previewStart = preview.transform.position;
-            previewStartRotation = preview.transform.eulerAngles;
-            previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
+            previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
+			previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
         }
 		if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) ||
 			(Input.GetKeyDown(KeyCode.LeftShift) && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))))
 		{
-            if (previewFlipside == 1 || previewFlipside == 3)
+			previewStart = previewGoal;
+			if (previewFlipside % 2 == 1)
             {
                 previewFlipside -= 1;
                 previewGoal = new Vector3(transform.position.x, previewGoal.y, previewGoal.z);
             }
-            else if (previewFlipside == 0 || previewFlipside == 2)
+            else if (previewFlipside % 2 == 0)
             {
                 previewFlipside += 1;
                 previewGoal = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
             }
             aniTime = 0;
-			previewStart = preview.transform.position;
-			previewStartRotation = preview.transform.eulerAngles;
-            previewGoalRotation = new Vector3(previewGoalRotation.x, 180, previewGoalRotation.z);
+			previewStartRotation = new Vector3(previewGoalRotation.x, 0, previewGoalRotation.z);
+			previewGoalRotation = new Vector3(previewGoalRotation.x, 180, previewGoalRotation.z);
 		}
 
 		preview.transform.position = new Vector3(Mathf.Lerp(previewStart.x, previewGoal.x, aniTime), Mathf.Lerp(previewStart.y, previewGoal.y, aniTime), preview.transform.position.z);
