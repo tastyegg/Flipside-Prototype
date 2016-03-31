@@ -23,6 +23,8 @@ public class FlipMechanic : MonoBehaviour {
 	int flipside;   //1 for horizontial, 2 for vertical
 	Vector3 destination;
 
+    public bool getSeq() { return inSequence; }
+
 	void Start ()
 	{
 		inSequence = false;

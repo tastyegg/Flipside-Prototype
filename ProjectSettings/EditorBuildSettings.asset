@@ -15,3 +15,11 @@ EditorBuildSettings:
     path: Assets/Scenes/level2.unity
   - enabled: 1
     path: Assets/Scenes/level3.unity
+  - enabled: 1
+    path: Assets/Scenes/level4.unity
+  - enabled: 1
+    path: Assets/Scenes/level5.unity
+  - enabled: 1
+    path: Assets/Scenes/portal02.unity
+  - enabled: 1
+    path: Assets/Scenes/portal01.unity
