@@ -130,24 +130,49 @@ public class FlipMechanic : MonoBehaviour {
         //return false;
     }
 
+	void reverseFlipside()
+	{
+		if (flipside == 1)
+		{
+			destination = new Vector3(-destination.x, destination.y, destination.z);
+		}
+		else if (flipside == 2)
+		{
+			destination = new Vector3(destination.x, -destination.y, destination.z);
+		}
+		else if (flipside == 3)
+		{
+			destination = new Vector3(-destination.x, -destination.y, destination.z);
+		}
+	}
+
 	void Update ()
 	{
 		if (inSequence)
 		{
-            checkPlayerOverlap();
+			GetComponent<BoxCollider2D>().enabled = false;
+			checkPlayerOverlap();
 			Flipside();
 			if (aniTime >= 1.0f)
 			{
+				PlayerController.dangerCheck = false;
 				inSequence = false;
-				flipside = 0;
+				//flipside = 0;
 				transform.eulerAngles = Vector3.zero;
 			}
 		} else
 		{
 			SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
 			previewSprite.color = Color.clear;
+			GetComponent<BoxCollider2D>().enabled = true;
 
-			if (Input.GetKey(KeyCode.LeftShift))
+			if (PlayerController.dangerCheck)
+			{
+				reverseFlipside();
+				inSequence = true;
+				aniTime = 0.0f;
+			}
+			else if (Input.GetKey(KeyCode.LeftShift))
 			{
 				if (Input.GetKeyDown(KeyCode.LeftShift))
 				{

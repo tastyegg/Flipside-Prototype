@@ -4,9 +4,10 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 	Rigidbody2D playerRB;
-
+	
 	bool inSequence;	//Time for frozen animation
 	bool grounded;
+	public static bool dangerCheck;
     public Transform groundCheckLeft;
     public Transform groundCheckRight;
     public LayerMask whatIsGround;
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour {
 		if (inSequence && FlipMechanic.aniTime >= 1.0f)
 		{
 			inSequence = false;
+			transform.position = recordedPosition;
 			playerRB.velocity = recordedVelocity;
 			playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 			playerRB.isKinematic = false;
@@ -96,11 +98,21 @@ public class PlayerController : MonoBehaviour {
 
 	void OnCollisionStay2D(Collision2D collision)
 	{
-		if (collision.collider.bounds.Contains(recordedPosition))
+		dangerCheck = collision.collider.bounds.Contains(recordedPosition);
+		if (dangerCheck)
 		{
-			//Kill the player
-			GetComponent<SpriteRenderer>().enabled = false; //This automatically executes OnBecameInvisible()
+			inSequence = true;
+			recordedVelocity = playerRB.velocity;
+			playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
+			playerRB.isKinematic = true;
+			FlipMechanic.aniTime = 0.0f;
 		}
+
+		//		if (collision.collider.bounds.Contains(recordedPosition))
+		//		{
+		//Kill the player
+		//			GetComponent<SpriteRenderer>().enabled = false; //This automatically executes OnBecameInvisible()
+		//		}
 	}
 
 	void LoadNextLevel()
