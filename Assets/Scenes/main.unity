@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!114 &1823415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &1823417
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -326,6 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &219014321
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -353,6 +356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &219014323
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -425,6 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &305619222
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -452,6 +457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &305619224
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -524,6 +530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &324338119
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -551,6 +558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &324338121
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -623,6 +631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &346179063
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -650,6 +659,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &346179065
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -723,6 +733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!114 &482610083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -749,6 +760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &482610085
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -851,6 +863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &957340666
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -892,6 +905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!1 &963034201
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,6 +948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &963034204
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -961,6 +976,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &963034206
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1042,7 +1058,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1004789458}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0.3, y: -0.36, z: 0}
   m_LocalScale: {x: 1, y: 0.6666667, z: 1}
   m_Children: []
   m_Father: {fileID: 1174125489}
@@ -1133,6 +1149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &1143016044
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1160,6 +1177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &1143016046
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1222,6 +1240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &1168077599
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1275,6 +1294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &1168077602
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1304,6 +1324,7 @@ GameObject:
   - 114: {fileID: 1174125484}
   - 198: {fileID: 1174125483}
   - 199: {fileID: 1174125482}
+  - 95: {fileID: 1174125490}
   m_Layer: 16
   m_Name: player
   m_TagString: Player
@@ -2880,7 +2901,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.35656294
 --- !u!50 &1174125486
 Rigidbody2D:
   serializedVersion: 2
@@ -2904,13 +2925,14 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1174125481}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 475426a37acdbe042b2d658d297635ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &1174125488
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2937,7 +2959,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463854499
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 152b891a3b445694fa3f96a8716e8bf6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b760c5b237e74de43b04194d40edaaea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2948,13 +2970,30 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1174125481}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.5, y: -10.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -13.503, y: -10.48, z: 0}
+  m_LocalScale: {x: 1.1313047, y: 1.1313047, z: 1.1313047}
   m_Children:
   - {fileID: 2138392208}
   - {fileID: 1004789459}
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!95 &1174125490
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1174125481}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a8e6c1dc3485426499d101940a1b0443, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1293344090
 GameObject:
   m_ObjectHideFlags: 0
@@ -2997,6 +3036,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &1293344093
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3024,6 +3064,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &1293344095
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3096,6 +3137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &1403993222
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3123,6 +3165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &1403993224
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3195,6 +3238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &1449849135
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3222,6 +3266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &1449849137
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3310,6 +3355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &1464962083
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3351,6 +3397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!1 &1686110738
 GameObject:
   m_ObjectHideFlags: 0
@@ -3393,6 +3440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &1686110741
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3420,6 +3468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &1686110743
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3481,6 +3530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &1786568614
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3579,6 +3629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &1798329719
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3606,6 +3657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &1798329721
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3678,6 +3730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &1887297394
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3705,6 +3758,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &1887297396
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3777,6 +3831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &1987492212
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3804,6 +3859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &1987492214
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3876,6 +3932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &2056793933
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3903,6 +3960,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
+  editFixedSize: 1
 --- !u!212 &2056793935
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3955,7 +4013,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2138392207}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.4, y: -0.49, z: 0}
+  m_LocalPosition: {x: -0.3, y: -0.35, z: 0}
   m_LocalScale: {x: 1, y: 0.6666667, z: 1}
   m_Children: []
   m_Father: {fileID: 1174125489}

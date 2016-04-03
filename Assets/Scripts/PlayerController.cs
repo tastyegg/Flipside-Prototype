@@ -4,9 +4,11 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 	Rigidbody2D playerRB;
+    private Animator animator;
 
-	bool inSequence;	//Time for frozen animation
+    bool inSequence;	//Time for frozen animation
 	bool grounded;
+    bool facingRight;
     public Transform groundCheckLeft;
     public Transform groundCheckRight;
     public LayerMask whatIsGround;
@@ -14,11 +16,14 @@ public class PlayerController : MonoBehaviour {
 	Vector3 recordedPosition;
 	Vector2 recordedVelocity;
 
-	// Use this for initialization
-	void Start ()
+    
+    // Use this for initialization
+    void Start ()
 	{
 		playerRB = GetComponent<Rigidbody2D>();
-		recordedPosition = transform.position;
+        animator = this.GetComponent<Animator>();
+        recordedPosition = transform.position;
+        facingRight = true;
 	}
 	
 	void Reset()
@@ -66,21 +71,30 @@ public class PlayerController : MonoBehaviour {
         if (jumpTimer <= 1.0f) jumpTimer += 0.1f;
        
         grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
+        if (!animator.GetBool("jumping") != grounded)
+            animator.SetBool("jumping", !grounded);
+
+        animator.SetBool("walking", false);
         playerRB.velocity = new Vector2(0, playerRB.velocity.y);
 		if (!playerRB.isKinematic)
 		{
 			if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
 			{
+                if (facingRight) changeDirection();
+                animator.SetBool("walking", true);
 				playerRB.velocity = new Vector2(-4.0f, playerRB.velocity.y);
 			}
 			else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
 			{
-				playerRB.velocity = new Vector2(4.0f, playerRB.velocity.y);
+                if (!facingRight) changeDirection();
+                animator.SetBool("walking", true);
+                playerRB.velocity = new Vector2(4.0f, playerRB.velocity.y);
 			}
 			if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && grounded && jumpTimer > 1.0f)
 			{
 				jumpTimer = 0.0f;
-				playerRB.velocity = new Vector2(playerRB.velocity.x, 6.6f);
+                animator.SetBool("jumping", true);
+                playerRB.velocity = new Vector2(playerRB.velocity.x, 6.6f);
 			}
 		}
     }
@@ -130,4 +144,13 @@ public class PlayerController : MonoBehaviour {
 		GetComponent<ParticleSystem>().Emit(200);
 		Invoke("Reset", 1.4f);
 	}
+
+    void changeDirection()
+    {
+        facingRight = !facingRight;
+
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
 }
