@@ -118,9 +118,9 @@ public class FlipMechanic : MonoBehaviour {
     void checkPlayerOverlap()
     {
         CircleCollider2D playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<CircleCollider2D>();
-        if (previewGoalTemp.GetComponent<BoxCollider2D>().bounds.Intersects(playerCollider.bounds))
+        if (previewGoalTemp.GetComponent<BoxCollider2D>().bounds.Contains(playerCollider.transform.position) && aniTime >= 1.0f)
         {
-            previewColor = new Color(0.7f, 0.0f, 0.0f, 0.6f);
+            previewColor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
             print(previewGoalTemp.transform.position.x + " " + previewGoalTemp.transform.position.y + " " + previewGoalTemp.transform.position.z);
             SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
             previewSprite.color = previewColor;
