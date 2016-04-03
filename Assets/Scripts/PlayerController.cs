@@ -129,7 +129,11 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (collider.CompareTag("Finish"))
 		{
-			GetComponent<ParticleSystem>().Emit(200);
+            Color tmp = GetComponent<SpriteRenderer>().color;
+            tmp.a = 0;
+            GetComponent<SpriteRenderer>().color = tmp;
+            collider.GetComponent<SpriteRenderer>().color = tmp;
+            GetComponent<ParticleSystem>().Emit(500);
 			Invoke("LoadNextLevel", 2.1f);
         }
         /*else if (collider.gameObject.CompareTag("Portal"))
@@ -141,7 +145,7 @@ public class PlayerController : MonoBehaviour {
 
 	void OnBecameInvisible()
 	{
-		GetComponent<ParticleSystem>().Emit(200);
+		//GetComponent<ParticleSystem>().Emit(200);
 		Invoke("Reset", 1.4f);
 	}
 

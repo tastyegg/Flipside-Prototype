@@ -50,3 +50,6 @@ TagManager:
   - name: Player
     uniqueID: 2831112797
     locked: 0
+  - name: FrontParticle Layer
+    uniqueID: 2359091119
+    locked: 0
