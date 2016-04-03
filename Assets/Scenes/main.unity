@@ -2925,14 +2925,14 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1174125481}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 475426a37acdbe042b2d658d297635ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   snapValue: 0.5
   depth: 0
-  editFixedSize: 1
+  editFixedSize: 0
 --- !u!212 &1174125488
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2970,8 +2970,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1174125481}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.503, y: -10.48, z: 0}
-  m_LocalScale: {x: 1.1313047, y: 1.1313047, z: 1.1313047}
+  m_LocalPosition: {x: -14.5, y: -10.5, z: 0}
+  m_LocalScale: {x: 1.334791, y: 1.334791, z: 1.334791}
   m_Children:
   - {fileID: 2138392208}
   - {fileID: 1004789459}
@@ -3558,7 +3558,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 95f910c866a21094aa2610814c4cdc1d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d6cf60761a0185445b20d42a858c6f93, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
