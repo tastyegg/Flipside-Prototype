@@ -25,6 +25,10 @@ public class FlipMechanic : MonoBehaviour {
 
     public bool getSeq() { return inSequence; }
 
+    //for red checking
+    public GameObject previewGoalTemp;
+
+
 	void Start ()
 	{
 		inSequence = false;
@@ -36,6 +40,12 @@ public class FlipMechanic : MonoBehaviour {
 		previewSprite.sprite = GetComponent<SpriteRenderer>().sprite;
 		previewSprite.color = Color.clear;
 		flipside = 0;
+
+        //added for red preview
+        previewGoalTemp = preview;
+        previewGoalTemp.AddComponent<BoxCollider2D>();
+        previewGoalTemp.GetComponent<BoxCollider2D>().isTrigger = true;
+
 	}
 
 	void Flipside()
@@ -99,14 +109,32 @@ public class FlipMechanic : MonoBehaviour {
 			previewGoalRotation = new Vector3(previewGoalRotation.x, 180, previewGoalRotation.z);
 		}
 
+        previewGoalTemp.transform.position = previewGoal; //added for red
+        
 		preview.transform.position = new Vector3(Mathf.Lerp(previewStart.x, previewGoal.x, aniTime), Mathf.Lerp(previewStart.y, previewGoal.y, aniTime), preview.transform.position.z);
 		preview.transform.eulerAngles = new Vector3(Mathf.Lerp(previewStartRotation.x, previewGoalRotation.x, aniTime), Mathf.Lerp(previewStartRotation.y, previewGoalRotation.y, aniTime), preview.transform.position.z);
-	}
+    }
+
+    void checkPlayerOverlap()
+    {
+        CircleCollider2D playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<CircleCollider2D>();
+        if (previewGoalTemp.GetComponent<BoxCollider2D>().bounds.Intersects(playerCollider.bounds))
+        {
+            previewColor = new Color(0.7f, 0.0f, 0.0f, 0.6f);
+            print(previewGoalTemp.transform.position.x + " " + previewGoalTemp.transform.position.y + " " + previewGoalTemp.transform.position.z);
+            SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
+            previewSprite.color = previewColor;
+            //return true;
+        }
+        previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
+        //return false;
+    }
 
 	void Update ()
 	{
 		if (inSequence)
 		{
+            checkPlayerOverlap();
 			Flipside();
 			if (aniTime >= 1.0f)
 			{
@@ -130,6 +158,7 @@ public class FlipMechanic : MonoBehaviour {
 					previewGoalRotation = Vector3.zero;
 				}
 				FlipsidePreview();
+                checkPlayerOverlap();
 			}
 			else if (Input.GetKeyUp(KeyCode.LeftShift))
 			{
@@ -146,6 +175,7 @@ public class FlipMechanic : MonoBehaviour {
 			else if (Input.GetKey(KeyCode.LeftShift))
 			{
 				FlipsidePreview();
+                checkPlayerOverlap();
 			}
 		}
 	}
