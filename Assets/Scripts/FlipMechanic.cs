@@ -118,9 +118,9 @@ public class FlipMechanic : MonoBehaviour {
     void checkPlayerOverlap()
     {
         CircleCollider2D playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<CircleCollider2D>();
-        if (previewGoalTemp.GetComponent<BoxCollider2D>().bounds.Contains(playerCollider.transform.position) && aniTime >= 1.0f)
+        if ((new Rect(previewGoal - transform.localScale * 0.5f, transform.localScale)).Contains(playerCollider.transform.position))
         {
-            previewColor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
+            previewColor = Color.Lerp(new Color(0.0f, 0.7f, 1.0f, 0.6f), new Color(0.7f, 0.0f, 0.0f, 0.9f), aniTime * 2);
             //print(previewGoalTemp.transform.position.x + " " + previewGoalTemp.transform.position.y + " " + previewGoalTemp.transform.position.z);
             SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
             previewSprite.color = previewColor;
@@ -130,24 +130,48 @@ public class FlipMechanic : MonoBehaviour {
         //return false;
     }
 
+	void reverseFlipside()
+	{
+		if (flipside == 1)
+		{
+			destination = new Vector3(-destination.x, destination.y, destination.z);
+		}
+		else if (flipside == 2)
+		{
+			destination = new Vector3(destination.x, -destination.y, destination.z);
+		}
+		else if (flipside == 3)
+		{
+			destination = new Vector3(-destination.x, -destination.y, destination.z);
+		}
+	}
+
 	void Update ()
 	{
+        SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
+        previewSprite.color = Color.clear;
 		if (inSequence)
 		{
-            checkPlayerOverlap();
+			GetComponent<BoxCollider2D>().enabled = false;
 			Flipside();
 			if (aniTime >= 1.0f)
 			{
+				PlayerController.dangerCheck = false;
 				inSequence = false;
-				flipside = 0;
 				transform.eulerAngles = Vector3.zero;
+                preview.transform.position = transform.position;
 			}
 		} else
 		{
-			SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
-			previewSprite.color = Color.clear;
+			GetComponent<BoxCollider2D>().enabled = true;
 
-			if (Input.GetKey(KeyCode.LeftShift))
+			if (PlayerController.dangerCheck)
+			{
+				reverseFlipside();
+				inSequence = true;
+				aniTime = 0.0f;
+			}
+			else if (Input.GetKey(KeyCode.LeftShift))
 			{
 				if (Input.GetKeyDown(KeyCode.LeftShift))
 				{

@@ -9,13 +9,13 @@ public class PlayerController : MonoBehaviour {
     bool inSequence;	//Time for frozen animation
 	bool grounded;
     bool facingRight;
+	public static bool dangerCheck;
     public Transform groundCheckLeft;
     public Transform groundCheckRight;
     public LayerMask whatIsGround;
     float jumpTimer = 0.0f;
 	Vector3 recordedPosition;
 	Vector2 recordedVelocity;
-
     
     // Use this for initialization
     void Start ()
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour {
 	void Update ()
 	{
 		if (FlipMechanic.aniTime <= 1.0f)
-			FlipMechanic.aniTime += 8.0f * Time.deltaTime / Time.timeScale;
+			FlipMechanic.aniTime += 7.0f * Time.deltaTime / Time.timeScale;
 		if (Input.GetKeyDown(KeyCode.LeftShift))
 		{
 			Time.timeScale = 0.0000001f;
@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour {
 		if (inSequence && FlipMechanic.aniTime >= 1.0f)
 		{
 			inSequence = false;
+			transform.position = recordedPosition;
 			playerRB.velocity = recordedVelocity;
 			playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 			playerRB.isKinematic = false;
@@ -105,16 +106,16 @@ public class PlayerController : MonoBehaviour {
 		{
 			GetComponent<SpriteRenderer>().enabled = false; //This automatically executes OnBecameInvisible()
 			Destroy(collision.collider.gameObject);
-		}
-	}
-
-	void OnCollisionStay2D(Collision2D collision)
-	{
-		if (collision.collider.bounds.Contains(recordedPosition))
-		{
-			//Kill the player
-			GetComponent<SpriteRenderer>().enabled = false; //This automatically executes OnBecameInvisible()
-		}
+        }
+        if (collision.collider.bounds.Contains(recordedPosition))
+        {
+            dangerCheck = true;
+            transform.position = recordedPosition;
+            inSequence = true;
+            playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
+            playerRB.isKinematic = true;
+            FlipMechanic.aniTime = 0.0f;
+        }
 	}
 
 	void LoadNextLevel()
