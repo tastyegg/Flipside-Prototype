@@ -3277,6 +3277,7 @@ GameObject:
   - 114: {fileID: 1786568613}
   - 61: {fileID: 1786568616}
   - 114: {fileID: 1786568617}
+  - 114: {fileID: 1786568618}
   m_Layer: 0
   m_Name: goal
   m_TagString: Finish
@@ -3366,6 +3367,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewGoalTemp: {fileID: 0}
+--- !u!114 &1786568618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1786568612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 661602f82ee5e634f9a36c302328421a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveVector: {x: 0, y: 1, z: 0}
+  MoveRange: 0.07
+  MoveSpeed: 2.5
 --- !u!1 &1840894442
 GameObject:
   m_ObjectHideFlags: 0

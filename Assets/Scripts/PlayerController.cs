@@ -82,19 +82,19 @@ public class PlayerController : MonoBehaviour {
 			{
                 if (facingRight) changeDirection();
                 animator.SetBool("walking", true);
-				playerRB.velocity = new Vector2(-4.0f, playerRB.velocity.y);
+				playerRB.velocity = new Vector2(-5.5f, playerRB.velocity.y);
 			}
 			else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
 			{
                 if (!facingRight) changeDirection();
                 animator.SetBool("walking", true);
-                playerRB.velocity = new Vector2(4.0f, playerRB.velocity.y);
+                playerRB.velocity = new Vector2(5.5f, playerRB.velocity.y);
 			}
 			if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && grounded && jumpTimer > 1.0f)
 			{
 				jumpTimer = 0.0f;
                 animator.SetBool("jumping", true);
-                playerRB.velocity = new Vector2(playerRB.velocity.x, 6.6f);
+                playerRB.velocity = new Vector2(playerRB.velocity.x, 5.7f);
 			}
 		}
     }
