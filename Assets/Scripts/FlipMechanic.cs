@@ -71,7 +71,7 @@ public class FlipMechanic : MonoBehaviour {
 	{
         SpriteRenderer sprite = GetComponent<SpriteRenderer>();
         if (previewFlipside > 0)
-            sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1 - aniTime);
+            sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1.3f - aniTime);
 
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
 		previewSprite.color = previewColor;
