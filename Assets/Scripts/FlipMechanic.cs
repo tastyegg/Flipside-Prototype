@@ -41,7 +41,8 @@ public class FlipMechanic : MonoBehaviour {
 		previewSprite.sprite = GetComponent<SpriteRenderer>().sprite;
 		previewSprite.color = Color.clear;
 		flipside = 0;
-		preview.AddComponent<RepeatSprite>();
+		if (gameObject.GetComponent<RepeatSprite>() != null)
+			preview.AddComponent<RepeatSprite>();
 
         //added for red preview
         previewGoalTemp = preview;
