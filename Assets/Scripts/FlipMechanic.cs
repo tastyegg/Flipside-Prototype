@@ -28,6 +28,10 @@ public class FlipMechanic : MonoBehaviour {
     //for red checking
     public GameObject previewGoalTemp;
 
+    //background color or screenFlash
+    bool colorChanged;
+    Color bgColor;
+    int colorTimer;
 
 	void Start ()
 	{
@@ -49,7 +53,12 @@ public class FlipMechanic : MonoBehaviour {
         previewGoalTemp = preview;
         previewGoalTemp.AddComponent<BoxCollider2D>();
         previewGoalTemp.GetComponent<BoxCollider2D>().isTrigger = true;
-	}
+
+        //for screen flash
+        colorChanged = false;
+        bgColor = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().backgroundColor;
+        colorTimer = 0;
+    }
 
 	void Flipside()
 	{
@@ -147,7 +156,17 @@ public class FlipMechanic : MonoBehaviour {
 		{
 			destination = new Vector3(-destination.x, -destination.y, destination.z);
 		}
-	}
+        displayFlipError(); //color flash
+
+    }
+
+    void displayFlipError()
+    {
+        //temporary until i get home
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().backgroundColor = new Color(0.89f, 0.38f, 0.16f, 1.0f);
+        colorChanged = true;
+        colorTimer = 10;
+    }
 
 	void Update ()
 	{
@@ -205,5 +224,17 @@ public class FlipMechanic : MonoBehaviour {
                 checkPlayerOverlap();
 			}
 		}
-	}
+        if (colorChanged)
+        {
+            if (colorTimer > 0)
+            {
+                colorTimer--;
+            } else
+            {
+                colorChanged = false;
+                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().backgroundColor = bgColor;
+                
+            }
+        }
+    }
 }
