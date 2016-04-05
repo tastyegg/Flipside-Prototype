@@ -38,6 +38,7 @@ public class FlipMechanic : MonoBehaviour {
 		preview.transform.position = transform.position;
 		preview.transform.localScale = transform.localScale;
 		SpriteRenderer previewSprite = preview.AddComponent<SpriteRenderer>();
+		previewSprite.sortingLayerName = "Preview";
 		previewSprite.sprite = GetComponent<SpriteRenderer>().sprite;
 		previewSprite.color = Color.clear;
 		flipside = 0;

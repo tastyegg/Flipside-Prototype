@@ -44,12 +44,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Preview Layer
-    uniqueID: 3391191909
+  - name: FrontParticle Layer
+    uniqueID: 2359091119
+    locked: 0
+  - name: Tiles
+    uniqueID: 2004466793
+    locked: 0
+  - name: Preview
+    uniqueID: 1020068047
     locked: 0
   - name: Player
     uniqueID: 2831112797
-    locked: 0
-  - name: FrontParticle Layer
-    uniqueID: 2359091119
     locked: 0
