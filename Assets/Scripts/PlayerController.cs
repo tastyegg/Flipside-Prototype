@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour {
        
     }
 	
-	void Reset()
+	public void Reset()
 	{
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
