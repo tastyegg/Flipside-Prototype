@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
+    public float walkVelocity = 5.5f;
+    public float jumpForce = 7.5f;
+
 	Rigidbody2D playerRB;
     private Animator animator;
 
@@ -83,19 +86,19 @@ public class PlayerController : MonoBehaviour {
 			{
                 if (facingRight) changeDirection();
                 animator.SetBool("walking", true);
-				playerRB.velocity = new Vector2(-5.5f, playerRB.velocity.y);
+				playerRB.velocity = new Vector2(-walkVelocity, playerRB.velocity.y);
 			}
 			else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
 			{
                 if (!facingRight) changeDirection();
                 animator.SetBool("walking", true);
-                playerRB.velocity = new Vector2(5.5f, playerRB.velocity.y);
+                playerRB.velocity = new Vector2(walkVelocity, playerRB.velocity.y);
 			}
 			if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && grounded && jumpTimer > 1.0f)
 			{
 				jumpTimer = 0.0f;
                 animator.SetBool("jumping", true);
-                playerRB.velocity = new Vector2(playerRB.velocity.x, 5.7f);
+                playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
 			}
 		}
     }
@@ -104,8 +107,8 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (collision.collider.CompareTag("Cannonball") && !collision.collider.GetComponent<Rigidbody2D>().isKinematic && collision.collider.GetComponent<Cannonball>().killsPlayer)
 		{
-			GetComponent<SpriteRenderer>().enabled = false; //This automatically executes OnBecameInvisible()
-			Destroy(collision.collider.gameObject);
+            GetComponent<SpriteRenderer>().enabled = false; //This automatically executes OnBecameInvisible()
+            Destroy(collision.collider.gameObject);
         }
         if (collision.collider.bounds.Contains(recordedPosition))
         {

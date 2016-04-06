@@ -2883,6 +2883,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77670febed66a1d4988ca1ae8b9f70ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  walkVelocity: 5.5
+  jumpForce: 7.5
   groundCheckLeft: {fileID: 2138392208}
   groundCheckRight: {fileID: 1004789459}
   whatIsGround:
