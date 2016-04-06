@@ -36,23 +36,27 @@ public class lasers : MonoBehaviour {
         float y = gameObject.transform.position.y;
         if (direction == 0)
         {
+            rch2d = Physics2D.Raycast(transform.position, Vector2.up);
             y += 50;
         }
         else if (direction == 1)
         {
+            rch2d = Physics2D.Raycast(transform.position, Vector2.right);
             x += 50;
         }
         else if (direction == 2)
         {
+            rch2d = Physics2D.Raycast(transform.position, Vector2.down);
             y -= 50;
         }
         else
         {
+            rch2d = Physics2D.Raycast(transform.position, Vector2.left);
             x -= 50;
         }
         lr.SetPosition(1, new Vector3(x, y, 2));
 
-        rch2d = Physics2D.Raycast(transform.position, Vector2.down);
+        
         if (rch2d.collider != null)
         {
             if (rch2d.collider.tag == "Player")
@@ -65,6 +69,12 @@ public class lasers : MonoBehaviour {
                 {
                     y = rch2d.collider.transform.position.y;
                     Vector3 npos = new Vector3(transform.position.x, y, 1);
+                    lr.SetPosition(1, npos);
+                }
+                else
+                {
+                    x = rch2d.collider.transform.position.x;
+                    Vector3 npos = new Vector3(x, transform.position.y, 1);
                     lr.SetPosition(1, npos);
                 }
             }
