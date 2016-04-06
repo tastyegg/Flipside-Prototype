@@ -27,7 +27,9 @@ public class PlayerController : MonoBehaviour {
         animator = this.GetComponent<Animator>();
         recordedPosition = transform.position;
         facingRight = true;
-	}
+        StartCoroutine("Spawn");
+       
+    }
 	
 	void Reset()
 	{
@@ -84,13 +86,13 @@ public class PlayerController : MonoBehaviour {
 		{
 			if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
 			{
-                if (facingRight) changeDirection();
+                if (facingRight) ChangeDirection();
                 animator.SetBool("walking", true);
 				playerRB.velocity = new Vector2(-walkVelocity, playerRB.velocity.y);
 			}
 			else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
 			{
-                if (!facingRight) changeDirection();
+                if (!facingRight) ChangeDirection();
                 animator.SetBool("walking", true);
                 playerRB.velocity = new Vector2(walkVelocity, playerRB.velocity.y);
 			}
@@ -150,15 +152,25 @@ public class PlayerController : MonoBehaviour {
 	void OnBecameInvisible()
 	{
 		//GetComponent<ParticleSystem>().Emit(200);
-		Invoke("Reset", 1.4f);
+		Invoke("Reset", 0.7f);
 	}
 
-    void changeDirection()
+    void ChangeDirection()
     {
         facingRight = !facingRight;
-
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    IEnumerator Spawn()
+    {
+        Color tmp = GetComponent<SpriteRenderer>().color;
+        tmp.a = 0;
+        GetComponent<SpriteRenderer>().color = tmp;
+        transform.Find("Spawn Particle System").GetComponent<ParticleSystem>().Emit(50);
+        yield return new WaitForSeconds(0.3f);
+        tmp.a = 1.0f;
+        GetComponent<SpriteRenderer>().color = tmp;
     }
 }
