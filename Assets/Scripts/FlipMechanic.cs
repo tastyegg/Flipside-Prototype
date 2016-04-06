@@ -63,7 +63,7 @@ public class FlipMechanic : MonoBehaviour {
 		else if (flipside == 3)
 		{
 			transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
-			transform.eulerAngles = new Vector3(Mathf.Lerp(0, 180, aniTime), Mathf.Lerp(0, 180, aniTime), 0.0f);
+            transform.eulerAngles = new Vector3(0.0f, 0.0f, Mathf.Lerp(0, 180, aniTime));
 		}
 	}
 

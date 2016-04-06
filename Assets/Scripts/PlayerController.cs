@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour {
 	void Update ()
 	{
 		if (FlipMechanic.aniTime <= 1.0f)
-			FlipMechanic.aniTime += 7.0f * Time.deltaTime / Time.timeScale;
+			FlipMechanic.aniTime += 6.0f * Time.deltaTime / Time.timeScale;
 		if (Input.GetKeyDown(KeyCode.LeftShift))
 		{
 			Time.timeScale = 0.0000001f;
@@ -53,8 +53,7 @@ public class PlayerController : MonoBehaviour {
 			recordedVelocity = playerRB.velocity;
 			playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
 			playerRB.isKinematic = true;
-			FlipMechanic.aniTime = 0.0f;
-
+			
 			Time.timeScale = 1.0f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}
