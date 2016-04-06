@@ -70,6 +70,31 @@ public class PlayerController : MonoBehaviour {
 		{
 			Reset();
 		}
+
+		bool touched = false;
+		foreach (GameObject g in FindObjectsOfType<GameObject>())
+		{
+			FlipMechanic f = g.GetComponent<FlipMechanic>();
+			if (f)
+			{
+				if ((new Rect(f.previewGoal - g.transform.localScale * 0.5f, g.transform.localScale)).Contains(transform.position))
+				{
+					touched = true;
+				}
+			}
+		}
+
+		foreach (GameObject g in FindObjectsOfType<GameObject>())
+		{
+			FlipMechanic f = g.GetComponent<FlipMechanic>();
+			if (f)
+			{
+				if (touched)
+					f.preview.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.0f, 0.0f, 0.9f);
+				else
+					f.preview.GetComponent<SpriteRenderer>().color = FlipMechanic.previewColor;
+			}
+		}
 	}
 
     void FixedUpdate()

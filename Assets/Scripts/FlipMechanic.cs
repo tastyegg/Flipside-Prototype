@@ -15,7 +15,7 @@ public class FlipMechanic : MonoBehaviour {
 
 	Vector3 previewStart;
 	Vector3 previewStartRotation;
-	Vector3 previewGoal;
+	public Vector3 previewGoal { get; private set; }
 	Vector3 previewGoalRotation;
     int previewFlipside;
 
@@ -70,7 +70,7 @@ public class FlipMechanic : MonoBehaviour {
 	void FlipsidePreview()
 	{
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
-		previewSprite.color = previewColor;
+		//previewSprite.color = previewColor;
 
 		if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) ||
 			(Input.GetKeyDown(KeyCode.LeftShift) && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))))
@@ -115,21 +115,6 @@ public class FlipMechanic : MonoBehaviour {
 		preview.transform.eulerAngles = new Vector3(Mathf.Lerp(previewStartRotation.x, previewGoalRotation.x, aniTime), Mathf.Lerp(previewStartRotation.y, previewGoalRotation.y, aniTime), preview.transform.position.z);
     }
 
-    void checkPlayerOverlap()
-    {
-        CircleCollider2D playerCollider = GameObject.FindGameObjectWithTag("Player").GetComponent<CircleCollider2D>();
-        if ((new Rect(previewGoal - transform.localScale * 0.5f, transform.localScale)).Contains(playerCollider.transform.position))
-        {
-            previewColor = Color.Lerp(new Color(0.0f, 0.7f, 1.0f, 0.6f), new Color(0.7f, 0.0f, 0.0f, 0.9f), aniTime * 2);
-            //print(previewGoalTemp.transform.position.x + " " + previewGoalTemp.transform.position.y + " " + previewGoalTemp.transform.position.z);
-            SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
-            previewSprite.color = previewColor;
-            //return true;
-        }
-        previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
-        //return false;
-    }
-
 	void reverseFlipside()
 	{
 		if (flipside == 1)
@@ -148,10 +133,10 @@ public class FlipMechanic : MonoBehaviour {
 
 	void Update ()
 	{
-        SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
-        previewSprite.color = Color.clear;
+		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
 		if (inSequence)
 		{
+			previewSprite.color = Color.clear;
 			GetComponent<BoxCollider2D>().enabled = false;
 			Flipside();
 			if (aniTime >= 1.0f)
@@ -182,24 +167,22 @@ public class FlipMechanic : MonoBehaviour {
 					previewGoalRotation = Vector3.zero;
 				}
 				FlipsidePreview();
-                checkPlayerOverlap();
 			}
-			else if (Input.GetKeyUp(KeyCode.LeftShift))
-			{
-                if (previewFlipside != 0)
-                {
-                    flipside = previewFlipside;
-					flipsideD = previewFlipside;
-					previewFlipside = 0;
-					destination = previewGoal;
-                    inSequence = true;
-                    aniTime = 0.0f;
-                }
-            }
-			else if (Input.GetKey(KeyCode.LeftShift))
-			{
-				FlipsidePreview();
-                checkPlayerOverlap();
+			else {
+				previewSprite.color = Color.clear;
+
+				if (Input.GetKeyUp(KeyCode.LeftShift))
+				{
+					if (previewFlipside != 0)
+					{
+						flipside = previewFlipside;
+						flipsideD = previewFlipside;
+						previewFlipside = 0;
+						destination = previewGoal;
+						inSequence = true;
+						aniTime = 0.0f;
+					}
+				}
 			}
 		}
 	}
