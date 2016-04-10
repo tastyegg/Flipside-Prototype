@@ -31,6 +31,7 @@ GameObject:
   - 198: {fileID: 19823954}
   - 199: {fileID: 19916320}
   - 95: {fileID: 9579158}
+  - 61: {fileID: 6132496}
   m_Layer: 16
   m_Name: Ninja
   m_TagString: Player
@@ -92,7 +93,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 146218}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.3, y: -0.35, z: 0}
+  m_LocalPosition: {x: -0.3, y: -0.39, z: 0}
   m_LocalScale: {x: 1, y: 0.6666667, z: 1}
   m_Children: []
   m_Father: {fileID: 404988}
@@ -116,7 +117,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 199000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: -0.36, z: 0}
+  m_LocalPosition: {x: 0.3, y: -0.4, z: 0}
   m_LocalScale: {x: 1, y: 0.6666667, z: 1}
   m_Children: []
   m_Father: {fileID: 404988}
@@ -144,7 +145,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 157980}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 3a56be0f139511b41b850a8f7b48def6, type: 2}
   m_IsTrigger: 0
@@ -152,6 +153,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.35656294
+--- !u!61 &6132496
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 157980}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 3a56be0f139511b41b850a8f7b48def6, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 0.75, y: 0.75}
 --- !u!95 &9579158
 Animator:
   serializedVersion: 3
