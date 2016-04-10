@@ -10,6 +10,7 @@ public class FlipMechanic : MonoBehaviour {
     public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
 	public static float aniTime = 0.0f;
 	public static int flipsideD;
+    public static bool done;
 
 	public GameObject preview { get; private set; }
 
@@ -145,6 +146,7 @@ public class FlipMechanic : MonoBehaviour {
 				inSequence = false;
 				transform.eulerAngles = Vector3.zero;
                 preview.transform.position = transform.position;
+                done = true;
 			}
 		} else
 		{
@@ -165,7 +167,8 @@ public class FlipMechanic : MonoBehaviour {
 					previewStartRotation = Vector3.zero;
 					previewGoal = transform.position;
 					previewGoalRotation = Vector3.zero;
-				}
+                    done = false;
+                }
 				FlipsidePreview();
 			}
 			else {
@@ -182,6 +185,10 @@ public class FlipMechanic : MonoBehaviour {
 						inSequence = true;
 						aniTime = 0.0f;
 					}
+                    else
+                    {
+                        done = true;
+                    }
 				}
 			}
 		}

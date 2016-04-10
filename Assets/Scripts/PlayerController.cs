@@ -57,8 +57,9 @@ public class PlayerController : MonoBehaviour {
 			Time.timeScale = 1.0f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}
-		if (inSequence && FlipMechanic.aniTime >= 1.0f)
+		if (inSequence && FlipMechanic.aniTime >= 1.0f && FlipMechanic.done)
 		{
+            
 			inSequence = false;
 			transform.position = recordedPosition;
 			playerRB.velocity = recordedVelocity;
