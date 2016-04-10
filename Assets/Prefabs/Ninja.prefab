@@ -166,7 +166,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 0.75, y: 0.75}
+  m_Size: {x: 0.72, y: 0.72}
 --- !u!95 &9579158
 Animator:
   serializedVersion: 3
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkVelocity: 5.5
-  jumpForce: 7.5
+  jumpForce: 8.25
   groundCheckLeft: {fileID: 479108}
   groundCheckRight: {fileID: 490780}
   whatIsGround:
