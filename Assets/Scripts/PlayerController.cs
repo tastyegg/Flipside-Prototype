@@ -70,6 +70,10 @@ public class PlayerController : MonoBehaviour {
 		{
 			Reset();
 		}
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			SceneManager.LoadScene(0);
+		}
 
 		bool touched = false;
 		foreach (GameObject g in FindObjectsOfType<GameObject>())
@@ -87,7 +91,7 @@ public class PlayerController : MonoBehaviour {
 		foreach (GameObject g in FindObjectsOfType<GameObject>())
 		{
 			FlipMechanic f = g.GetComponent<FlipMechanic>();
-			if (f)
+			if (f && f.preview)
 			{
 				if (touched)
 					f.preview.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.0f, 0.0f, 0.9f);
