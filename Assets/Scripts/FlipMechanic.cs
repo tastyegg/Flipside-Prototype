@@ -153,13 +153,7 @@ public class FlipMechanic : MonoBehaviour {
 		{
 			GetComponent<BoxCollider2D>().enabled = true;
 
-			if (PlayerController.dangerCheck)
-			{
-				reverseFlipside();
-				inSequence = true;
-				aniTime = 0.0f;
-			}
-			else if (Input.GetKey(KeyCode.LeftShift))
+			if (Input.GetKey(KeyCode.LeftShift))
 			{
 				if (Input.GetKeyDown(KeyCode.LeftShift))
 				{
@@ -177,7 +171,7 @@ public class FlipMechanic : MonoBehaviour {
 
 				if (Input.GetKeyUp(KeyCode.LeftShift))
 				{
-					if (previewFlipside != 0)
+					if (previewFlipside != 0 && !PlayerController.dangerCheck)
 					{
 						flipside = previewFlipside;
 						flipsideD = previewFlipside;

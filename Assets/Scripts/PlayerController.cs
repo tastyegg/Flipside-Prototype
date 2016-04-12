@@ -75,15 +75,15 @@ public class PlayerController : MonoBehaviour {
 			SceneManager.LoadScene(0);
 		}
 
-		bool touched = false;
+		dangerCheck = false;
 		foreach (GameObject g in FindObjectsOfType<GameObject>())
 		{
 			FlipMechanic f = g.GetComponent<FlipMechanic>();
-			if (f)
+			if (f && f.preview)
 			{
 				if ((new Rect(f.previewGoal - g.transform.localScale * 0.5f, g.transform.localScale)).Contains(transform.position))
 				{
-					touched = true;
+                    dangerCheck = true;
 				}
 			}
 		}
@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour {
 			FlipMechanic f = g.GetComponent<FlipMechanic>();
 			if (f && f.preview)
 			{
-				if (touched)
+                if (dangerCheck)
 					f.preview.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.0f, 0.0f, 0.9f);
 				else
 					f.preview.GetComponent<SpriteRenderer>().color = FlipMechanic.previewColor;
