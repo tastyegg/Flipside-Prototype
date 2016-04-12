@@ -180,8 +180,20 @@ public class PlayerController : MonoBehaviour {
 
 	void OnBecameInvisible()
 	{
-		//GetComponent<ParticleSystem>().Emit(200);
-		Invoke("Reset", 0.7f);
+        if (Camera.allCamerasCount > 0)
+        {
+            Vector3 posPixel = Camera.allCameras[0].WorldToScreenPoint(transform.position);
+            if (posPixel.y > 0 && posPixel.y < Camera.allCameras[0].pixelHeight)
+            {
+                Vector3 pos = transform.position;
+                pos.x = pos.x * (-0.98f);
+                transform.position = pos;
+            }
+            else if (posPixel.y < 0)
+                Invoke("Reset", 0.7f);
+        }
+        else
+            Invoke("Reset", 0.7f);
 	}
 
     void ChangeDirection()
