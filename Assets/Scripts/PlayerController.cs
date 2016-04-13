@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour {
 
 	Rigidbody2D playerRB;
     private Animator animator;
+    private AudioSource audioPlayer;
 
     bool inSequence;	//Time for frozen animation
 	bool grounded;
@@ -20,15 +21,19 @@ public class PlayerController : MonoBehaviour {
 	Vector3 recordedPosition;
 	Vector2 recordedVelocity;
     
+    public AudioClip smokeAudio;
+    public AudioClip spawnAudio;
+    public AudioClip jumpAudio;
+
     // Use this for initialization
     void Start ()
 	{
 		playerRB = GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
+        audioPlayer = this.GetComponent<AudioSource>();
         recordedPosition = transform.position;
         facingRight = true;
         StartCoroutine("Spawn");
-       
     }
 	
 	public void Reset()
@@ -103,7 +108,7 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (jumpTimer <= 1.0f) jumpTimer += 0.1f;
+        if (jumpTimer <= 2.0f) jumpTimer += 0.1f;
        
         grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
         if (!animator.GetBool("jumping") != grounded)
@@ -125,9 +130,10 @@ public class PlayerController : MonoBehaviour {
                 animator.SetBool("walking", true);
                 playerRB.velocity = new Vector2(walkVelocity, playerRB.velocity.y);
 			}
-			if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && grounded && jumpTimer > 1.0f)
+			if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && grounded && jumpTimer > 2.0f)
 			{
 				jumpTimer = 0.0f;
+                audioPlayer.PlayOneShot(jumpAudio);
                 animator.SetBool("jumping", true);
                 playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
 			}
@@ -162,12 +168,13 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collider)
 	{
-		if (collider.CompareTag("Finish"))
+		if (collider.CompareTag("Finish") && GetComponent<SpriteRenderer>().color.a != 0)
 		{
             Color tmp = GetComponent<SpriteRenderer>().color;
             tmp.a = 0;
             GetComponent<SpriteRenderer>().color = tmp;
             collider.GetComponent<SpriteRenderer>().color = tmp;
+            audioPlayer.PlayOneShot(smokeAudio);
             GetComponent<ParticleSystem>().Emit(500);
 			Invoke("LoadNextLevel", 2.1f);
         }
@@ -210,6 +217,7 @@ public class PlayerController : MonoBehaviour {
         tmp.a = 0;
         GetComponent<SpriteRenderer>().color = tmp;
         transform.Find("Spawn Particle System").GetComponent<ParticleSystem>().Emit(50);
+        audioPlayer.PlayOneShot(spawnAudio);
         yield return new WaitForSeconds(0.3f);
         tmp.a = 1.0f;
         GetComponent<SpriteRenderer>().color = tmp;
