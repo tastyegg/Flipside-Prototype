@@ -29,7 +29,8 @@ public class FlipMechanic : MonoBehaviour {
     //for red checking
     public GameObject previewGoalTemp;
 
-    bool cancel;
+    //bool cancel;
+    bool flag;
 
 	void Start ()
 	{
@@ -43,7 +44,8 @@ public class FlipMechanic : MonoBehaviour {
 		previewSprite.sprite = GetComponent<SpriteRenderer>().sprite;
 		previewSprite.color = Color.clear;
 		flipside = 0;
-        cancel = false;
+        //cancel = false;
+        flag = true;
         //added for red preview
         previewGoalTemp = preview;
         previewGoalTemp.AddComponent<BoxCollider2D>();
@@ -75,44 +77,121 @@ public class FlipMechanic : MonoBehaviour {
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
 		//previewSprite.color = previewColor;
 
-		/*if (Input.GetButtonDown("Vertical") || Input.GetButtonDown("Fire3") || 
-            (Input.GetButtonDown("Flip") && (Input.GetButton("Vertical") || Input.GetButton("Fire3"))))*/
-        if (Input.GetButtonUp("FlipToggle"))
-		{
-            previewStart = previewGoal;
-			if (previewFlipside > 1)
+        if (!Input.GetKeyDown(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftShift))
+        {
+            if (Input.GetButtonUp("FlipToggle"))
             {
-                previewFlipside -= 2;
-                previewGoal = new Vector3(previewGoal.x, transform.position.y, previewGoal.z);
+                if (flag)
+                {
+                    previewStart = previewGoal;
+                    if (previewFlipside % 2 == 1)
+                    {
+                        previewFlipside -= 1;
+                        previewGoal = new Vector3(transform.position.x, previewGoal.y, previewGoal.z);
+                    }
+                    else if (previewFlipside % 2 == 0)
+                    {
+                        previewFlipside += 1;
+                        previewGoal = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
+                    }
+                    aniTime = 0;
+                    previewStartRotation = new Vector3(previewGoalRotation.x, 0, previewGoalRotation.z);
+                    previewGoalRotation = new Vector3(previewGoalRotation.x, 180, previewGoalRotation.z);
+                }
+                else
+                {
+                    previewStart = previewGoal;
+                    if (previewFlipside > 1)
+                    {
+                        previewFlipside -= 2;
+                        previewGoal = new Vector3(previewGoal.x, transform.position.y, previewGoal.z);
+                    }
+                    else if (previewFlipside < 2)
+                    {
+                        previewFlipside += 2;
+                        previewGoal = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
+                    }
+                    aniTime = 0;
+                    previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
+                    previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
+                }
+                flag = !flag;
             }
-            else if (previewFlipside < 2)
+            
+            if (Input.GetButtonDown("FlipToggle") && !flag)
             {
-                previewFlipside += 2;
-                previewGoal = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
+                previewStart = previewGoal;
+                if (previewFlipside > 1)
+                {
+                    previewFlipside -= 2;
+                    previewGoal = new Vector3(previewGoal.x, transform.position.y, previewGoal.z);
+                }
+                else if (previewFlipside < 2)
+                {
+                    previewFlipside += 2;
+                    previewGoal = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
+                }
+                aniTime = 0;
+                previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
+                previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
             }
-            aniTime = 0;
-            previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
-			previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
+            
+            if (Input.GetButtonDown("FlipToggle") && flag)
+            {
+                previewStart = previewGoal;
+                if (previewFlipside % 2 == 1)
+                {
+                    previewFlipside -= 1;
+                    previewGoal = new Vector3(transform.position.x, previewGoal.y, previewGoal.z);
+                }
+                else if (previewFlipside % 2 == 0)
+                {
+                    previewFlipside += 1;
+                    previewGoal = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
+                }
+                aniTime = 0;
+                previewStartRotation = new Vector3(previewGoalRotation.x, 0, previewGoalRotation.z);
+                previewGoalRotation = new Vector3(previewGoalRotation.x, 180, previewGoalRotation.z);
+            }
         }
-		/*if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Fire2") ||
-            (Input.GetButtonDown("Flip") && (Input.GetButton("Horizontal") || Input.GetButton("Fire2"))))*/
-        if (Input.GetButtonDown("FlipToggle"))
-		{
-			previewStart = previewGoal;
-			if (previewFlipside % 2 == 1)
+        else
+        {
+            if (Input.GetButtonDown("Vertical") || (Input.GetButtonDown("Flip") && (Input.GetButton("Vertical"))))
             {
-                previewFlipside -= 1;
-                previewGoal = new Vector3(transform.position.x, previewGoal.y, previewGoal.z);
+                previewStart = previewGoal;
+                if (previewFlipside > 1)
+                {
+                    previewFlipside -= 2;
+                    previewGoal = new Vector3(previewGoal.x, transform.position.y, previewGoal.z);
+                }
+                else if (previewFlipside < 2)
+                {
+                    previewFlipside += 2;
+                    previewGoal = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
+                }
+                aniTime = 0;
+                previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
+                previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
             }
-            else if (previewFlipside % 2 == 0)
+            if (Input.GetButtonDown("Horizontal") || (Input.GetButtonDown("Flip") && (Input.GetButton("Horizontal"))))
             {
-                previewFlipside += 1;
-                previewGoal = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
+                previewStart = previewGoal;
+                if (previewFlipside % 2 == 1)
+                {
+                    previewFlipside -= 1;
+                    previewGoal = new Vector3(transform.position.x, previewGoal.y, previewGoal.z);
+                }
+                else if (previewFlipside % 2 == 0)
+                {
+                    previewFlipside += 1;
+                    previewGoal = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
+                }
+                aniTime = 0;
+                previewStartRotation = new Vector3(previewGoalRotation.x, 0, previewGoalRotation.z);
+                previewGoalRotation = new Vector3(previewGoalRotation.x, 180, previewGoalRotation.z);
             }
-            aniTime = 0;
-			previewStartRotation = new Vector3(previewGoalRotation.x, 0, previewGoalRotation.z);
-			previewGoalRotation = new Vector3(previewGoalRotation.x, 180, previewGoalRotation.z);
-		}
+        }
+        
 
         previewGoalTemp.transform.position = previewGoal; //added for red
         
@@ -156,7 +235,7 @@ public class FlipMechanic : MonoBehaviour {
 		{
 			GetComponent<BoxCollider2D>().enabled = true;
 
-			if (Input.GetButton("Flip") && !cancel)
+			if (Input.GetButton("Flip"))
 			{
 				if (Input.GetButtonDown("Flip"))
 				{
@@ -168,16 +247,16 @@ public class FlipMechanic : MonoBehaviour {
                     done = false;
                 }
 				FlipsidePreview();
-                if (Input.GetButton("cancel"))
+                /*if (Input.GetButton("cancel"))
                 {
                     done = true;
                     cancel = true;
-                }
+                }*/
             }
 			else {
 				previewSprite.color = Color.clear;
 
-                if (Input.GetButtonUp("Flip") && !cancel)
+                if (Input.GetButtonUp("Flip"))
 				{
 					if (previewFlipside != 0 && !PlayerController.dangerCheck)
 					{
@@ -193,9 +272,9 @@ public class FlipMechanic : MonoBehaviour {
                         done = true;
                     }
 				}
-                if (!Input.GetButtonDown("Flip") && !Input.GetButton("Flip")) {
+                /*if (!Input.GetButtonDown("Flip") && !Input.GetButton("Flip")) {
                     cancel = false;
-                }
+                }*/
 			}
 		}
 	}
