@@ -75,7 +75,7 @@ public class SceneSelector : MonoBehaviour {
 		{
 			NextLevel();
 		}
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetButtonDown("Submit"))
 		{
 			LoadLevel();
 		}
