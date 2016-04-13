@@ -37,7 +37,10 @@ public class bestTime : MonoBehaviour {
         {
             tbox.color = Color.white;
         }
-        tbox.text = "" + Mathf.Round((float)dtime * 1000.0f) / 1000.0f; ;
+        if (dtime < 999.999)
+            tbox.text = "" + Mathf.Round((float)dtime * 1000.0f) / 1000.0f;
+        else
+            tbox.text = "";
 	}
 	
 	// Update is called once per frame
