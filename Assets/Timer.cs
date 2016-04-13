@@ -6,6 +6,7 @@ public class Timer : MonoBehaviour {
     public double bTime;
     public double sTime;
     public double gTime;
+    public int levelnum;
     int rank;
     public Text tbox;
     double ttime;
@@ -51,7 +52,7 @@ public class Timer : MonoBehaviour {
     public double stop()
     {
         stopped = true;
-        double x = ttime * 1000;
+        double x = ttime;
         double frac;
         if (rank == 4)
         {
@@ -68,6 +69,17 @@ public class Timer : MonoBehaviour {
         else
         {
             frac = 0;
+        }
+
+        if (PlayerPrefs.HasKey("btlevel" + levelnum) && x < PlayerPrefs.GetFloat("btlevel" + levelnum))
+        {
+            PlayerPrefs.SetFloat("btlevel" + levelnum, (float)x);
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("btlevel" + levelnum, (float)x);
+            PlayerPrefs.Save();
         }
 
         return (double) rank + frac;
