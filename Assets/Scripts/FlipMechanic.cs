@@ -74,10 +74,10 @@ public class FlipMechanic : MonoBehaviour {
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
 		//previewSprite.color = previewColor;
 
-		if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) ||
-			(Input.GetKeyDown(KeyCode.LeftShift) && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))))
+		if (Input.GetButtonDown("Vertical") || Input.GetButtonDown("Fire3") || 
+            (Input.GetButtonDown("Flip") && (Input.GetButton("Vertical") || Input.GetButton("Fire3"))))
 		{
-			previewStart = previewGoal;
+            previewStart = previewGoal;
 			if (previewFlipside > 1)
             {
                 previewFlipside -= 2;
@@ -92,8 +92,8 @@ public class FlipMechanic : MonoBehaviour {
             previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
 			previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
         }
-		if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) ||
-			(Input.GetKeyDown(KeyCode.LeftShift) && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))))
+		if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Fire2") ||
+            (Input.GetButtonDown("Flip") && (Input.GetButton("Horizontal") || Input.GetButton("Fire2"))))
 		{
 			previewStart = previewGoal;
 			if (previewFlipside % 2 == 1)
@@ -153,9 +153,9 @@ public class FlipMechanic : MonoBehaviour {
 		{
 			GetComponent<BoxCollider2D>().enabled = true;
 
-			if (Input.GetKey(KeyCode.LeftShift))
+			if (Input.GetButton("Flip"))
 			{
-				if (Input.GetKeyDown(KeyCode.LeftShift))
+				if (Input.GetButtonDown("Flip"))
 				{
 					previewFlipside = 0;
 					previewStart = transform.position;
@@ -169,7 +169,7 @@ public class FlipMechanic : MonoBehaviour {
 			else {
 				previewSprite.color = Color.clear;
 
-				if (Input.GetKeyUp(KeyCode.LeftShift))
+				if (Input.GetButtonUp("Flip"))
 				{
 					if (previewFlipside != 0 && !PlayerController.dangerCheck)
 					{
