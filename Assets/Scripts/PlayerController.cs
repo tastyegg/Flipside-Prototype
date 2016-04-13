@@ -41,12 +41,12 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (FlipMechanic.aniTime <= 1.0f)
 			FlipMechanic.aniTime += 6.0f * Time.deltaTime / Time.timeScale;
-		if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetButtonDown("Left Flip") || Input.GetButtonDown("Right Flip"))
 		{
 			Time.timeScale = 0.1f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}
-		if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetButtonUp("Left Flip") || Input.GetButtonDown("Right Flip"))
 		{
 			inSequence = true;
 			recordedPosition = transform.position;
@@ -113,19 +113,19 @@ public class PlayerController : MonoBehaviour {
         playerRB.velocity = new Vector2(0, playerRB.velocity.y);
 		if (!playerRB.isKinematic)
 		{
-			if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+			if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) || Input.GetAxis("Horizontal") < 0)
 			{
                 if (facingRight) ChangeDirection();
                 animator.SetBool("walking", true);
 				playerRB.velocity = new Vector2(-walkVelocity, playerRB.velocity.y);
 			}
-			else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) || Input.GetAxis("Horizontal") > 0)
 			{
                 if (!facingRight) ChangeDirection();
                 animator.SetBool("walking", true);
                 playerRB.velocity = new Vector2(walkVelocity, playerRB.velocity.y);
 			}
-			if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && grounded && jumpTimer > 1.0f)
+			if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) || Input.GetAxis("Vertical") > 0) && grounded && jumpTimer > 1.0f)
 			{
 				jumpTimer = 0.0f;
                 animator.SetBool("jumping", true);
