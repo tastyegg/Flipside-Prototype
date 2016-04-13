@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
     public float walkVelocity = 5.5f;
@@ -177,6 +178,7 @@ public class PlayerController : MonoBehaviour {
             audioPlayer.PlayOneShot(smokeAudio);
             GetComponent<ParticleSystem>().Emit(500);
 			Invoke("LoadNextLevel", 2.1f);
+            double tRank = GameObject.Find("Text").GetComponent<Text>().GetComponent<Timer>().stop();
         }
         /*else if (collider.gameObject.CompareTag("Portal"))
         {
