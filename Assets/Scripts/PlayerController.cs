@@ -110,35 +110,38 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate()
     {
         if (jumpTimer <= 2.0f) jumpTimer += 0.1f;
-       
+        
         grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
         if (!animator.GetBool("jumping") != grounded)
             animator.SetBool("jumping", !grounded);
 
-        animator.SetBool("walking", false);
-        playerRB.velocity = new Vector2(0, playerRB.velocity.y);
-		if (!playerRB.isKinematic)
-		{
-			if (Input.GetAxis("Horizontal") < 0)
-			{
-                if (facingRight) ChangeDirection();
-                animator.SetBool("walking", true);
-				playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
-			}
-			else if (Input.GetAxis("Horizontal") > 0)
-			{
-                if (!facingRight) ChangeDirection();
-                animator.SetBool("walking", true);
-                playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
-			}
-			if ((Input.GetAxis("Vertical") > 0.25f || Input.GetButton("Jump")) && grounded && jumpTimer > 2.0f)
-			{
-				jumpTimer = 0.0f;
-                audioPlayer.PlayOneShot(jumpAudio);
-                animator.SetBool("jumping", true);
-                playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
-			}
-		}
+        if (!Input.GetButton("Flip"))
+        {
+            animator.SetBool("walking", false);
+            playerRB.velocity = new Vector2(0, playerRB.velocity.y);
+            if (!playerRB.isKinematic)
+            {
+                if (Input.GetAxis("Horizontal") < 0)
+                {
+                    if (facingRight) ChangeDirection();
+                    animator.SetBool("walking", true);
+                    playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
+                }
+                else if (Input.GetAxis("Horizontal") > 0)
+                {
+                    if (!facingRight) ChangeDirection();
+                    animator.SetBool("walking", true);
+                    playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
+                }
+                if ((Input.GetAxis("Vertical") > 0.25f || Input.GetButton("Jump")) && grounded && jumpTimer > 2.0f)
+                {
+                    jumpTimer = 0.0f;
+                    audioPlayer.PlayOneShot(jumpAudio);
+                    animator.SetBool("jumping", true);
+                    playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
+                }
+            }
+        }
     }
 	
 	void OnCollisionEnter2D(Collision2D collision)
