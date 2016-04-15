@@ -47,12 +47,12 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (FlipMechanic.aniTime <= 1.0f)
 			FlipMechanic.aniTime += 6.0f * Time.deltaTime / Time.timeScale;
-		if (Input.GetButtonDown("Flip"))
+		if (Input.GetButtonDown("Focus"))
 		{
 			Time.timeScale = 0.1f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}
-		if (Input.GetButtonUp("Flip"))
+		if (Input.GetButtonUp("Focus") || (!Input.GetButton("Focus") && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY"))))
 		{
 			inSequence = true;
 			recordedPosition = transform.position;
@@ -65,12 +65,12 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (inSequence && FlipMechanic.aniTime >= 1.0f && FlipMechanic.done)
 		{
-            
 			inSequence = false;
 			transform.position = recordedPosition;
 			playerRB.velocity = recordedVelocity;
 			playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 			playerRB.isKinematic = false;
+            FlipMechanic.done = false;
 		}
 		if (Input.GetKeyDown(KeyCode.R))
 		{
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour {
         if (!animator.GetBool("jumping") != grounded)
             animator.SetBool("jumping", !grounded);
 
-        if (!Input.GetButton("Flip"))
+        if (!Input.GetButton("Focus"))
         {
             animator.SetBool("walking", false);
             playerRB.velocity = new Vector2(0, playerRB.velocity.y);
@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour {
                     animator.SetBool("walking", true);
                     playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
                 }
-                if ((Input.GetAxis("Vertical") > 0.25f || Input.GetButton("Jump")) && grounded && jumpTimer > 2.0f)
+                if (Input.GetButton("Jump") && grounded && jumpTimer > 2.0f)
                 {
                     jumpTimer = 0.0f;
                     audioPlayer.PlayOneShot(jumpAudio);
