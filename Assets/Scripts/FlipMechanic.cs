@@ -29,6 +29,10 @@ public class FlipMechanic : MonoBehaviour {
     //for red checking
     public GameObject previewGoalTemp;
 
+    //axis check
+    bool axisX;
+    bool axisY;
+
 	void Start ()
 	{
 		inSequence = false;
@@ -45,7 +49,8 @@ public class FlipMechanic : MonoBehaviour {
         previewGoalTemp = preview;
         previewGoalTemp.AddComponent<BoxCollider2D>();
         previewGoalTemp.GetComponent<BoxCollider2D>().isTrigger = true;
-
+        axisX = false;
+        axisY = false;
 	}
 
 	void Flipside()
@@ -65,7 +70,8 @@ public class FlipMechanic : MonoBehaviour {
 			transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
             transform.eulerAngles = new Vector3(0.0f, 0.0f, Mathf.Lerp(0, 180, aniTime));
 		}
-
+        axisX = false;
+        axisY = false;
 	}
 
 	void FlipsidePreview()
@@ -73,7 +79,7 @@ public class FlipMechanic : MonoBehaviour {
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
 		//previewSprite.color = previewColor;
 
-        if (Input.GetButtonDown("FlipX"))
+        if (Input.GetButtonDown("FlipX") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisX && !axisX)
         {
             previewStart = previewGoal;
             if (previewFlipside % 2 == 1)
@@ -89,8 +95,9 @@ public class FlipMechanic : MonoBehaviour {
             aniTime = 0;
             previewStartRotation = new Vector3(previewGoalRotation.x, 0, previewGoalRotation.z);
             previewGoalRotation = new Vector3(previewGoalRotation.x, 180, previewGoalRotation.z);
+            axisX = true;
         }
-        if (Input.GetButtonDown("FlipY"))
+        if (Input.GetButtonDown("FlipY") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisY && !axisY)
         {
             previewStart = previewGoal;
             if (previewFlipside > 1)
@@ -106,6 +113,7 @@ public class FlipMechanic : MonoBehaviour {
             aniTime = 0;
             previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
             previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
+            axisY = true;
         }
         if (Input.GetButtonDown("Cancel"))
         {
@@ -140,9 +148,12 @@ public class FlipMechanic : MonoBehaviour {
 		}
 	}
 
+
 	void Update ()
 	{
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
+        axisX = false;
+        axisY = false;
 		if (inSequence)
 		{
 			previewSprite.color = Color.clear;
@@ -156,7 +167,8 @@ public class FlipMechanic : MonoBehaviour {
                 preview.transform.position = transform.position;
                 done = true;
 			}
-		} else
+        }
+        else //if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().getFocus() > 0.0f)
 		{
 			GetComponent<BoxCollider2D>().enabled = true;
 
@@ -211,6 +223,6 @@ public class FlipMechanic : MonoBehaviour {
                     done = false;
                 }
             }
-		}
+        }
 	}
 }

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
     public float walkVelocity = 5.5f;
     public float jumpForce = 7.5f;
+    public float FOCUS_TIMER = 10.0f;
+    public float rateOfDecay = 1.0f;
 
 	Rigidbody2D playerRB;
     private Animator animator;
@@ -26,6 +28,13 @@ public class PlayerController : MonoBehaviour {
     public AudioClip spawnAudio;
     public AudioClip jumpAudio;
 
+    float focusTimer;
+    bool dropFocus;
+
+    //for axis check
+    public bool axisX;
+    public bool axisY;
+
     // Use this for initialization
     void Start ()
 	{
@@ -35,6 +44,10 @@ public class PlayerController : MonoBehaviour {
         recordedPosition = transform.position;
         facingRight = true;
         StartCoroutine("Spawn");
+        focusTimer = FOCUS_TIMER;
+        dropFocus = false;
+        axisX = false;
+        axisY = false;
     }
 	
 	public void Reset()
@@ -45,6 +58,27 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+        //axis check
+        if (Input.GetAxis("FlipAxisX") > 0.2f)
+        {
+            axisX = true;
+        }
+        else if (Input.GetAxis("FlipAxisY") > 0.2f)
+        {
+            axisY = true;
+        }
+        
+        if (Input.GetAxis("FlipAxisX") < 0.2f && Input.GetAxis("FlipAxisX") > -0.2f)
+        {
+            axisX = false;
+        }
+
+        if (Input.GetAxis("FlipAxisY") < 0.2f && Input.GetAxis("FlipAxisY") > -0.2f)
+        {
+            axisY = false;
+        }
+
+        //normal update
 		if (FlipMechanic.aniTime <= 1.0f)
 			FlipMechanic.aniTime += 6.0f * Time.deltaTime / Time.timeScale;
 		if (Input.GetButtonDown("Focus"))
@@ -105,7 +139,26 @@ public class PlayerController : MonoBehaviour {
 					f.preview.GetComponent<SpriteRenderer>().color = FlipMechanic.previewColor;
 			}
 		}
-	}
+        //for focus
+        if (dropFocus)
+        {
+            focusTimer -= rateOfDecay;
+        }
+    }
+
+    //for the focus mode
+    void startFocus()
+    {
+        dropFocus = true;
+    }
+
+    void resetFocus()
+    {
+        dropFocus = false;
+        focusTimer = 10.0f;
+    }
+
+    public float getFocus() { return focusTimer; }
 
     void FixedUpdate()
     {
@@ -133,14 +186,23 @@ public class PlayerController : MonoBehaviour {
                     animator.SetBool("walking", true);
                     playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
                 }
-                if (Input.GetButton("Jump") && grounded && jumpTimer > 2.0f)
+                //you can jump in focus mode
+                /*if (Input.GetButton("Jump") && grounded && jumpTimer > 2.0f)
                 {
                     jumpTimer = 0.0f;
                     audioPlayer.PlayOneShot(jumpAudio);
                     animator.SetBool("jumping", true);
                     playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
-                }
+                }*/
             }
+        }
+        //putting here for now
+        if (Input.GetButton("Jump") && grounded && jumpTimer > 2.0f)
+        {
+            jumpTimer = 0.0f;
+            audioPlayer.PlayOneShot(jumpAudio);
+            animator.SetBool("jumping", true);
+            playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
         }
     }
 	
