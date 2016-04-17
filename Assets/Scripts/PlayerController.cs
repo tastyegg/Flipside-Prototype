@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour {
 	float focusReservior;
 
 	public float walkVelocity = 5.5f;
-    float jumpForce = 6.9f;
-	float jumpSpeedBoost = 0.2f;
+    public float jumpForce = 9.2f;
+	public float jumpSpeedBoost = 0.4f;
     public static float FOCUS_TIMER = 6.0f;
 	public float rateOfDecay = 1.0f;
 	float rateOfGrowth = 1.7f;
@@ -246,10 +246,8 @@ public class PlayerController : MonoBehaviour {
     void ChangeDirection()
     {
         facingRight = !facingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
-    }
+		GetComponent<SpriteRenderer>().flipX = !facingRight;
+	}
 
     IEnumerator Spawn()
     {
