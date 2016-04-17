@@ -1,13 +1,8 @@
-﻿/*
-	Flips the game object around the center x and y position.
-
-*/
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class FlipMechanic : MonoBehaviour {
-    public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
+    public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.8f);
 	public static float aniTime = 0.0f;
 	public static int flipsideD;
     public static bool done;
@@ -29,10 +24,6 @@ public class FlipMechanic : MonoBehaviour {
     //for red checking
     public GameObject previewGoalTemp;
 
-    //axis check
-    bool axisX;
-    bool axisY;
-
 	void Start ()
 	{
 		inSequence = false;
@@ -49,8 +40,6 @@ public class FlipMechanic : MonoBehaviour {
         previewGoalTemp = preview;
         previewGoalTemp.AddComponent<BoxCollider2D>();
         previewGoalTemp.GetComponent<BoxCollider2D>().isTrigger = true;
-        axisX = false;
-        axisY = false;
 	}
 
 	void Flipside()
@@ -70,16 +59,21 @@ public class FlipMechanic : MonoBehaviour {
 			transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
             transform.eulerAngles = new Vector3(0.0f, 0.0f, Mathf.Lerp(0, 180, aniTime));
 		}
-        axisX = false;
-        axisY = false;
 	}
 
 	void FlipsidePreview()
 	{
+		SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+		Color spriteColor = sprite.color;
+		spriteColor.a = 1.0f - PlayerController.focusTimer / PlayerController.FOCUS_TIMER;
+		sprite.color = spriteColor;
+		
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
-		//previewSprite.color = previewColor;
+		Color previewSpriteColor = previewSprite.color;
+		previewSpriteColor.a = PlayerController.focusTimer / PlayerController.FOCUS_TIMER;
+		previewSprite.color = previewSpriteColor;
 
-        if (Input.GetButtonDown("FlipX") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisX && !axisX)
+		if (Input.GetButtonDown("FlipX"))
         {
             previewStart = previewGoal;
             if (previewFlipside % 2 == 1)
@@ -95,9 +89,8 @@ public class FlipMechanic : MonoBehaviour {
             aniTime = 0;
             previewStartRotation = new Vector3(previewGoalRotation.x, 0, previewGoalRotation.z);
             previewGoalRotation = new Vector3(previewGoalRotation.x, 180, previewGoalRotation.z);
-            axisX = true;
         }
-        if (Input.GetButtonDown("FlipY") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisY && !axisY)
+        if (Input.GetButtonDown("FlipY"))
         {
             previewStart = previewGoal;
             if (previewFlipside > 1)
@@ -113,7 +106,6 @@ public class FlipMechanic : MonoBehaviour {
             aniTime = 0;
             previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
             previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
-            axisY = true;
         }
         if (Input.GetButtonDown("Cancel"))
         {
@@ -124,7 +116,6 @@ public class FlipMechanic : MonoBehaviour {
             previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
             previewGoalRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
         }
-
 
         previewGoalTemp.transform.position = previewGoal; //added for red
         
@@ -152,10 +143,13 @@ public class FlipMechanic : MonoBehaviour {
 	void Update ()
 	{
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
-        axisX = false;
-        axisY = false;
 		if (inSequence)
 		{
+			SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+			Color spriteColor = sprite.color;
+			spriteColor.a = 1.0f;
+			sprite.color = spriteColor;
+
 			previewSprite.color = Color.clear;
 			GetComponent<BoxCollider2D>().enabled = false;
 			Flipside();
@@ -168,11 +162,11 @@ public class FlipMechanic : MonoBehaviour {
                 done = true;
 			}
         }
-        else //if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().getFocus() > 0.0f)
+        else
 		{
 			GetComponent<BoxCollider2D>().enabled = true;
 
-			if (Input.GetButton("Focus"))
+			if (Input.GetButton("Focus") && PlayerController.focusTimer > 0)
 			{
 				if (Input.GetButtonDown("Focus"))
 				{
@@ -185,10 +179,16 @@ public class FlipMechanic : MonoBehaviour {
                 }
 				FlipsidePreview();
             }
-			else {
+			else
+			{
+				SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+				Color spriteColor = sprite.color;
+				spriteColor.a = 1.0f;
+				sprite.color = spriteColor;
+
 				previewSprite.color = Color.clear;
 
-                if (Input.GetButtonUp("Focus"))
+                if (Input.GetButtonUp("Focus") && PlayerController.focusTimer > 0)
 				{
 					if (previewFlipside != 0 && !PlayerController.dangerCheck)
 					{

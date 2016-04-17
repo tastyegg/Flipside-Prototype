@@ -4,9 +4,11 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
-    public float walkVelocity = 5.5f;
+	public static float focusTimer { get; private set; }
+
+	public float walkVelocity = 5.5f;
     public float jumpForce = 7.5f;
-    public float FOCUS_TIMER = 10.0f;
+    public static float FOCUS_TIMER = 6.0f;
     public float rateOfDecay = 1.0f;
 
 	Rigidbody2D playerRB;
@@ -20,20 +22,12 @@ public class PlayerController : MonoBehaviour {
     public Transform groundCheckLeft;
     public Transform groundCheckRight;
     public LayerMask whatIsGround;
-    float jumpTimer = 0.0f;
 	Vector3 recordedPosition;
 	Vector2 recordedVelocity;
     
     public AudioClip smokeAudio;
     public AudioClip spawnAudio;
     public AudioClip jumpAudio;
-
-    float focusTimer;
-    bool dropFocus;
-
-    //for axis check
-    public bool axisX;
-    public bool axisY;
 
     // Use this for initialization
     void Start ()
@@ -45,9 +39,6 @@ public class PlayerController : MonoBehaviour {
         facingRight = true;
         StartCoroutine("Spawn");
         focusTimer = FOCUS_TIMER;
-        dropFocus = false;
-        axisX = false;
-        axisY = false;
     }
 	
 	public void Reset()
@@ -58,35 +49,31 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-        //axis check
-        if (Input.GetAxis("FlipAxisX") > 0.2f)
-        {
-            axisX = true;
-        }
-        else if (Input.GetAxis("FlipAxisY") > 0.2f)
-        {
-            axisY = true;
-        }
-        
-        if (Input.GetAxis("FlipAxisX") < 0.2f && Input.GetAxis("FlipAxisX") > -0.2f)
-        {
-            axisX = false;
-        }
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			Reset();
+		}
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			SceneManager.LoadScene(0);
+		}
 
-        if (Input.GetAxis("FlipAxisY") < 0.2f && Input.GetAxis("FlipAxisY") > -0.2f)
-        {
-            axisY = false;
-        }
-
-        //normal update
+		//normal update
 		if (FlipMechanic.aniTime <= 1.0f)
 			FlipMechanic.aniTime += 6.0f * Time.deltaTime / Time.timeScale;
+		if (focusTimer > 0)
+			focusTimer -= rateOfDecay * Time.deltaTime / Time.timeScale;
 		if (Input.GetButtonDown("Focus"))
 		{
-			Time.timeScale = 0.1f;
-			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+			focusTimer = FOCUS_TIMER;
 		}
-		if (Input.GetButtonUp("Focus") || (!Input.GetButton("Focus") && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY"))))
+		if (Input.GetButton("Focus") && focusTimer >= 1.0f)
+		{
+			Debug.Log(focusTimer);
+			Time.timeScale = 1.0f / focusTimer;
+			Debug.Log(Time.timeScale);
+			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+		} else if ((Input.GetButtonUp("Focus") || (!Input.GetButton("Focus") && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY")))) && focusTimer > 0)
 		{
 			inSequence = true;
 			recordedPosition = transform.position;
@@ -106,14 +93,6 @@ public class PlayerController : MonoBehaviour {
 			playerRB.isKinematic = false;
             FlipMechanic.done = false;
 		}
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			Reset();
-		}
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			SceneManager.LoadScene(0);
-		}
 
 		dangerCheck = false;
 		foreach (GameObject g in FindObjectsOfType<GameObject>())
@@ -127,7 +106,6 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		}
-
 		foreach (GameObject g in FindObjectsOfType<GameObject>())
 		{
 			FlipMechanic f = g.GetComponent<FlipMechanic>();
@@ -139,67 +117,33 @@ public class PlayerController : MonoBehaviour {
 					f.preview.GetComponent<SpriteRenderer>().color = FlipMechanic.previewColor;
 			}
 		}
-        //for focus
-        if (dropFocus)
-        {
-            focusTimer -= rateOfDecay;
-        }
     }
-
-    //for the focus mode
-    void startFocus()
-    {
-        dropFocus = true;
-    }
-
-    void resetFocus()
-    {
-        dropFocus = false;
-        focusTimer = 10.0f;
-    }
-
-    public float getFocus() { return focusTimer; }
 
     void FixedUpdate()
     {
-        if (jumpTimer <= 2.0f) jumpTimer += 0.1f;
-        
         grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
         if (!animator.GetBool("jumping") != grounded)
             animator.SetBool("jumping", !grounded);
 
-        if (!Input.GetButton("Focus"))
+        animator.SetBool("walking", false);
+        playerRB.velocity = new Vector2(0, playerRB.velocity.y);
+        if (!playerRB.isKinematic)
         {
-            animator.SetBool("walking", false);
-            playerRB.velocity = new Vector2(0, playerRB.velocity.y);
-            if (!playerRB.isKinematic)
+            if (Input.GetAxis("Horizontal") < 0)
             {
-                if (Input.GetAxis("Horizontal") < 0)
-                {
-                    if (facingRight) ChangeDirection();
-                    animator.SetBool("walking", true);
-                    playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
-                }
-                else if (Input.GetAxis("Horizontal") > 0)
-                {
-                    if (!facingRight) ChangeDirection();
-                    animator.SetBool("walking", true);
-                    playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
-                }
-                //you can jump in focus mode
-                /*if (Input.GetButton("Jump") && grounded && jumpTimer > 2.0f)
-                {
-                    jumpTimer = 0.0f;
-                    audioPlayer.PlayOneShot(jumpAudio);
-                    animator.SetBool("jumping", true);
-                    playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
-                }*/
+                if (facingRight) ChangeDirection();
+                animator.SetBool("walking", true);
+                playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
+            }
+            else if (Input.GetAxis("Horizontal") > 0)
+            {
+                if (!facingRight) ChangeDirection();
+                animator.SetBool("walking", true);
+                playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
             }
         }
-        //putting here for now
-        if (Input.GetButton("Jump") && grounded && jumpTimer > 2.0f)
+        if ((Input.GetButtonUp("Jump") || Input.GetButtonDown("Jump")) && grounded)
         {
-            jumpTimer = 0.0f;
             audioPlayer.PlayOneShot(jumpAudio);
             animator.SetBool("jumping", true);
             playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
@@ -245,10 +189,6 @@ public class PlayerController : MonoBehaviour {
 			Invoke("LoadNextLevel", 2.1f);
             double tRank = GameObject.Find("Text").GetComponent<Text>().GetComponent<Timer>().stop();
         }
-        /*else if (collider.gameObject.CompareTag("Portal"))
-        {
-            //run teleport
-        }*/
         
 	}
 
