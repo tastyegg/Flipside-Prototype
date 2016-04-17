@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 	public static float focusTimer { get; private set; }
+	float focusReservior;
 
 	public float walkVelocity = 5.5f;
     public float jumpForce = 7.5f;
     public static float FOCUS_TIMER = 6.0f;
-    public float rateOfDecay = 1.0f;
+	public float rateOfDecay = 1.0f;
+	float rateOfGrowth = 1.7f;
 
 	Rigidbody2D playerRB;
     private Animator animator;
@@ -38,7 +40,8 @@ public class PlayerController : MonoBehaviour {
         recordedPosition = transform.position;
         facingRight = true;
         StartCoroutine("Spawn");
-        focusTimer = FOCUS_TIMER;
+        focusTimer = 0;
+		focusReservior = FOCUS_TIMER;
     }
 	
 	public void Reset()
@@ -63,21 +66,26 @@ public class PlayerController : MonoBehaviour {
 			FlipMechanic.aniTime += 6.0f * Time.deltaTime / Time.timeScale;
 		if (focusTimer > 0)
 			focusTimer -= rateOfDecay * Time.deltaTime / Time.timeScale;
+		if (focusTimer <= 0 && focusReservior < FOCUS_TIMER)
+		{
+			focusReservior += rateOfGrowth * Time.deltaTime / Time.timeScale;
+		} else if (Input.GetButton("Focus") && focusReservior > 0)
+		{
+			focusReservior -= rateOfDecay * Time.deltaTime / Time.timeScale;
+		}
 		if (Input.GetButtonDown("Focus"))
 		{
-			focusTimer = FOCUS_TIMER;
-		} else if (Input.GetButtonDown("Cancel"))
+			focusTimer = focusReservior;
+		} else if (!Input.GetButton("Focus") || Input.GetButtonDown("Cancel"))
 		{
 			focusTimer = 0;
 		}
 		if (Input.GetButton("Focus") && focusTimer >= 1.0f)
 		{
-			Debug.Log(focusTimer);
 			Time.timeScale = 1.0f / focusTimer;
-			Debug.Log(Time.timeScale);
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-		} else if (((Input.GetButtonUp("Focus") || (!Input.GetButton("Focus") && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY")))) && focusTimer > 0) ||
-			(Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY")) && !inSequence)
+		} else if (((Input.GetButtonUp("Focus") || (!Input.GetButton("Focus") && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY"))))
+			&& focusTimer > 0) || (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY")) && !inSequence)
 		{
 			inSequence = true;
 			recordedPosition = transform.position;
