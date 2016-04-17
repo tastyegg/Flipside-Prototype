@@ -107,15 +107,6 @@ public class FlipMechanic : MonoBehaviour {
             previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
             previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
         }
-        if (Input.GetButtonDown("Cancel"))
-        {
-            previewStart = previewGoal;
-            previewFlipside = 0;
-            previewGoal = new Vector3(transform.position.x, transform.position.y, previewGoal.z);
-            aniTime = 0;
-            previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
-            previewGoalRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
-        }
 
         previewGoalTemp.transform.position = previewGoal; //added for red
         

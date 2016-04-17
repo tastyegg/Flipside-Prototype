@@ -66,6 +66,9 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButtonDown("Focus"))
 		{
 			focusTimer = FOCUS_TIMER;
+		} else if (Input.GetButtonDown("Cancel"))
+		{
+			focusTimer = 0;
 		}
 		if (Input.GetButton("Focus") && focusTimer >= 1.0f)
 		{
@@ -73,7 +76,8 @@ public class PlayerController : MonoBehaviour {
 			Time.timeScale = 1.0f / focusTimer;
 			Debug.Log(Time.timeScale);
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-		} else if ((Input.GetButtonUp("Focus") || (!Input.GetButton("Focus") && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY")))) && focusTimer > 0)
+		} else if (((Input.GetButtonUp("Focus") || (!Input.GetButton("Focus") && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY")))) && focusTimer > 0) ||
+			(Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY")) && !inSequence)
 		{
 			inSequence = true;
 			recordedPosition = transform.position;
@@ -81,6 +85,10 @@ public class PlayerController : MonoBehaviour {
 			playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
 			playerRB.isKinematic = true;
 			
+			Time.timeScale = 1.0f;
+			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+		} else
+		{
 			Time.timeScale = 1.0f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}
