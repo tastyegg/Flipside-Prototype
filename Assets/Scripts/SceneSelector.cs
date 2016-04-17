@@ -51,27 +51,27 @@ public class SceneSelector : MonoBehaviour {
 	{
 		leftButton.gameObject.GetComponent<Image>().color = Color.white;
 		rightButton.gameObject.GetComponent<Image>().color = Color.white;
-		if (Input.GetKeyDown(KeyCode.LeftShift))
+		if (Input.GetButtonDown("Focus"))
 		{
 			shiftButton.gameObject.GetComponent<Image>().color = Color.cyan;
 			RevealButton(true);
-		} else if (Input.GetKeyUp(KeyCode.LeftShift))
+		} else if (Input.GetButtonUp("Focus"))
 		{
 			shiftButton.gameObject.GetComponent<Image>().color = Color.white;
 			RevealButton(false);
 		}
-		if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+		if (Input.GetButtonDown("Horizontal") && Input.GetAxis("Horizontal") < 0)
 		{
 			leftButton.gameObject.GetComponent<Image>().color = Color.cyan;
 		}
-		if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+		if (Input.GetButtonDown("Horizontal") && Input.GetAxis("Horizontal") > 0)
 		{
 			rightButton.gameObject.GetComponent<Image>().color = Color.cyan;
 		}
-		if (!Input.GetKey(KeyCode.LeftShift) && (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)))
+		if (!Input.GetButtonDown("Focus") && Input.GetButtonDown("Horizontal") && Input.GetAxis("Horizontal") < 0)
 		{
 			PreviousLevel();
-		} else if (!Input.GetKey(KeyCode.LeftShift) && (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)))
+		} else if (!Input.GetButtonDown("Focus") && Input.GetButtonDown("Horizontal") && Input.GetAxis("Horizontal") > 0)
 		{
 			NextLevel();
 		}
