@@ -8,7 +8,8 @@ public class PlayerController : MonoBehaviour {
 	float focusReservior;
 
 	public float walkVelocity = 5.5f;
-    public float jumpForce = 7.5f;
+    float jumpForce = 6.9f;
+	float jumpSpeedBoost = 0.2f;
     public static float FOCUS_TIMER = 6.0f;
 	public float rateOfDecay = 1.0f;
 	float rateOfGrowth = 1.7f;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour {
     bool inSequence;	//Time for frozen animation
 	bool grounded;
     bool facingRight;
+	bool queueJump;
 	public static bool dangerCheck;
     public Transform groundCheckLeft;
     public Transform groundCheckRight;
@@ -84,8 +86,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			Time.timeScale = 1.0f / (focusTimer + 1);
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-		} else if (((Input.GetButtonUp("Focus") || (!Input.GetButton("Focus") && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY"))))
-			&& focusTimer > 0) || (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY")) && !inSequence)
+		} else if (Input.GetButtonUp("Focus") && focusTimer > 0 || !Input.GetButton("Focus") && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY")) && !inSequence)
 		{
 			inSequence = true;
 			recordedPosition = transform.position;
@@ -142,27 +143,35 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("jumping", !grounded);
 
         animator.SetBool("walking", false);
-        playerRB.velocity = new Vector2(0, playerRB.velocity.y);
+        //playerRB.velocity = new Vector2(0, playerRB.velocity.y);
         if (!playerRB.isKinematic)
         {
             if (Input.GetAxis("Horizontal") < 0)
             {
                 if (facingRight) ChangeDirection();
                 animator.SetBool("walking", true);
-                playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
+				//playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
+				playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * walkVelocity * 4 - playerRB.velocity.x * 2, 0));
             }
             else if (Input.GetAxis("Horizontal") > 0)
             {
                 if (!facingRight) ChangeDirection();
                 animator.SetBool("walking", true);
-                playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
-            }
+				//playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
+				playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * walkVelocity * 4 - playerRB.velocity.x * 2, 0));
+			} else
+			{
+				playerRB.AddForce(new Vector2(-playerRB.velocity.x * 5, 0));
+			}
         }
-        if ((Input.GetButtonUp("Jump") || Input.GetButtonDown("Jump")) && grounded)
+		if (Input.GetButtonDown("Jump"))
+			queueJump = true;
+        if (queueJump && grounded)
         {
+			queueJump = false;
             audioPlayer.PlayOneShot(jumpAudio);
             animator.SetBool("jumping", true);
-            playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
+            playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce + Mathf.Abs(playerRB.velocity.x * jumpSpeedBoost));
         }
     }
 	
