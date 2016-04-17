@@ -32,6 +32,7 @@ public class FlipMechanic : MonoBehaviour {
 		preview.transform.position = transform.position;
 		preview.transform.localScale = transform.localScale;
         preview.layer = LayerMask.NameToLayer("WallPreview");
+		preview.tag = "WallPreview";
 		SpriteRenderer previewSprite = preview.AddComponent<SpriteRenderer>();
 		previewSprite.sprite = GetComponent<SpriteRenderer>().sprite;
 		previewSprite.color = Color.clear;
@@ -114,7 +115,7 @@ public class FlipMechanic : MonoBehaviour {
 		preview.transform.eulerAngles = new Vector3(Mathf.Lerp(previewStartRotation.x, previewGoalRotation.x, aniTime), Mathf.Lerp(previewStartRotation.y, previewGoalRotation.y, aniTime), preview.transform.position.z);
     }
 
-	void reverseFlipside()
+	public void reverseFlipside()
 	{
 		if (flipside == 1)
 		{
@@ -128,8 +129,8 @@ public class FlipMechanic : MonoBehaviour {
 		{
 			destination = new Vector3(-destination.x, -destination.y, destination.z);
 		}
+		inSequence = true;
 	}
-
 
 	void Update ()
 	{
@@ -146,7 +147,6 @@ public class FlipMechanic : MonoBehaviour {
 			Flipside();
 			if (aniTime >= 1.0f)
 			{
-				PlayerController.dangerCheck = false;
 				inSequence = false;
 				transform.eulerAngles = Vector3.zero;
                 preview.transform.position = transform.position;
@@ -178,8 +178,7 @@ public class FlipMechanic : MonoBehaviour {
 				sprite.color = spriteColor;
 
 				previewSprite.color = Color.clear;
-
-                if (Input.GetButtonUp("Focus") && PlayerController.focusTimer > 0)
+				if (Input.GetButtonUp("Focus") && PlayerController.focusTimer > 0)
 				{
 					if (previewFlipside != 0 && !PlayerController.dangerCheck)
 					{

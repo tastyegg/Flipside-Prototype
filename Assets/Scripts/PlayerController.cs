@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour {
         focusTimer = 0;
 		focusReservior = FOCUS_TIMER;
     }
-	
+
 	public void Reset()
 	{
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour {
 			FlipMechanic.aniTime += 6.0f * Time.deltaTime / Time.timeScale;
 		if (focusTimer > 0)
 			focusTimer -= rateOfDecay * Time.deltaTime / Time.timeScale;
-		if (focusTimer <= 0 && focusReservior < FOCUS_TIMER)
+		if ((!Input.GetButton("Focus") || focusTimer <= 0) && focusReservior < FOCUS_TIMER)
 		{
 			focusReservior += rateOfGrowth * Time.deltaTime / Time.timeScale;
 		} else if (Input.GetButton("Focus") && focusReservior > 0)
@@ -76,13 +76,13 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButtonDown("Focus"))
 		{
 			focusTimer = focusReservior;
-		} else if (!Input.GetButton("Focus") || Input.GetButtonDown("Cancel"))
+		} else if (Input.GetButtonDown("Cancel"))
 		{
 			focusTimer = 0;
 		}
-		if (Input.GetButton("Focus") && focusTimer >= 1.0f)
+		if (Input.GetButton("Focus") && focusTimer > 0)
 		{
-			Time.timeScale = 1.0f / focusTimer;
+			Time.timeScale = 1.0f / (focusTimer + 1);
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		} else if (((Input.GetButtonUp("Focus") || (!Input.GetButton("Focus") && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY"))))
 			&& focusTimer > 0) || (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY")) && !inSequence)
@@ -170,13 +170,21 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (collision.collider.CompareTag("Cannonball") && !collision.collider.GetComponent<Rigidbody2D>().isKinematic && collision.collider.GetComponent<Cannonball>().killsPlayer)
 		{
-            GetComponent<SpriteRenderer>().enabled = false; //This automatically executes OnBecameInvisible()
+            GetComponent<SpriteRenderer>().enabled = false;
             Destroy(collision.collider.gameObject);
+			return;
         }
-        if (collision.collider.bounds.Contains(recordedPosition))
-        {
-            dangerCheck = true;
-            transform.position = recordedPosition;
+        if (!collision.collider.CompareTag("WallPreview") && collision.collider.bounds.Contains(recordedPosition))
+		{
+			foreach (GameObject g in FindObjectsOfType<GameObject>())
+			{
+				FlipMechanic f = g.GetComponent<FlipMechanic>();
+				if (f)
+				{
+					f.reverseFlipside();
+				}
+			}
+			transform.position = recordedPosition;
             inSequence = true;
             playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
             playerRB.isKinematic = true;
