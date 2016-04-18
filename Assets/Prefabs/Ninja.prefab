@@ -299,12 +299,12 @@ MonoBehaviour:
   axisX: 0
   axisY: 0
   acceleration_speed: 45
-  velocity_cap: 9
+  velocity_cap: 7
   stopping_power: 1.4
   immediate_stop_cutoff: 5
   air_stopping_power: 1
   jump_hold_max: 0.2
-  run_factor: 1
+  run_factor: 1.8
 --- !u!198 &19813646
 ParticleSystem:
   m_ObjectHideFlags: 1

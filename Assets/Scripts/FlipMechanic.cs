@@ -176,9 +176,9 @@ public class FlipMechanic : MonoBehaviour {
 		{
 			GetComponent<BoxCollider2D>().enabled = true;
 
-			if (Input.GetButton("Focus"))
+			if (PlayerController.inFocus)
 			{
-				if (Input.GetButtonDown("Focus"))
+				if (PlayerController.enteringFocus)
 				{
 					previewFlipside = 0;
 					previewStart = transform.position;
@@ -192,7 +192,7 @@ public class FlipMechanic : MonoBehaviour {
 			else {
 				previewSprite.color = Color.clear;
 
-                if (Input.GetButtonUp("Focus"))
+                if (PlayerController.exitingFocus)
 				{
 					if (previewFlipside != 0 && !PlayerController.dangerCheck)
 					{
