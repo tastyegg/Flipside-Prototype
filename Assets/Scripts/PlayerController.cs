@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour {
     private AudioSource audioPlayer;
 
     bool inSequence;	//Time for frozen animation
-	public bool grounded; //is public for testing purpose
+	public bool grounded; //is public for testing purpose, remove when testGrounded.cs is no longer needed
     bool facingRight;
 	//bool queueJump;
 	public static bool dangerCheck;
@@ -152,8 +152,6 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate()
     {
         //grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
-        //if (!animator.GetBool("jumping") != grounded)
-        //    animator.SetBool("jumping", !grounded);
 
         animator.SetBool("walking", false);
         //playerRB.velocity = new Vector2(0, playerRB.velocity.y);
@@ -178,21 +176,6 @@ public class PlayerController : MonoBehaviour {
 			}
         }
 
-        ////grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
-        //grounded = Physics2D.Linecast(transform.position, groundCheckMiddle.position, whatIsGround);
-        //if (!animator.GetBool("jumping") != grounded)
-        //    animator.SetBool("jumping", !grounded);
-        ////if (Input.GetButtonDown("Jump"))
-        ////    queueJump = true;
-        ////if (queueJump && grounded)
-        //if (Input.GetButtonDown("Jump") && grounded)
-        //{
-        //    //queueJump = false;
-        //    audioPlayer.PlayOneShot(jumpAudio);
-        //    animator.SetBool("jumping", true);
-        //    playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce + Mathf.Abs(playerRB.velocity.x * jumpSpeedBoost));
-        //    grounded = false;
-        //}
 
     }
 	
