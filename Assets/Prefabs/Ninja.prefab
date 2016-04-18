@@ -299,7 +299,7 @@ MonoBehaviour:
   axisX: 0
   axisY: 0
   acceleration_speed: 45
-  velocity_cap: 12
+  velocity_cap: 9
   stopping_power: 1.4
   immediate_stop_cutoff: 5
   air_stopping_power: 1
@@ -3396,7 +3396,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: velocity_cap
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 157980}
