@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour {
 	Vector3 recordedPosition;
 	Vector2 recordedVelocity;
     bool running;
+    public static bool enteringFocus;
+    public static bool inFocus;
+    public static bool exitingFocus;
            
     public AudioClip smokeAudio;
     public AudioClip spawnAudio;
@@ -173,15 +176,33 @@ public class PlayerController : MonoBehaviour {
         {
             running = false;
         }
+        exitingFocus = false;
+        enteringFocus = false;
+        if (Input.GetAxis("Focus") > 0)
+        {
+            if (!inFocus)
+            {
+                enteringFocus = true;
+                inFocus = true;
+            }
+        }
+        else
+        {
+            if (inFocus)
+            {
+                exitingFocus = true;
+                inFocus = false;
+            }
+        }
 
         if (FlipMechanic.aniTime <= 1.0f)
 			FlipMechanic.aniTime += 6.0f * Time.deltaTime / Time.timeScale;
-		if (Input.GetButtonDown("Focus"))
+		if (enteringFocus)
 		{
-			Time.timeScale = 0.1f;
+			Time.timeScale = 0.2f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}
-		if (Input.GetButtonUp("Focus") || (!Input.GetButton("Focus") && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY"))))
+		if (exitingFocus || (!inFocus && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY"))))
 		{
 			inSequence = true;
 			recordedPosition = transform.position;
