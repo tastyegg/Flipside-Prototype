@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
     public float walkVelocity = 5.5f;
     public float jumpForce = 7.5f;
-    public float FOCUS_TIMER = 10.0f;
-    public float rateOfDecay = 1.0f;
+    //public float FOCUS_TIMER = 10.0f;
+    //public float rateOfDecay = 1.0f;
 
 	Rigidbody2D playerRB;
     private Animator animator;
@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviour {
     public AudioClip spawnAudio;
     public AudioClip jumpAudio;
 
-    float focusTimer;
-    bool dropFocus;
+    //float focusTimer;
+    //bool dropFocus;
 
     //for axis check
     public bool axisX;
@@ -47,6 +47,10 @@ public class PlayerController : MonoBehaviour {
     public float jump_hold_max;
     public float run_factor;
 
+    public GameObject focusBox;
+    Focus fScript;
+    public bool focusAllow; //refactor code later maybe
+
     // Use this for initialization
     void Start ()
 	{
@@ -56,10 +60,12 @@ public class PlayerController : MonoBehaviour {
         recordedPosition = transform.position;
         facingRight = true;
         StartCoroutine("Spawn");
-        focusTimer = FOCUS_TIMER;
-        dropFocus = false;
+        //focusTimer = FOCUS_TIMER;
+        //dropFocus = false;
         axisX = false;
         axisY = false;
+        fScript = focusBox.GetComponent<Focus>();
+        focusAllow = true;
     }
 	
 	public void Reset()
@@ -180,6 +186,8 @@ public class PlayerController : MonoBehaviour {
 		{
 			Time.timeScale = 0.1f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            //startFocus();
+            fScript.startFocus();
 		}
 		if (Input.GetButtonUp("Focus") || (!Input.GetButton("Focus") && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY"))))
 		{
@@ -191,6 +199,8 @@ public class PlayerController : MonoBehaviour {
 			
 			Time.timeScale = 1.0f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            //resetFocus();
+            fScript.resetFocus();
 		}
 		if (inSequence && FlipMechanic.aniTime >= 1.0f && FlipMechanic.done)
 		{
@@ -235,26 +245,36 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
         //for focus
-        if (dropFocus)
+        //if (dropFocus)
+        //{
+        //    focusTimer -= rateOfDecay;
+        //}
+        if (fScript.getFocus() < 0.0f)
         {
-            focusTimer -= rateOfDecay;
+            focusAllow = false;
+            fScript.resetFocus();
+        }
+
+        if (Input.GetButtonUp("Focus") && ! focusAllow)
+        {
+            focusAllow = true;
         }
     }
 
     //for the focus mode
-    void startFocus()
-    {
-        dropFocus = true;
-    }
+    //void startFocus()
+    //{
+    //    dropFocus = true;
+    //}
 
-    void resetFocus()
-    {
-        dropFocus = false;
-        focusTimer = 10.0f;
-    }
+    //void resetFocus()
+    //{
+    //    dropFocus = false;
+    //    focusTimer = 10.0f;
+    //}
 
-    public float getFocus() { return focusTimer; }
-
+    //public float getFocus() { return focusTimer; }
+    
     void FixedUpdate()
     {
         //cap velocity
