@@ -3,13 +3,13 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class Focus : MonoBehaviour {
-    public float FOCUS_TIMER = 10.0f;
+    public static float FOCUS_TIMER = 10.0f;
     public float rateOfDecay = 1.0f;
 
     public Text textBox;
 
     bool dropFocus;
-    float focusTimer;
+	public static float focusTimer { get; private set; }
 
 	// Use this for initialization
 	void Start () {

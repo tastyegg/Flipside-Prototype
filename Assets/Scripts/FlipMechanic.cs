@@ -76,12 +76,19 @@ public class FlipMechanic : MonoBehaviour {
 
 	void FlipsidePreview()
 	{
+		SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+		Color spriteColor = sprite.color;
+		spriteColor.a = 1 - Focus.focusTimer / Focus.FOCUS_TIMER;
+		sprite.color = spriteColor;
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
-        //previewSprite.color = previewColor;
+		Color previewSpriteColor = previewSprite.color;
+		previewSpriteColor.a = Focus.focusTimer / Focus.FOCUS_TIMER;
+		previewSprite.color = previewSpriteColor;
+		//previewSprite.color = previewColor;
 
-        //broken line of code
-        //if (Input.GetButtonDown("FlipX") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisX && !axisX)
-        if (Input.GetButtonDown("FlipX"))
+		//broken line of code
+		//if (Input.GetButtonDown("FlipX") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisX && !axisX)
+		if (Input.GetButtonDown("FlipX"))
         {
             previewStart = previewGoal;
             if (previewFlipside % 2 == 1)
@@ -155,11 +162,15 @@ public class FlipMechanic : MonoBehaviour {
 
 	void Update ()
 	{
+		SpriteRenderer sprite = GetComponent<SpriteRenderer>();
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
         axisX = false;
         axisY = false;
 		if (inSequence)
 		{
+			Color spriteColor = sprite.color;
+			spriteColor.a = 1;
+			sprite.color = spriteColor;
 			previewSprite.color = Color.clear;
 			GetComponent<BoxCollider2D>().enabled = false;
 			Flipside();
@@ -189,7 +200,11 @@ public class FlipMechanic : MonoBehaviour {
                 }
 				FlipsidePreview();
             }
-			else {
+			else
+			{
+				Color spriteColor = sprite.color;
+				spriteColor.a = 1;
+				sprite.color = spriteColor;
 				previewSprite.color = Color.clear;
 
                 if (PlayerController.exitingFocus)
