@@ -19,12 +19,13 @@ public class PlayerController : MonoBehaviour {
     private AudioSource audioPlayer;
 
     bool inSequence;	//Time for frozen animation
-	bool grounded;
+	public bool grounded; //is public for testing purpose
     bool facingRight;
-	bool queueJump;
+	//bool queueJump;
 	public static bool dangerCheck;
     public Transform groundCheckLeft;
     public Transform groundCheckRight;
+    public Transform groundCheckMiddle;
     public LayerMask whatIsGround;
 	Vector3 recordedPosition;
 	Vector2 recordedVelocity;
@@ -134,13 +135,25 @@ public class PlayerController : MonoBehaviour {
 					f.preview.GetComponent<SpriteRenderer>().color = FlipMechanic.previewColor;
 			}
 		}
+
+        grounded = Physics2D.Linecast(transform.position, groundCheckMiddle.position, whatIsGround);
+        if (!animator.GetBool("jumping") != grounded)
+            animator.SetBool("jumping", !grounded);
+
+        if (Input.GetButtonDown("Jump") && grounded)
+        {
+            audioPlayer.PlayOneShot(jumpAudio);
+            animator.SetBool("jumping", true);
+            playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce + Mathf.Abs(playerRB.velocity.x * jumpSpeedBoost));
+            grounded = false;
+        }
     }
 
     void FixedUpdate()
     {
-        grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
-        if (!animator.GetBool("jumping") != grounded)
-            animator.SetBool("jumping", !grounded);
+        //grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
+        //if (!animator.GetBool("jumping") != grounded)
+        //    animator.SetBool("jumping", !grounded);
 
         animator.SetBool("walking", false);
         //playerRB.velocity = new Vector2(0, playerRB.velocity.y);
@@ -164,15 +177,23 @@ public class PlayerController : MonoBehaviour {
 				playerRB.AddForce(new Vector2(-playerRB.velocity.x * 5, 0));
 			}
         }
-		if (Input.GetButtonDown("Jump"))
-			queueJump = true;
-        if (queueJump && grounded)
-        {
-			queueJump = false;
-            audioPlayer.PlayOneShot(jumpAudio);
-            animator.SetBool("jumping", true);
-            playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce + Mathf.Abs(playerRB.velocity.x * jumpSpeedBoost));
-        }
+
+        ////grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
+        //grounded = Physics2D.Linecast(transform.position, groundCheckMiddle.position, whatIsGround);
+        //if (!animator.GetBool("jumping") != grounded)
+        //    animator.SetBool("jumping", !grounded);
+        ////if (Input.GetButtonDown("Jump"))
+        ////    queueJump = true;
+        ////if (queueJump && grounded)
+        //if (Input.GetButtonDown("Jump") && grounded)
+        //{
+        //    //queueJump = false;
+        //    audioPlayer.PlayOneShot(jumpAudio);
+        //    animator.SetBool("jumping", true);
+        //    playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce + Mathf.Abs(playerRB.velocity.x * jumpSpeedBoost));
+        //    grounded = false;
+        //}
+
     }
 	
 	void OnCollisionEnter2D(Collision2D collision)

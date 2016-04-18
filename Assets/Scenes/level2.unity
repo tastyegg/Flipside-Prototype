@@ -920,6 +920,33 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!1 &501046632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 146218, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 501046633}
+  m_Layer: 16
+  m_Name: Ground Check Middle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &501046633
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 479108, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 501046632}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1450256368}
+  m_RootOrder: 4
 --- !u!1 &957340662
 GameObject:
   m_ObjectHideFlags: 0
@@ -1778,6 +1805,10 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!4 &1450256368 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 404988, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
+  m_PrefabInternal: {fileID: 1688006826}
 --- !u!1 &1464962079
 GameObject:
   m_ObjectHideFlags: 0
@@ -1790,6 +1821,7 @@ GameObject:
   - 114: {fileID: 1464962082}
   - 61: {fileID: 1464962081}
   - 114: {fileID: 1464962084}
+  - 114: {fileID: 1464962085}
   m_Layer: 0
   m_Name: tile
   m_TagString: Wall
@@ -1879,6 +1911,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewGoalTemp: {fileID: 0}
+--- !u!114 &1464962085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1464962079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfafc33971100f64c881334ac2205bc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1527747714}
+--- !u!1 &1527747714 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 157980, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
+  m_PrefabInternal: {fileID: 1688006826}
 --- !u!1 &1686110738
 GameObject:
   m_ObjectHideFlags: 0
@@ -2019,6 +2067,26 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 479108, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 490780, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 479108, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 490780, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 11478174, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
+      propertyPath: groundCheckMiddle
+      value: 
+      objectReference: {fileID: 501046633}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
   m_IsPrefabParent: 0
