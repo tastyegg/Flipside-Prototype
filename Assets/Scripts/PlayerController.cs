@@ -20,10 +20,13 @@ public class PlayerController : MonoBehaviour {
     public Transform groundCheckLeft;
     public Transform groundCheckRight;
     public LayerMask whatIsGround;
-    float jumpTimer = 0.0f;
+    float jumpTimer = 2.0f;
+    float jumpHoldTimer = 0.0f;
+    bool jumpHoldCanceled = true;
 	Vector3 recordedPosition;
 	Vector2 recordedVelocity;
-    
+    bool running;
+           
     public AudioClip smokeAudio;
     public AudioClip spawnAudio;
     public AudioClip jumpAudio;
@@ -34,6 +37,15 @@ public class PlayerController : MonoBehaviour {
     //for axis check
     public bool axisX;
     public bool axisY;
+   
+
+    public float acceleration_speed;
+    public float velocity_cap;
+    public float stopping_power;
+    public float immediate_stop_cutoff;
+    public float air_stopping_power;
+    public float jump_hold_max;
+    public float run_factor;
 
     // Use this for initialization
     void Start ()
@@ -59,27 +71,110 @@ public class PlayerController : MonoBehaviour {
 	void Update ()
 	{
         //axis check
-        if (Input.GetAxis("FlipAxisX") > 0.2f)
+        //if (Input.GetAxis("FlipAxisX") > 0.2f)
+        //{
+        //    axisX = true;
+        //}
+        //else if (Input.GetAxis("FlipAxisY") > 0.2f)
+        //{
+        //    axisY = true;
+        //}
+
+        //if (Input.GetAxis("FlipAxisX") < 0.2f && Input.GetAxis("FlipAxisX") > -0.2f)
+        //{
+        //    axisX = false;
+        //}
+
+        //if (Input.GetAxis("FlipAxisY") < 0.2f && Input.GetAxis("FlipAxisY") > -0.2f)
+        //{
+        //    axisY = false;
+        //}
+
+        animator.SetBool("walking", false);
+        //playerRB.velocity = new Vector2(0, playerRB.velocity.y);
+        if (!playerRB.isKinematic)
         {
-            axisX = true;
-        }
-        else if (Input.GetAxis("FlipAxisY") > 0.2f)
-        {
-            axisY = true;
-        }
-        
-        if (Input.GetAxis("FlipAxisX") < 0.2f && Input.GetAxis("FlipAxisX") > -0.2f)
-        {
-            axisX = false;
+            //player move left
+            if (Input.GetAxis("Horizontal") < 0 && (playerRB.velocity.x <= 0.0f || !grounded))
+            {
+                if (facingRight && playerRB.velocity.x <= 0.0f) ChangeDirection();
+                animator.SetBool("walking", true);
+                playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
+            }
+            //player move right
+            else if (Input.GetAxis("Horizontal") > 0 && (playerRB.velocity.x >= 0.0f || !grounded))
+            {
+                if (!facingRight && playerRB.velocity.x >= 0.0f) ChangeDirection();
+                animator.SetBool("walking", true);
+                playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
+            }
+            else
+            {
+                //ground friction
+                if (grounded)
+                {
+                    //player stops immediately once velocity is low enough
+                    if (playerRB.velocity.x > immediate_stop_cutoff || playerRB.velocity.x < -immediate_stop_cutoff)
+                    {
+                        playerRB.velocity = new Vector2(playerRB.velocity.x / stopping_power, playerRB.velocity.y);
+                    }
+                    else
+                    {
+                        playerRB.velocity = new Vector2(0.0f, playerRB.velocity.y);
+                    }
+                }
+                //air friction
+                else
+                {
+                    playerRB.velocity = new Vector2(playerRB.velocity.x / air_stopping_power, playerRB.velocity.y);
+                }
+            }
         }
 
-        if (Input.GetAxis("FlipAxisY") < 0.2f && Input.GetAxis("FlipAxisY") > -0.2f)
+        //jump
+        if (Input.GetButton("Jump"))
         {
-            axisY = false;
+            jumpHoldTimer += Time.fixedDeltaTime;
+            //hold down jump to jump higher
+            if (jumpHoldTimer < jump_hold_max && !jumpHoldCanceled)
+            {
+                playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
+            }
+            //initial press
+            if (Input.GetButtonDown("Jump") && grounded && jumpTimer > 0.2f)
+            {
+                jumpTimer = 0.0f;
+                jumpHoldCanceled = false;
+                audioPlayer.PlayOneShot(jumpAudio);
+                animator.SetBool("jumping", true);
+                playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
+            }
+
+            if (Input.GetButtonUp("Jump"))
+            {
+                jumpHoldCanceled = true;
+            }
+        }
+        else
+        {
+            if (playerRB.velocity.y > 0.0f && jumpTimer > 0.15f)
+            {
+                playerRB.velocity = new Vector2(playerRB.velocity.x, 0.0f);
+            }
+            jumpHoldTimer = 0.0f;
+            jumpHoldCanceled = true;
+        }
+        //run
+        if (Input.GetAxis("Run") > 0.0f)
+        {
+            running = true;
+        }
+        else
+        {
+            running = false;
         }
 
-        //normal update
-		if (FlipMechanic.aniTime <= 1.0f)
+        if (FlipMechanic.aniTime <= 1.0f)
 			FlipMechanic.aniTime += 6.0f * Time.deltaTime / Time.timeScale;
 		if (Input.GetButtonDown("Focus"))
 		{
@@ -162,48 +257,28 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (jumpTimer <= 2.0f) jumpTimer += 0.1f;
+        //cap velocity
+        float cur_velocity_cap = velocity_cap;
+        if (running) cur_velocity_cap *= run_factor;
+
+        if (playerRB.velocity.x >= cur_velocity_cap)
+        {
+            playerRB.velocity = new Vector2(cur_velocity_cap, playerRB.velocity.y);
+        }
+        else if (playerRB.velocity.x <= -cur_velocity_cap)
+        {
+            playerRB.velocity = new Vector2(-cur_velocity_cap, playerRB.velocity.y);
+        }
+
+        if (jumpTimer <= 2.0f) jumpTimer += Time.fixedDeltaTime;
         
         grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
         if (!animator.GetBool("jumping") != grounded)
             animator.SetBool("jumping", !grounded);
 
-        if (!Input.GetButton("Focus"))
-        {
-            animator.SetBool("walking", false);
-            playerRB.velocity = new Vector2(0, playerRB.velocity.y);
-            if (!playerRB.isKinematic)
-            {
-                if (Input.GetAxis("Horizontal") < 0)
-                {
-                    if (facingRight) ChangeDirection();
-                    animator.SetBool("walking", true);
-                    playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
-                }
-                else if (Input.GetAxis("Horizontal") > 0)
-                {
-                    if (!facingRight) ChangeDirection();
-                    animator.SetBool("walking", true);
-                    playerRB.velocity = new Vector2(walkVelocity * Input.GetAxis("Horizontal"), playerRB.velocity.y);
-                }
-                //you can jump in focus mode
-                /*if (Input.GetButton("Jump") && grounded && jumpTimer > 2.0f)
-                {
-                    jumpTimer = 0.0f;
-                    audioPlayer.PlayOneShot(jumpAudio);
-                    animator.SetBool("jumping", true);
-                    playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
-                }*/
-            }
-        }
-        //putting here for now
-        if (Input.GetButton("Jump") && grounded && jumpTimer > 2.0f)
-        {
-            jumpTimer = 0.0f;
-            audioPlayer.PlayOneShot(jumpAudio);
-            animator.SetBool("jumping", true);
-            playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
-        }
+        //Sync walk animation with velocity
+        animator.SetFloat("movementSpeed", Mathf.Clamp(Mathf.Abs(playerRB.velocity.x)/2.0f, 0.0f, 1.5f));
+        
     }
 	
 	void OnCollisionEnter2D(Collision2D collision)

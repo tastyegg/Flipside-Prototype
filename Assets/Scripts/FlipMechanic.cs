@@ -77,9 +77,11 @@ public class FlipMechanic : MonoBehaviour {
 	void FlipsidePreview()
 	{
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
-		//previewSprite.color = previewColor;
+        //previewSprite.color = previewColor;
 
-        if (Input.GetButtonDown("FlipX") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisX && !axisX)
+        //broken line of code
+        //if (Input.GetButtonDown("FlipX") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisX && !axisX)
+        if (Input.GetButtonDown("FlipX"))
         {
             previewStart = previewGoal;
             if (previewFlipside % 2 == 1)
@@ -97,7 +99,9 @@ public class FlipMechanic : MonoBehaviour {
             previewGoalRotation = new Vector3(previewGoalRotation.x, 180, previewGoalRotation.z);
             axisX = true;
         }
-        if (Input.GetButtonDown("FlipY") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisY && !axisY)
+        //broken line of code
+        //if (Input.GetButtonDown("FlipY") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisY && !axisY)
+        if (Input.GetButtonDown("FlipY"))
         {
             previewStart = previewGoal;
             if (previewFlipside > 1)

@@ -285,7 +285,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkVelocity: 5.5
-  jumpForce: 8.25
+  jumpForce: 8.5
+  FOCUS_TIMER: 10
+  rateOfDecay: 1
   groundCheckLeft: {fileID: 479108}
   groundCheckRight: {fileID: 490780}
   whatIsGround:
@@ -294,6 +296,15 @@ MonoBehaviour:
   smokeAudio: {fileID: 8300000, guid: f1ed0dd043dc3fe46aa65e5ddfd6bb3c, type: 3}
   spawnAudio: {fileID: 8300000, guid: 930d580f989622d4d81e7fced41f3b70, type: 3}
   jumpAudio: {fileID: 8300000, guid: 8979b687f1ee388428b3d72e8f4fb5d2, type: 3}
+  axisX: 0
+  axisY: 0
+  acceleration_speed: 45
+  velocity_cap: 12
+  stopping_power: 1.4
+  immediate_stop_cutoff: 5
+  air_stopping_power: 1
+  jump_hold_max: 0.2
+  run_factor: 1
 --- !u!198 &19813646
 ParticleSystem:
   m_ObjectHideFlags: 1
