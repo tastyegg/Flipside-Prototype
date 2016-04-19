@@ -183,8 +183,10 @@ public class FlipMechanic : MonoBehaviour {
                 done = true;
 			}
         }
-        else if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().focusAllow)
-		{
+//        else if ((GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().focusAllow) &&
+//            (!GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().held))
+        else if ((GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().focusAllow))
+        {
 			GetComponent<BoxCollider2D>().enabled = true;
 
 			if (PlayerController.inFocus)
@@ -250,8 +252,12 @@ public class FlipMechanic : MonoBehaviour {
             previewStartRotation = Vector3.zero;
             previewGoal = transform.position;
             previewGoalRotation = Vector3.zero;
+            previewSprite.color = Color.clear;
             done = true;
             destination = transform.position;
+            Time.timeScale = 1.0f;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            //GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().held = true;
             //GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().focusAllow = true;
         }
 	}

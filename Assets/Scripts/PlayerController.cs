@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject focusBox;
     Focus fScript;
     public bool focusAllow; //refactor code later maybe
+    public bool held = false;
 
     // Use this for initialization
     void Start ()
@@ -210,6 +211,15 @@ public class PlayerController : MonoBehaviour {
             //startFocus();
             fScript.startFocus();
 		}
+        /*
+        if (fScript.getFocus() <= 0)
+        {
+            exitingFocus = true;
+        }*/
+        /*if (Input.GetButtonUp("Focus"))
+        {
+            held = false;
+        }*/
 		if (exitingFocus || (!inFocus && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY"))))
 		{
 			inSequence = true;
