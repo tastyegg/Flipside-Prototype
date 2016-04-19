@@ -286,8 +286,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkVelocity: 5.5
   jumpForce: 8.5
-  FOCUS_TIMER: 10
-  rateOfDecay: 1
   groundCheckLeft: {fileID: 479108}
   groundCheckRight: {fileID: 490780}
   whatIsGround:
@@ -305,6 +303,8 @@ MonoBehaviour:
   air_stopping_power: 1
   jump_hold_max: 0.2
   run_factor: 1.8
+  focusBox: {fileID: 139436, guid: 69c53e39a5b87bf4187145dc9d5211bb, type: 2}
+  focusAllow: 0
 --- !u!198 &19813646
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -3401,6 +3401,10 @@ Prefab:
       propertyPath: velocity_cap
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: focusBox
+      value: 
+      objectReference: {fileID: 139436, guid: 69c53e39a5b87bf4187145dc9d5211bb, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 157980}
