@@ -48,8 +48,8 @@ public class FlipMechanic : MonoBehaviour {
 		flipside = 0;
         //added for red preview
         previewGoalTemp = preview;
-        previewGoalTemp.AddComponent<BoxCollider2D>();
-        previewGoalTemp.GetComponent<BoxCollider2D>().isTrigger = true;
+        previewGoalTemp.AddComponent<PolygonCollider2D>();
+        previewGoalTemp.GetComponent<PolygonCollider2D>().isTrigger = true;
 	}
 
 	void Flipside()
@@ -217,6 +217,9 @@ public class FlipMechanic : MonoBehaviour {
                     {
                         done = true;
                     }
+				} else if (PlayerController.focusTimer <= 0)
+				{
+					preview.transform.position = transform.position;
 				}
                 if (Input.GetButtonDown("FlipX"))
                 {

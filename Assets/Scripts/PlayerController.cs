@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
 	public static float focusTimer { get; private set; }
-	float focusReservior;
+	public static float focusReservior { get; private set; }
 	bool dropFocus;
 
 	public float walkVelocity = 5.5f;
