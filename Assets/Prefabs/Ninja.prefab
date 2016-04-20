@@ -295,7 +295,7 @@ MonoBehaviour:
     m_Bits: 1
   smokeAudio: {fileID: 8300000, guid: f1ed0dd043dc3fe46aa65e5ddfd6bb3c, type: 3}
   spawnAudio: {fileID: 8300000, guid: 930d580f989622d4d81e7fced41f3b70, type: 3}
-  jumpAudio: {fileID: 8300000, guid: 8979b687f1ee388428b3d72e8f4fb5d2, type: 3}
+  jumpAudio: {fileID: 8300000, guid: 049fb33401c327d429318f31e93a0933, type: 3}
   axisX: 0
   axisY: 0
   acceleration_speed: 45
