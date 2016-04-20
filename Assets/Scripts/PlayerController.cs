@@ -256,7 +256,7 @@ public class PlayerController : MonoBehaviour
                 if ((new Rect(new Vector3(g.transform.position.x, -g.transform.position.y, g.transform.position.z) - g.transform.localScale * 0.5f, g.transform.localScale)).Contains(transform.position))
                 {
                     ydanger = true;
-                    g.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.0f, 0.0f, 0.9f);
+                    //g.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.0f, 0.0f, 0.9f);
                 }
             }
         }
@@ -269,7 +269,7 @@ public class PlayerController : MonoBehaviour
                 if ((new Rect(new Vector3(-g.transform.position.x, g.transform.position.y, g.transform.position.z) - g.transform.localScale * 0.5f, g.transform.localScale)).Contains(transform.position))
                 {
                     xdanger = true;
-                    g.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.0f, 0.0f, 0.9f);
+                    //g.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.0f, 0.0f, 0.9f);
                 }
             }
         }
