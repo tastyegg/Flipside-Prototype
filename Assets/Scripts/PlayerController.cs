@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour
 			focusTimer = focusReservior;
 		} else if (exitingFocus)
 		{
-			focusTimer = 0;
+			//focusTimer = 0;
 		}
 		if (inFocus && focusTimer > 0)
 		{
