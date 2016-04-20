@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
 	bool grounded;
     bool facingRight;
 	public static bool dangerCheck;
+    public static bool xdanger;
+    public static bool ydanger;
     public Transform groundCheckLeft;
     public Transform groundCheckRight;
     public LayerMask whatIsGround;
@@ -235,12 +237,43 @@ public class PlayerController : MonoBehaviour
 			FlipMechanic f = g.GetComponent<FlipMechanic>();
 			if (f && f.preview)
 			{
+                g.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
 				if ((new Rect(f.previewGoal - g.transform.localScale * 0.5f, g.transform.localScale)).Contains(transform.position))
 				{
                     dangerCheck = true;
 				}
 			}
 		}
+
+
+        xdanger = false;
+        ydanger = false;
+        foreach (GameObject g in FindObjectsOfType<GameObject>())
+        {
+            FlipMechanic f = g.GetComponent<FlipMechanic>();
+            if (f)
+            {
+                if ((new Rect(new Vector3(g.transform.position.x, -g.transform.position.y, g.transform.position.z) - g.transform.localScale * 0.5f, g.transform.localScale)).Contains(transform.position))
+                {
+                    ydanger = true;
+                    g.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.0f, 0.0f, 0.9f);
+                }
+            }
+        }
+
+        foreach (GameObject g in FindObjectsOfType<GameObject>())
+        {
+            FlipMechanic f = g.GetComponent<FlipMechanic>();
+            if (f)
+            {
+                if ((new Rect(new Vector3(-g.transform.position.x, g.transform.position.y, g.transform.position.z) - g.transform.localScale * 0.5f, g.transform.localScale)).Contains(transform.position))
+                {
+                    xdanger = true;
+                    g.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.0f, 0.0f, 0.9f);
+                }
+            }
+        }
+
 
 		foreach (GameObject g in FindObjectsOfType<GameObject>())
 		{

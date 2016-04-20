@@ -221,7 +221,11 @@ public class FlipMechanic : MonoBehaviour {
 				{
 					preview.transform.position = transform.position;
 				}
-                if (Input.GetButtonDown("FlipX"))
+                if (Input.GetButtonDown("FlipX") && PlayerController.xdanger)
+                {
+                    done = true;
+                }
+                else if (Input.GetButtonDown("FlipX") && !PlayerController.xdanger)
                 {
                     flipside = 1;
                     flipsideD = flipside;
@@ -230,7 +234,11 @@ public class FlipMechanic : MonoBehaviour {
                     aniTime = 0.0f;
                     done = false;
                 }
-                if (Input.GetButtonDown("FlipY"))
+                if (Input.GetButtonDown("FlipY") && PlayerController.ydanger)
+                {
+                    done = true;
+                }
+                else if (Input.GetButtonDown("FlipY") && !PlayerController.ydanger)
                 {
                     flipside = 2;
                     flipsideD = flipside;
@@ -239,6 +247,8 @@ public class FlipMechanic : MonoBehaviour {
                     aniTime = 0.0f;
                     done = false;
                 }
+                
+                
             }
         }
 	}
