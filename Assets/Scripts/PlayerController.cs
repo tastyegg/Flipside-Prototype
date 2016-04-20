@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
 		{
 			focusReservior += rateOfGrowth * Time.deltaTime / Time.timeScale;
 		}
-		else if (Input.GetButton("Focus") && focusReservior > 0)
+		else if (Input.GetAxis("Focus") > 0 && focusReservior > 0)
 		{
 			focusReservior -= rateOfDecay * Time.deltaTime / Time.timeScale;
 		}
