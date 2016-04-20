@@ -193,7 +193,7 @@ public class PlayerController : MonoBehaviour
 		}
 		if (inFocus && focusTimer > 0)
 		{
-			Time.timeScale = 1.0f / (focusTimer + 1);
+			Time.timeScale = Mathf.Max(1.0f / (focusTimer * 2 + 1), 0.25f);
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		} else if (exitingFocus && focusTimer > 0 || (!inFocus && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY")) && !inSequence))
 		{
