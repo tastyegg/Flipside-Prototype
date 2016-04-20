@@ -60,7 +60,7 @@ public class lasers : MonoBehaviour {
 			RaycastHit2D rch2d = rchs2d[i];
 			if (rch2d.collider != null)
 			{
-				if (rch2d.collider.tag == "Player")
+				if (rch2d.collider.tag == "Player" && i == 0)
 				{
 					pc.Reset();
 				}

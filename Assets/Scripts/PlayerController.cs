@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 	public static float focusReservior { get; private set; }
 	bool dropFocus;
 
+	public float defaultTimeSpeed = 0.2f;
 	public float walkVelocity = 5.5f;
     public float jumpForce = 7.5f;
     public static float FOCUS_TIMER = 6.0f;
@@ -193,7 +194,7 @@ public class PlayerController : MonoBehaviour
 		}
 		if (inFocus && focusTimer > 0)
 		{
-			Time.timeScale = Mathf.Max(1.0f / (focusTimer * 2 + 1), 0.25f);
+			Time.timeScale = Mathf.Max(1.0f / (focusTimer * 2 + 1), defaultTimeSpeed);
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		} else if (exitingFocus && focusTimer > 0 || (!inFocus && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY")) && !inSequence))
 		{
