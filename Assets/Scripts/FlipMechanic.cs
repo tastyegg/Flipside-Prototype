@@ -97,8 +97,8 @@ public class FlipMechanic : MonoBehaviour
                 previewGoal = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
             }
             aniTime = 0;
-            previewStartRotation = new Vector3(previewGoalRotation.x, 0, previewGoalRotation.z);
-            previewGoalRotation = new Vector3(previewGoalRotation.x, 180, previewGoalRotation.z);
+            previewStartRotation = new Vector3(previewGoalRotation.x, previewGoalRotation.y, previewGoalRotation.z);
+            previewGoalRotation = new Vector3(previewGoalRotation.x, (previewGoalRotation.y + 180) % 360, previewGoalRotation.z);
             axisX = true;
         }
         //broken line of code
@@ -117,8 +117,8 @@ public class FlipMechanic : MonoBehaviour
                 previewGoal = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
             }
             aniTime = 0;
-            previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
-            previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
+            previewStartRotation = new Vector3(previewGoalRotation.x, previewGoalRotation.y, previewGoalRotation.z);
+            previewGoalRotation = new Vector3((previewGoalRotation.x + 180) % 360, previewGoalRotation.y, previewGoalRotation.z);
             axisY = true;
         }
         if (Input.GetButtonDown("Cancel"))
@@ -186,9 +186,9 @@ public class FlipMechanic : MonoBehaviour
                 {
                     previewFlipside = 0;
                     previewStart = transform.position;
-                    previewStartRotation = Vector3.zero;
+                    //previewStartRotation = Vector3.zero;
                     previewGoal = transform.position;
-                    previewGoalRotation = Vector3.zero;
+                    //previewGoalRotation = Vector3.zero;
                     done = false;
                 }
                 FlipsidePreview();
