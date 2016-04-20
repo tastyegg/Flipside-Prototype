@@ -7,7 +7,7 @@ using UnityEngine;
 using System.Collections;
 
 public class FlipMechanic : MonoBehaviour {
-    public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.8f);
+    public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
 	public static float aniTime = 0.0f;
 	public static int flipsideD;
     public static bool done;
@@ -80,7 +80,7 @@ public class FlipMechanic : MonoBehaviour {
 
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
 		Color previewSpriteColor = previewSprite.color;
-		previewSpriteColor.a = PlayerController.focusTimer / PlayerController.FOCUS_TIMER;
+		previewSpriteColor.a = Mathf.Min(4 * PlayerController.focusTimer / PlayerController.FOCUS_TIMER, previewSprite.color.a);
 		previewSprite.color = previewSpriteColor;
 
 		if (Input.GetButtonDown("FlipX"))

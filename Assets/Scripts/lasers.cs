@@ -6,7 +6,7 @@ public class lasers : MonoBehaviour {
     public GameObject player;
     PlayerController pc;
     LineRenderer lr;
-    RaycastHit2D rch2d;
+    RaycastHit2D[] rchs2d;
     Vector2 dvec;
 	// Use this for initialization
 	void Start () {
@@ -36,49 +36,51 @@ public class lasers : MonoBehaviour {
         float y = gameObject.transform.position.y;
         if (direction == 0)
         {
-            rch2d = Physics2D.Raycast(transform.position, Vector2.up);
+			rchs2d = Physics2D.RaycastAll(transform.position, Vector2.up);
             y += 50;
         }
         else if (direction == 1)
         {
-            rch2d = Physics2D.Raycast(transform.position, Vector2.right);
+			rchs2d = Physics2D.RaycastAll(transform.position, Vector2.right);
             x += 50;
         }
         else if (direction == 2)
         {
-            rch2d = Physics2D.Raycast(transform.position, Vector2.down);
+			rchs2d = Physics2D.RaycastAll(transform.position, Vector2.down);
             y -= 50;
         }
         else
         {
-            rch2d = Physics2D.Raycast(transform.position, Vector2.left);
+            rchs2d = Physics2D.RaycastAll(transform.position, Vector2.left);
             x -= 50;
         }
         lr.SetPosition(1, new Vector3(x, y, 2));
 
-        
-        if (rch2d.collider != null)
-        {
-            if (rch2d.collider.tag == "Player")
-            {
-                pc.Reset();
-            }
-            else
-            {
-                if (direction == 0 || direction == 2)
-                {
-                    y = rch2d.collider.transform.position.y;
-                    Vector3 npos = new Vector3(transform.position.x, y, 1);
-                    lr.SetPosition(1, npos);
-                }
-                else
-                {
-                    x = rch2d.collider.transform.position.x;
-                    Vector3 npos = new Vector3(x, transform.position.y, 1);
-                    lr.SetPosition(1, npos);
-                }
-            }
-        }
+        for (int i = rchs2d.Length - 1; i >= 0; i--) {
+			RaycastHit2D rch2d = rchs2d[i];
+			if (rch2d.collider != null)
+			{
+				if (rch2d.collider.tag == "Player")
+				{
+					pc.Reset();
+				}
+				else if (rch2d.collider.tag != "WallPreview")
+				{
+					if (direction == 0 || direction == 2)
+					{
+						y = rch2d.point.y;
+						Vector3 npos = new Vector3(transform.position.x, y, 1);
+						lr.SetPosition(1, npos);
+					}
+					else
+					{
+						x = rch2d.point.x;
+						Vector3 npos = new Vector3(x, transform.position.y, 1);
+						lr.SetPosition(1, npos);
+					}
+				}
+			}
+		}
 
 
 	}
