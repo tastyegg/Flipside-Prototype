@@ -3,11 +3,17 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviour {
-    public float walkVelocity = 5.5f;
+public class PlayerController : MonoBehaviour
+{
+	public static float focusTimer { get; private set; }
+	float focusReservior;
+	bool dropFocus;
+
+	public float walkVelocity = 5.5f;
     public float jumpForce = 7.5f;
-    public float FOCUS_TIMER = 10.0f;
+    public static float FOCUS_TIMER = 6.0f;
     public float rateOfDecay = 1.0f;
+	public float rateOfGrowth = 3.7f;
 
 	Rigidbody2D playerRB;
     private Animator animator;
@@ -33,15 +39,7 @@ public class PlayerController : MonoBehaviour {
     public AudioClip smokeAudio;
     public AudioClip spawnAudio;
     public AudioClip jumpAudio;
-
-    float focusTimer;
-    bool dropFocus;
-
-    //for axis check
-    public bool axisX;
-    public bool axisY;
-   
-
+	
     public float acceleration_speed;
     public float velocity_cap;
     public float stopping_power;
@@ -59,10 +57,9 @@ public class PlayerController : MonoBehaviour {
         recordedPosition = transform.position;
         facingRight = true;
         StartCoroutine("Spawn");
-        focusTimer = FOCUS_TIMER;
+        focusTimer = 0;
+		focusReservior = FOCUS_TIMER;
         dropFocus = false;
-        axisX = false;
-        axisY = false;
     }
 	
 	public void Reset()
@@ -73,26 +70,6 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-        //axis check
-        //if (Input.GetAxis("FlipAxisX") > 0.2f)
-        //{
-        //    axisX = true;
-        //}
-        //else if (Input.GetAxis("FlipAxisY") > 0.2f)
-        //{
-        //    axisY = true;
-        //}
-
-        //if (Input.GetAxis("FlipAxisX") < 0.2f && Input.GetAxis("FlipAxisX") > -0.2f)
-        //{
-        //    axisX = false;
-        //}
-
-        //if (Input.GetAxis("FlipAxisY") < 0.2f && Input.GetAxis("FlipAxisY") > -0.2f)
-        //{
-        //    axisY = false;
-        //}
-
         animator.SetBool("walking", false);
         //playerRB.velocity = new Vector2(0, playerRB.velocity.y);
         if (!playerRB.isKinematic)
@@ -197,12 +174,28 @@ public class PlayerController : MonoBehaviour {
 
         if (FlipMechanic.aniTime <= 1.0f)
 			FlipMechanic.aniTime += 6.0f * Time.deltaTime / Time.timeScale;
+		if (focusTimer > 0)
+			focusTimer -= rateOfDecay * Time.deltaTime / Time.timeScale;
+		if ((!inFocus || focusTimer <= 0) && focusReservior < FOCUS_TIMER)
+		{
+			focusReservior += rateOfGrowth * Time.deltaTime / Time.timeScale;
+		}
+		else if (Input.GetButton("Focus") && focusReservior > 0)
+		{
+			focusReservior -= rateOfDecay * Time.deltaTime / Time.timeScale;
+		}
 		if (enteringFocus)
 		{
-			Time.timeScale = 0.2f;
-			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+			focusTimer = focusReservior;
+		} else if (exitingFocus)
+		{
+			focusTimer = 0;
 		}
-		if (exitingFocus || (!inFocus && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY"))))
+		if (inFocus && focusTimer > 0)
+		{
+			Time.timeScale = 1.0f / (focusTimer + 1);
+			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+		} else if (exitingFocus && focusTimer > 0 || (!inFocus && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY")) && !inSequence))
 		{
 			inSequence = true;
 			recordedPosition = transform.position;
@@ -210,6 +203,10 @@ public class PlayerController : MonoBehaviour {
 			playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
 			playerRB.isKinematic = true;
 			
+			Time.timeScale = 1.0f;
+			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+		} else
+		{
 			Time.timeScale = 1.0f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}
@@ -255,26 +252,7 @@ public class PlayerController : MonoBehaviour {
 					f.preview.GetComponent<SpriteRenderer>().color = FlipMechanic.previewColor;
 			}
 		}
-        //for focus
-        if (dropFocus)
-        {
-            focusTimer -= rateOfDecay;
-        }
     }
-
-    //for the focus mode
-    void startFocus()
-    {
-        dropFocus = true;
-    }
-
-    void resetFocus()
-    {
-        dropFocus = false;
-        focusTimer = 10.0f;
-    }
-
-    public float getFocus() { return focusTimer; }
 
     void FixedUpdate()
     {
@@ -369,9 +347,7 @@ public class PlayerController : MonoBehaviour {
     void ChangeDirection()
     {
         facingRight = !facingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
+		GetComponent<SpriteRenderer>().flipX = !facingRight;
     }
 
     IEnumerator Spawn()
