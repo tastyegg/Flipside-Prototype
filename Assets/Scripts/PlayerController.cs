@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour {
 	bool grounded;
     bool facingRight;
 	public static bool dangerCheck;
+    public static bool xdanger;
+    public static bool ydanger;
     public Transform groundCheckLeft;
     public Transform groundCheckRight;
     public LayerMask whatIsGround;
@@ -232,6 +234,8 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		dangerCheck = false;
+        xdanger = false;
+        ydanger = false;
 		foreach (GameObject g in FindObjectsOfType<GameObject>())
 		{
 			FlipMechanic f = g.GetComponent<FlipMechanic>();
@@ -243,6 +247,33 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		}
+
+        foreach (GameObject g in FindObjectsOfType<GameObject>())
+        {
+            FlipMechanic f = g.GetComponent<FlipMechanic>();
+            if (f)
+            {
+                if ((new Rect(new Vector3(-g.transform.position.x, g.transform.position.y, g.transform.position.z) - g.transform.localScale * 0.5f, g.transform.localScale)).Contains(transform.position))
+                {
+                    xdanger = true;
+                }
+            }
+        }
+
+        foreach (GameObject g in FindObjectsOfType<GameObject>())
+        {
+            FlipMechanic f = g.GetComponent<FlipMechanic>();
+            if (f)
+            {
+                if ((new Rect(new Vector3(g.transform.position.x, -g.transform.position.y, g.transform.position.z) - g.transform.localScale * 0.5f, g.transform.localScale)).Contains(transform.position))
+                {
+                    ydanger = true;
+                }
+            }
+        }
+
+        Debug.Log("X: " + xdanger);
+        Debug.Log("Y: " + ydanger);
 
 		foreach (GameObject g in FindObjectsOfType<GameObject>())
 		{

@@ -1,28 +1,26 @@
-﻿/*
-	Flips the game object around the center x and y position.
-
-*/
-
+﻿
 using UnityEngine;
 using System.Collections;
 
-public class FlipMechanic : MonoBehaviour {
+public class FlipMechanic : MonoBehaviour
+{
     public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
-	public static float aniTime = 0.0f;
-	public static int flipsideD;
+    public static float aniTime = 0.0f;
+    public static int flipsideD;
     public static bool done;
 
-	public GameObject preview { get; private set; }
+    public GameObject preview { get; private set; }
 
-	Vector3 previewStart;
-	Vector3 previewStartRotation;
-	public Vector3 previewGoal { get; private set; }
-	Vector3 previewGoalRotation;
+    Vector3 previewStart;
+    Vector3 previewStartRotation;
+    public Vector3 previewGoal { get; private set; }
+    Vector3 previewGoalRotation;
     int previewFlipside;
 
-	bool inSequence;    //Time for frozen animation
-	int flipside;   //1 for horizontial, 2 for vertical
-	Vector3 destination;
+    bool inSequence;    //Time for frozen animation
+    int flipside;   //1 for horizontial, 2 for vertical
+    Vector3 destination;
+    Vector3 destrotation;
 
     public bool getSeq() { return inSequence; }
 
@@ -33,50 +31,54 @@ public class FlipMechanic : MonoBehaviour {
     bool axisX;
     bool axisY;
 
-	void Start ()
-	{
-		inSequence = false;
-		preview = new GameObject(transform.name + " (Preview)");
-		preview.transform.parent = transform.parent;
-		preview.transform.position = transform.position;
-		preview.transform.localScale = transform.localScale;
+    void Start()
+    {
+        inSequence = false;
+        preview = new GameObject(transform.name + " (Preview)");
+        preview.transform.parent = transform.parent;
+        preview.transform.position = transform.position;
+        preview.transform.localScale = transform.localScale;
         preview.layer = LayerMask.NameToLayer("WallPreview");
-		SpriteRenderer previewSprite = preview.AddComponent<SpriteRenderer>();
-		previewSprite.sprite = GetComponent<SpriteRenderer>().sprite;
-		previewSprite.color = Color.clear;
-		flipside = 0;
+        SpriteRenderer previewSprite = preview.AddComponent<SpriteRenderer>();
+        previewSprite.sprite = GetComponent<SpriteRenderer>().sprite;
+        previewSprite.color = Color.clear;
+        flipside = 0;
         //added for red preview
         previewGoalTemp = preview;
-        previewGoalTemp.AddComponent<BoxCollider2D>();
-        previewGoalTemp.GetComponent<BoxCollider2D>().isTrigger = true;
+        previewGoalTemp.AddComponent<PolygonCollider2D>();
+        previewGoalTemp.GetComponent<PolygonCollider2D>().isTrigger = true;
         axisX = false;
         axisY = false;
-	}
+    }
 
-	void Flipside()
-	{
-		if (flipside == 1)
-		{
-			transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), transform.position.y, transform.position.z);
-			transform.eulerAngles = new Vector3(0.0f, Mathf.Lerp(0, 180, aniTime), 0.0f);
-		}
-		else if (flipside == 2)
-		{
-			transform.position = new Vector3(transform.position.x, Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
-			transform.eulerAngles = new Vector3(Mathf.Lerp(0, 180, aniTime), 0.0f, 0.0f);
-		}
-		else if (flipside == 3)
-		{
-			transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
+    void Flipside()
+    {
+        if (flipside == 1)
+        {
+            transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), transform.position.y, transform.position.z);
+            transform.eulerAngles = new Vector3(0.0f, Mathf.Lerp(0, 180, aniTime), 0.0f);
+        }
+        else if (flipside == 2)
+        {
+            transform.position = new Vector3(transform.position.x, Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
+            transform.eulerAngles = new Vector3(Mathf.Lerp(0, 180, aniTime), 0.0f, 0.0f);
+        }
+        else if (flipside == 3)
+        {
+            transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
             transform.eulerAngles = new Vector3(0.0f, 0.0f, Mathf.Lerp(0, 180, aniTime));
-		}
+        }
+        else if (flipside == 4)
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.0f, 0.0f, 0.9f);
+        }
         axisX = false;
         axisY = false;
-	}
+    }
 
-	void FlipsidePreview()
-	{
-		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
+    void FlipsidePreview()
+    {
+        SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
         //previewSprite.color = previewColor;
 
         //broken line of code
@@ -131,102 +133,136 @@ public class FlipMechanic : MonoBehaviour {
 
 
         previewGoalTemp.transform.position = previewGoal; //added for red
-        
-		preview.transform.position = new Vector3(Mathf.Lerp(previewStart.x, previewGoal.x, aniTime), Mathf.Lerp(previewStart.y, previewGoal.y, aniTime), preview.transform.position.z);
-		preview.transform.eulerAngles = new Vector3(Mathf.Lerp(previewStartRotation.x, previewGoalRotation.x, aniTime), Mathf.Lerp(previewStartRotation.y, previewGoalRotation.y, aniTime), preview.transform.position.z);
+
+        preview.transform.position = new Vector3(Mathf.Lerp(previewStart.x, previewGoal.x, aniTime), Mathf.Lerp(previewStart.y, previewGoal.y, aniTime), preview.transform.position.z);
+        preview.transform.eulerAngles = new Vector3(Mathf.Lerp(previewStartRotation.x, previewGoalRotation.x, aniTime), Mathf.Lerp(previewStartRotation.y, previewGoalRotation.y, aniTime), preview.transform.position.z);
     }
 
-	void reverseFlipside()
-	{
-		if (flipside == 1)
-		{
-			destination = new Vector3(-destination.x, destination.y, destination.z);
-		}
-		else if (flipside == 2)
-		{
-			destination = new Vector3(destination.x, -destination.y, destination.z);
-		}
-		else if (flipside == 3)
-		{
-			destination = new Vector3(-destination.x, -destination.y, destination.z);
-		}
-	}
+    void reverseFlipside()
+    {
+        if (flipside == 1)
+        {
+            destination = new Vector3(-destination.x, destination.y, destination.z);
+        }
+        else if (flipside == 2)
+        {
+            destination = new Vector3(destination.x, -destination.y, destination.z);
+        }
+        else if (flipside == 3)
+        {
+            destination = new Vector3(-destination.x, -destination.y, destination.z);
+        }
+    }
 
 
-	void Update ()
-	{
-		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
+    void Update()
+    {
+        SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
         axisX = false;
         axisY = false;
-		if (inSequence)
-		{
-			previewSprite.color = Color.clear;
-			GetComponent<BoxCollider2D>().enabled = false;
-			Flipside();
-			if (aniTime >= 1.0f)
-			{
-				PlayerController.dangerCheck = false;
-				inSequence = false;
-				transform.eulerAngles = Vector3.zero;
+        if (inSequence)
+        {
+            previewSprite.color = Color.clear;
+            GetComponent<PolygonCollider2D>().enabled = false;
+            Flipside();
+            if (aniTime >= 1.0f)
+            {
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+                PlayerController.dangerCheck = false;
+                inSequence = false;
+                transform.eulerAngles = Vector3.zero;
                 preview.transform.position = transform.position;
                 done = true;
-			}
+            }
         }
         else //if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().getFocus() > 0.0f)
-		{
-			GetComponent<BoxCollider2D>().enabled = true;
+        {
+            GetComponent<PolygonCollider2D>().enabled = true;
 
-			if (PlayerController.inFocus)
-			{
-				if (PlayerController.enteringFocus)
-				{
-					previewFlipside = 0;
-					previewStart = transform.position;
-					previewStartRotation = Vector3.zero;
-					previewGoal = transform.position;
-					previewGoalRotation = Vector3.zero;
+            if (PlayerController.inFocus)
+            {
+                if (PlayerController.enteringFocus)
+                {
+                    previewFlipside = 0;
+                    previewStart = transform.position;
+                    previewStartRotation = Vector3.zero;
+                    previewGoal = transform.position;
+                    previewGoalRotation = Vector3.zero;
                     done = false;
                 }
-				FlipsidePreview();
+                FlipsidePreview();
             }
-			else {
-				previewSprite.color = Color.clear;
+            else
+            {
+                previewSprite.color = Color.clear;
 
                 if (PlayerController.exitingFocus)
-				{
-					if (previewFlipside != 0 && !PlayerController.dangerCheck)
-					{
-						flipside = previewFlipside;
-						flipsideD = previewFlipside;
-						previewFlipside = 0;
-						destination = previewGoal;
-						inSequence = true;
-						aniTime = 0.0f;
-					}
+                {
+                    if (previewFlipside != 0 && !PlayerController.dangerCheck)
+                    {
+                        flipside = previewFlipside;
+                        flipsideD = previewFlipside;
+                        previewFlipside = 0;
+                        destination = previewGoal;
+                        inSequence = true;
+                        aniTime = 0.0f;
+                    }
+                    else if (previewFlipside != 0 && PlayerController.dangerCheck)
+                    {
+                        flipside = 4;
+                        flipsideD = previewFlipside;
+                        previewFlipside = 0;
+                        destination = previewGoal;
+                        inSequence = true;
+                        aniTime = 0.0f;
+                    }
                     else
                     {
                         done = true;
                     }
-				}
+                }
                 if (Input.GetButtonDown("FlipX"))
                 {
-                    flipside = 1;
-                    flipsideD = flipside;
-                    destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
-                    inSequence = true;
-                    aniTime = 0.0f;
-                    done = false;
+                    if (!PlayerController.xdanger)
+                    {
+                        flipside = 1;
+                        flipsideD = flipside;
+                        destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
+                        inSequence = true;
+                        aniTime = 0.0f;
+                        done = false;
+                    }
+                    else if (PlayerController.xdanger)
+                    {
+                        flipside = 4;
+                        flipsideD = flipside;
+                        destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
+                        inSequence = true;
+                        aniTime = 0.0f;
+                        done = false;
+                    }
                 }
                 if (Input.GetButtonDown("FlipY"))
                 {
-                    flipside = 2;
-                    flipsideD = flipside;
-                    destination = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
-                    inSequence = true;
-                    aniTime = 0.0f;
-                    done = false;
+                    if (!PlayerController.ydanger){
+                        flipside = 2;
+                        flipsideD = flipside;
+                        destination = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
+                        inSequence = true;
+                        aniTime = 0.0f;
+                        done = false;
+                    }
+                    else if (PlayerController.ydanger)
+                    {
+                        flipside = 4;
+                        flipsideD = flipside;
+                        destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
+                        inSequence = true;
+                        aniTime = 0.0f;
+                        done = false;
+                    }
                 }
             }
         }
-	}
+    }
 }

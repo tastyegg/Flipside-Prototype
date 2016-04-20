@@ -11,9 +11,9 @@ GameObject:
   - 212: {fileID: 21269860}
   - 114: {fileID: 11415964}
   - 114: {fileID: 11454216}
-  - 60: {fileID: 6017378}
+  - 68: {fileID: 6813372}
   m_Layer: 0
-  m_Name: TileSquare
+  m_Name: TileTri
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,8 +31,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!60 &6017378
-PolygonCollider2D:
+--- !u!68 &6813372
+EdgeCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -44,11 +44,8 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   m_Points:
-    m_Paths:
-    - - {x: 0.5, y: -0.5}
-      - {x: 0.5, y: 0.5}
-      - {x: -0.5, y: 0.5}
-      - {x: -0.5, y: -0.5}
+  - {x: -10, y: 0}
+  - {x: 10, y: 0}
 --- !u!114 &11415964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101,7 +98,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 608f3e681065cbf4bb7724cfd6391e46, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2d9ab5243f7cf9a49b1277722bb083f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
