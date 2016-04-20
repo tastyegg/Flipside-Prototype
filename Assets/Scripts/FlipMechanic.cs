@@ -163,7 +163,7 @@ public class FlipMechanic : MonoBehaviour
         if (inSequence)
         {
             previewSprite.color = Color.clear;
-            GetComponent<PolygonCollider2D>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
             Flipside();
             if (aniTime >= 1.0f)
             {
@@ -171,13 +171,14 @@ public class FlipMechanic : MonoBehaviour
                 PlayerController.dangerCheck = false;
                 inSequence = false;
                 transform.eulerAngles = Vector3.zero;
-                preview.transform.position = transform.position;
+				transform.localScale = new Vector3(transform.localScale.x * (flipside % 2 == 0 ? 1 : -1), transform.localScale.y * (flipside < 2 ? 1 : -1), transform.localScale.z);
+				preview.transform.position = transform.position;
                 done = true;
             }
         }
         else //if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().getFocus() > 0.0f)
         {
-            GetComponent<PolygonCollider2D>().enabled = true;
+            GetComponent<Collider2D>().enabled = true;
 
             if (PlayerController.inFocus)
             {
