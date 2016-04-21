@@ -109,8 +109,8 @@ public class FlipMechanic : MonoBehaviour {
                 previewGoal = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
             }
             aniTime = 0;
-            previewStartRotation = new Vector3(previewGoalRotation.x, 0, previewGoalRotation.z);
-            previewGoalRotation = new Vector3(previewGoalRotation.x, 180, previewGoalRotation.z);
+            previewStartRotation = new Vector3(previewGoalRotation.x, previewGoalRotation.y, previewGoalRotation.z);
+            previewGoalRotation = new Vector3(previewGoalRotation.x, (previewGoalRotation.y + 180) % 360, previewGoalRotation.z);
             axisX = true;
         }
         //broken line of code
@@ -129,8 +129,8 @@ public class FlipMechanic : MonoBehaviour {
                 previewGoal = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
             }
             aniTime = 0;
-            previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
-            previewGoalRotation = new Vector3(180, previewGoalRotation.y, previewGoalRotation.z);
+            previewStartRotation = new Vector3(previewGoalRotation.x, previewGoalRotation.y, previewGoalRotation.z);
+            previewGoalRotation = new Vector3((previewGoalRotation.x + 180) % 360, previewGoalRotation.y, previewGoalRotation.z);
             axisY = true;
         }
         if (Input.GetButtonDown("Cancel"))
@@ -191,11 +191,7 @@ public class FlipMechanic : MonoBehaviour {
         else if (blinktime < blinkmax){
             previewSprite.color = Color.clear;
             gameObject.GetComponent<SpriteRenderer>().color = errcolor;
-            if (blinktime > 0.2 * blinkmax && blinktime < 0.4 * blinkmax)
-            {
-                gameObject.GetComponent<SpriteRenderer>().color = basecolor;
-            }
-            if (blinktime > 0.6 * blinkmax && blinktime < 0.8 * blinkmax)
+            if (blinktime > 0.5 * blinkmax && blinktime < 1.0 * blinkmax)
             {
                 gameObject.GetComponent<SpriteRenderer>().color = basecolor;
             }
@@ -210,10 +206,10 @@ public class FlipMechanic : MonoBehaviour {
 				{
 					previewFlipside = 0;
 					previewStart = transform.position;
-					previewStartRotation = Vector3.zero;
+					previewStartRotation = transform.eulerAngles;
 					previewGoal = transform.position;
-					previewGoalRotation = Vector3.zero;
-                    done = false;
+					previewGoalRotation = transform.eulerAngles;
+					done = false;
                 }
 				FlipsidePreview();
             }
