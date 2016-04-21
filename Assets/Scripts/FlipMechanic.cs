@@ -37,6 +37,7 @@ public class FlipMechanic : MonoBehaviour {
 
     //Redblinking
     public static float blinktime;
+    float blinkmax = 5.0f;
 
 	void Start ()
 	{
@@ -56,7 +57,7 @@ public class FlipMechanic : MonoBehaviour {
         previewGoalTemp.GetComponent<BoxCollider2D>().isTrigger = true;
         axisX = false;
         axisY = false;
-        blinktime = 2.1f;
+        blinktime = blinkmax + 0.1f;
         errcolor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
         basecolor = new Color(1f, 1f, 1f, 1f);
 	}
@@ -181,7 +182,7 @@ public class FlipMechanic : MonoBehaviour {
                 done = true;
 			}
         }
-        else if (blinktime < 5.0f){
+        else if (blinktime < blinkmax){
             previewSprite.color = Color.clear;
             gameObject.GetComponent<SpriteRenderer>().color = errcolor;
             if (blinktime > 1 && blinktime < 2)
