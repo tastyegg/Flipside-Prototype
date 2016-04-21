@@ -8,6 +8,8 @@ using System.Collections;
 
 public class FlipMechanic : MonoBehaviour {
     public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
+    Color errcolor;
+    Color basecolor;
 	public static float aniTime = 0.0f;
 	public static int flipsideD;
     public static bool done;
@@ -33,6 +35,9 @@ public class FlipMechanic : MonoBehaviour {
     bool axisX;
     bool axisY;
 
+    //Redblinking
+    public static float blinktime;
+
 	void Start ()
 	{
 		inSequence = false;
@@ -51,6 +56,9 @@ public class FlipMechanic : MonoBehaviour {
         previewGoalTemp.GetComponent<BoxCollider2D>().isTrigger = true;
         axisX = false;
         axisY = false;
+        blinktime = 2.1f;
+        errcolor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
+        basecolor = new Color(1f, 1f, 1f, 1f);
 	}
 
 	void Flipside()
@@ -158,6 +166,7 @@ public class FlipMechanic : MonoBehaviour {
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
         axisX = false;
         axisY = false;
+        gameObject.GetComponent<SpriteRenderer>().color = basecolor;
 		if (inSequence)
 		{
 			previewSprite.color = Color.clear;
@@ -171,6 +180,18 @@ public class FlipMechanic : MonoBehaviour {
                 preview.transform.position = transform.position;
                 done = true;
 			}
+        }
+        else if (blinktime < 5.0f){
+            previewSprite.color = Color.clear;
+            gameObject.GetComponent<SpriteRenderer>().color = errcolor;
+            if (blinktime > 1 && blinktime < 2)
+            {
+                gameObject.GetComponent<SpriteRenderer>().color = basecolor;
+            }
+            if (blinktime > 3 && blinktime < 4)
+            {
+                gameObject.GetComponent<SpriteRenderer>().color = basecolor;
+            }
         }
         else //if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().getFocus() > 0.0f)
 		{
@@ -205,11 +226,13 @@ public class FlipMechanic : MonoBehaviour {
 					}
                     else
                     {
+                        blinktime = 0.0f;
                         done = true;
                     }
 				}
                 if (PlayerController.xdanger && PlayerController.axisButtonDownFlipX)
                 {
+                    blinktime = 0.0f;
                     done = true;
                 }
                 else if (PlayerController.axisButtonDownFlipX)
@@ -223,6 +246,7 @@ public class FlipMechanic : MonoBehaviour {
                 }
                 if (PlayerController.ydanger && PlayerController.axisButtonDownFlipY)
                 {
+                    blinktime = 0.0f;
                     done = true;
                 }
                 else if (PlayerController.axisButtonDownFlipY)
