@@ -189,15 +189,19 @@ public class FlipMechanic : MonoBehaviour {
 			}
         }
         else if (blinktime < blinkmax){
-			if (PlayerController.xdanger && PlayerController.ydanger)
-			{
-				preview.transform.localPosition = new Vector3(-transform.localPosition.x, -transform.localPosition.y, transform.localPosition.z);
-			} else if (PlayerController.ydanger)
+			if (PlayerController.ydanger)
 			{
 				preview.transform.localPosition = new Vector3(transform.localPosition.x, -transform.localPosition.y, transform.localPosition.z);
-			} else if (PlayerController.xdanger)
+				Vector3 angle = transform.localEulerAngles;
+				angle.x = (angle.x + 180) % 360;
+				preview.transform.localEulerAngles = angle;
+			}
+			else if (PlayerController.xdanger)
 			{
 				preview.transform.localPosition = new Vector3(-transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
+				Vector3 angle = transform.localEulerAngles;
+				angle.y = (angle.y + 180) % 360;
+				preview.transform.localEulerAngles = angle;
 			}
 			previewSprite.GetComponent<SpriteRenderer>().color = errcolor;
 
