@@ -189,11 +189,21 @@ public class FlipMechanic : MonoBehaviour {
 			}
         }
         else if (blinktime < blinkmax){
-            previewSprite.color = Color.clear;
-            gameObject.GetComponent<SpriteRenderer>().color = errcolor;
-            if (blinktime > 0.5 * blinkmax && blinktime < 1.0 * blinkmax)
+			if (PlayerController.xdanger && PlayerController.ydanger)
+			{
+				preview.transform.localPosition = new Vector3(-transform.localPosition.x, -transform.localPosition.y, transform.localPosition.z);
+			} else if (PlayerController.ydanger)
+			{
+				preview.transform.localPosition = new Vector3(transform.localPosition.x, -transform.localPosition.y, transform.localPosition.z);
+			} else if (PlayerController.xdanger)
+			{
+				preview.transform.localPosition = new Vector3(-transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
+			}
+			previewSprite.GetComponent<SpriteRenderer>().color = errcolor;
+
+            if (blinktime > 0.33 * blinkmax && blinktime < 0.66 * blinkmax)
             {
-                gameObject.GetComponent<SpriteRenderer>().color = basecolor;
+				previewSprite.GetComponent<SpriteRenderer>().color = Color.clear;
             }
         }
         else //if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().getFocus() > 0.0f)
