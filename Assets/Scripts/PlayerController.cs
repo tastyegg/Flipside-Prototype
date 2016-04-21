@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
+	public float animationSpeed = 8.0f;
     public float walkVelocity = 5.5f;
     public float jumpForce = 7.5f;
     public float FOCUS_TIMER = 10.0f;
@@ -87,7 +88,10 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-        convertAxisToButton(Input.GetAxis("Focus"), ref enteringFocus, ref inFocus, ref exitingFocus);
+		if (FlipMechanic.aniTime <= 1.0f)
+			FlipMechanic.aniTime += animationSpeed * Time.deltaTime / Time.timeScale;
+
+		convertAxisToButton(Input.GetAxis("Focus"), ref enteringFocus, ref inFocus, ref exitingFocus);
         convertAxisToButton(Input.GetAxis("Jump"), ref axisButtonDownJump, ref axisButtonJump, ref axisButtonUpJump);
         convertAxisToButton(Input.GetAxis("FlipX"), ref axisButtonDownFlipX, ref axisButtonFlipX, ref axisButtonUpFlipX);
         convertAxisToButton(Input.GetAxis("FlipY"), ref axisButtonDownFlipY, ref axisButtonFlipY, ref axisButtonUpFlipY);
@@ -130,89 +134,89 @@ public class PlayerController : MonoBehaviour {
                 {
                     playerRB.velocity = new Vector2(playerRB.velocity.x / air_stopping_power, playerRB.velocity.y);
                 }
-            }
-        }
-       
-        //jump
-        if (Input.GetButton("Jump") || axisButtonJump)
-        {
-            jumpHoldTimer += Time.fixedDeltaTime;
-            //hold down jump to jump higher
-            if (jumpHoldTimer < jump_hold_max && !jumpHoldCanceled)
-            {
-                playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
-            }
-            //initial press
-            if ((Input.GetButtonDown("Jump") || axisButtonDownJump) && grounded && jumpTimer > 0.2f)
-            {
-                jumpTimer = 0.0f;
-                jumpHoldCanceled = false;
-                audioPlayer.PlayOneShot(jumpAudio);
-                animator.SetBool("jumping", true);
-                playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
-            }
+			}
 
-            if (Input.GetButtonUp("Jump") || axisButtonUpJump)
-            {
-                jumpHoldCanceled = true;
-            }
-        }
-        else
-        {
-            if (playerRB.velocity.y > 0.0f && jumpTimer > 0.15f)
-            {
-                playerRB.velocity = new Vector2(playerRB.velocity.x, 0.0f);
-            }
-            jumpHoldTimer = 0.0f;
-            jumpHoldCanceled = true;
-        }
-        //run
-        //if (Input.GetAxis("Run") > 0.0f)
-        //{
-        //    running = true;
-        //}
-        //else
-        //{
-        //    running = false;
-        //}
+			//jump
+			if (Input.GetButton("Jump") || axisButtonJump)
+			{
+				jumpHoldTimer += Time.fixedDeltaTime;
+				//hold down jump to jump higher
+				if (jumpHoldTimer < jump_hold_max && !jumpHoldCanceled)
+				{
+					playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
+				}
+				//initial press
+				if ((Input.GetButtonDown("Jump") || axisButtonDownJump) && grounded && jumpTimer > 0.2f)
+				{
+					jumpTimer = 0.0f;
+					jumpHoldCanceled = false;
+					audioPlayer.PlayOneShot(jumpAudio);
+					animator.SetBool("jumping", true);
+					playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
+				}
 
-        if (FlipMechanic.aniTime <= 1.0f)
-			FlipMechanic.aniTime += 6.0f * Time.deltaTime / Time.timeScale;
-
-        FlipMechanic.blinktime += 6.0f * Time.deltaTime / Time.timeScale;
-
-		if (enteringFocus)
-		{
-			Time.timeScale = 0.2f;
-			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+				if (Input.GetButtonUp("Jump") || axisButtonUpJump)
+				{
+					jumpHoldCanceled = true;
+				}
+			}
+			else
+			{
+				if (playerRB.velocity.y > 0.0f && jumpTimer > 0.15f)
+				{
+					playerRB.velocity = new Vector2(playerRB.velocity.x, 0.0f);
+				}
+				jumpHoldTimer = 0.0f;
+				jumpHoldCanceled = true;
+			}
+			//run
+			//if (Input.GetAxis("Run") > 0.0f)
+			//{
+			//    running = true;
+			//}
+			//else
+			//{
+			//    running = false;
+			//}
 		}
-		if (exitingFocus || (!inFocus && (axisButtonDownFlipX || axisButtonDownFlipY)))
-		{
-			inSequence = true;
-			recordedPosition = transform.position;
-			recordedVelocity = playerRB.velocity;
-			playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
-			playerRB.isKinematic = true;
-			
-			Time.timeScale = 1.0f;
-			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-		}
-		if (inSequence && FlipMechanic.aniTime >= 1.0f && FlipMechanic.done)
+
+		if (FlipMechanic.blinktime <= FlipMechanic.blinkmax)
+			FlipMechanic.blinktime += 6.0f * Time.deltaTime / Time.timeScale;
+
+		if (inSequence && FlipMechanic.aniTime >= 1.0f)
 		{
 			inSequence = false;
 			transform.position = recordedPosition;
 			playerRB.velocity = recordedVelocity;
 			playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
 			playerRB.isKinematic = false;
-            FlipMechanic.done = false;
 		}
-		if (Input.GetKeyDown(KeyCode.R))
+		else
 		{
-			Reset();
-		}
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			SceneManager.LoadScene(0);
+			if (enteringFocus)
+			{
+				Time.timeScale = 0.2f;
+				Time.fixedDeltaTime = 0.02f * Time.timeScale;
+			}
+			if (exitingFocus || (!inFocus && (axisButtonDownFlipX || axisButtonDownFlipY)))
+			{
+				inSequence = true;
+				recordedPosition = transform.position;
+				recordedVelocity = playerRB.velocity;
+				playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
+				playerRB.isKinematic = true;
+
+				Time.timeScale = 1.0f;
+				Time.fixedDeltaTime = 0.02f * Time.timeScale;
+			}
+			if (Input.GetKeyDown(KeyCode.R))
+			{
+				Reset();
+			}
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				SceneManager.LoadScene(0);
+			}
 		}
 
 		dangerCheck = false;
@@ -262,7 +266,7 @@ public class PlayerController : MonoBehaviour {
 			if (f && f.preview)
 			{
                 if (dangerCheck)
-					f.preview.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.0f, 0.0f, 0.9f);
+					f.preview.GetComponent<SpriteRenderer>().color = FlipMechanic.errcolor;
 				else
 					f.preview.GetComponent<SpriteRenderer>().color = FlipMechanic.previewColor;
 			}
@@ -353,11 +357,6 @@ public class PlayerController : MonoBehaviour {
 			Invoke("LoadNextLevel", 2.1f);
             double tRank = GameObject.Find("Text").GetComponent<Text>().GetComponent<Timer>().stop();
         }
-        /*else if (collider.gameObject.CompareTag("Portal"))
-        {
-            //run teleport
-        }*/
-        
 	}
 
 	void OnBecameInvisible()

@@ -8,11 +8,10 @@ using System.Collections;
 
 public class FlipMechanic : MonoBehaviour {
     public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
-    Color errcolor;
-    Color basecolor;
+    public static Color errcolor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
+    public Color basecolor;
 	public static float aniTime = 0.0f;
 	public static int flipsideD;
-    public static bool done;
 
 	public GameObject preview { get; private set; }
 
@@ -28,16 +27,13 @@ public class FlipMechanic : MonoBehaviour {
 
     public bool getSeq() { return inSequence; }
 
-    //for red checking
-    public GameObject previewGoalTemp;
-
     //axis check
     bool axisX;
     bool axisY;
 
     //Redblinking
     public static float blinktime;
-    float blinkmax = 5.0f;
+    public static float blinkmax = 5.0f;
 
     int xrot;
     int yrot;
@@ -53,16 +49,12 @@ public class FlipMechanic : MonoBehaviour {
 		SpriteRenderer previewSprite = preview.AddComponent<SpriteRenderer>();
 		previewSprite.sprite = GetComponent<SpriteRenderer>().sprite;
 		previewSprite.color = Color.clear;
+		basecolor = GetComponent<SpriteRenderer>().color;
 		flipside = 0;
-        //added for red preview
-        previewGoalTemp = preview;
-        previewGoalTemp.AddComponent<PolygonCollider2D>();
-        previewGoalTemp.GetComponent<PolygonCollider2D>().isTrigger = true;
+        
         axisX = false;
         axisY = false;
         blinktime = blinkmax + 0.1f;
-        errcolor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
-        basecolor = new Color(1f, 1f, 1f, 1f);
         xrot = 1;
         yrot = 1;
 	}
@@ -91,10 +83,7 @@ public class FlipMechanic : MonoBehaviour {
 	void FlipsidePreview()
 	{
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
-        //previewSprite.color = previewColor;
 
-        //broken line of code
-        //if (Input.GetButtonDown("FlipX") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisX && !axisX)
         if (PlayerController.axisButtonDownFlipX)
         {
             previewStart = previewGoal;
@@ -113,8 +102,6 @@ public class FlipMechanic : MonoBehaviour {
             previewGoalRotation = new Vector3(previewGoalRotation.x, (previewGoalRotation.y + 180) % 360, previewGoalRotation.z);
             axisX = true;
         }
-        //broken line of code
-        //if (Input.GetButtonDown("FlipY") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisY && !axisY)
         if (PlayerController.axisButtonDownFlipY)
         {
             previewStart = previewGoal;
@@ -142,9 +129,6 @@ public class FlipMechanic : MonoBehaviour {
             previewStartRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
             previewGoalRotation = new Vector3(0, previewGoalRotation.y, previewGoalRotation.z);
         }
-
-
-        previewGoalTemp.transform.position = previewGoal; //added for red
         
 		preview.transform.position = new Vector3(Mathf.Lerp(previewStart.x, previewGoal.x, aniTime), Mathf.Lerp(previewStart.y, previewGoal.y, aniTime), preview.transform.position.z);
 		preview.transform.eulerAngles = new Vector3(Mathf.Lerp(previewStartRotation.x, previewGoalRotation.x, aniTime), Mathf.Lerp(previewStartRotation.y, previewGoalRotation.y, aniTime), previewGoalRotation.z);
@@ -184,33 +168,10 @@ public class FlipMechanic : MonoBehaviour {
 				inSequence = false;
 				//transform.eulerAngles = Vector3.zero;
                 preview.transform.position = transform.position;
-                done = true;
                 transform.rotation = Quaternion.Euler(new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0));
 			}
         }
-        else if (blinktime < blinkmax){
-			if (PlayerController.ydanger)
-			{
-				preview.transform.localPosition = new Vector3(transform.localPosition.x, -transform.localPosition.y, transform.localPosition.z);
-				Vector3 angle = transform.localEulerAngles;
-				angle.x = (angle.x + 180) % 360;
-				preview.transform.localEulerAngles = angle;
-			}
-			else if (PlayerController.xdanger)
-			{
-				preview.transform.localPosition = new Vector3(-transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
-				Vector3 angle = transform.localEulerAngles;
-				angle.y = (angle.y + 180) % 360;
-				preview.transform.localEulerAngles = angle;
-			}
-			previewSprite.GetComponent<SpriteRenderer>().color = errcolor;
-
-            if (blinktime > 0.33 * blinkmax && blinktime < 0.66 * blinkmax)
-            {
-				previewSprite.GetComponent<SpriteRenderer>().color = Color.clear;
-            }
-        }
-        else //if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().getFocus() > 0.0f)
+        else //if (PlayerController.getFocus() > 0.0f)
 		{
 			GetComponent<PolygonCollider2D>().enabled = true;
 
@@ -223,7 +184,6 @@ public class FlipMechanic : MonoBehaviour {
 					previewStartRotation = transform.eulerAngles;
 					previewGoal = transform.position;
 					previewGoalRotation = transform.eulerAngles;
-					done = false;
                 }
 				FlipsidePreview();
             }
@@ -246,44 +206,60 @@ public class FlipMechanic : MonoBehaviour {
                     else if(previewFlipside != 0 && PlayerController.dangerCheck)
                     {
                         blinktime = 0.0f;
-                        done = true;
-                    }
-                    else
-                    {
-                        done = true;
                     }
 				}
                 if (PlayerController.xdanger && PlayerController.axisButtonDownFlipX)
                 {
                     blinktime = 0.0f;
-                    done = true;
                 }
                 else if (PlayerController.axisButtonDownFlipX)
-                {
-                    flipside = 1;
+				{
+					blinktime = blinkmax;
+					flipside = 1;
                     flipsideD = flipside;
                     destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
                     inSequence = true;
                     aniTime = 0.0f;
-                    done = false;
                     xrot = (xrot + 1) % 2;
                 }
                 if (PlayerController.ydanger && PlayerController.axisButtonDownFlipY)
                 {
                     blinktime = 0.0f;
-                    done = true;
                 }
                 else if (PlayerController.axisButtonDownFlipY)
-                {
-                    flipside = 2;
+				{
+					blinktime = blinkmax;
+					flipside = 2;
                     flipsideD = flipside;
                     destination = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
                     inSequence = true;
                     aniTime = 0.0f;
-                    done = false;
                     yrot = (yrot + 1) % 2;
                 }
-            }
+				if (blinktime < blinkmax)
+				{
+					if (PlayerController.ydanger)
+					{
+						preview.transform.localPosition = new Vector3(transform.localPosition.x, -transform.localPosition.y, transform.localPosition.z);
+						Vector3 angle = transform.localEulerAngles;
+						angle.x = (angle.x + 180) % 360;
+						preview.transform.localEulerAngles = angle;
+					}
+					else if (PlayerController.xdanger)
+					{
+						preview.transform.localPosition = new Vector3(-transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
+						Vector3 angle = transform.localEulerAngles;
+						angle.y = (angle.y + 180) % 360;
+						preview.transform.localEulerAngles = angle;
+					}
+					previewSprite.GetComponent<SpriteRenderer>().color = errcolor;
+
+					if (blinktime > 0.33 * blinkmax && blinktime < 0.66 * blinkmax)
+					{
+						previewSprite.GetComponent<SpriteRenderer>().color = Color.clear;
+					}
+				}
+			}
             
         }
         
