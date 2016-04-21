@@ -29,6 +29,18 @@ public class PlayerController : MonoBehaviour {
     public static bool enteringFocus;
     public static bool inFocus;
     public static bool exitingFocus;
+
+    public static bool axisButtonDownFlipX;
+    public static bool axisButtonFlipX;
+    public static bool axisButtonUpFlipX;
+
+    public static bool axisButtonDownFlipY;
+    public static bool axisButtonFlipY;
+    public static bool axisButtonUpFlipY;
+
+    static bool axisButtonDownJump;
+    static bool axisButtonJump;
+    static bool axisButtonUpJump;
            
     public AudioClip smokeAudio;
     public AudioClip spawnAudio;
@@ -73,25 +85,10 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-        //axis check
-        //if (Input.GetAxis("FlipAxisX") > 0.2f)
-        //{
-        //    axisX = true;
-        //}
-        //else if (Input.GetAxis("FlipAxisY") > 0.2f)
-        //{
-        //    axisY = true;
-        //}
-
-        //if (Input.GetAxis("FlipAxisX") < 0.2f && Input.GetAxis("FlipAxisX") > -0.2f)
-        //{
-        //    axisX = false;
-        //}
-
-        //if (Input.GetAxis("FlipAxisY") < 0.2f && Input.GetAxis("FlipAxisY") > -0.2f)
-        //{
-        //    axisY = false;
-        //}
+        convertAxisToButton(Input.GetAxis("Focus"), ref enteringFocus, ref inFocus, ref exitingFocus);
+        convertAxisToButton(Input.GetAxis("Jump"), ref axisButtonDownJump, ref axisButtonJump, ref axisButtonUpJump);
+        convertAxisToButton(Input.GetAxis("FlipX"), ref axisButtonDownFlipX, ref axisButtonFlipX, ref axisButtonUpFlipX);
+        convertAxisToButton(Input.GetAxis("FlipY"), ref axisButtonDownFlipY, ref axisButtonFlipY, ref axisButtonUpFlipY);
 
         animator.SetBool("walking", false);
         //playerRB.velocity = new Vector2(0, playerRB.velocity.y);
@@ -133,9 +130,9 @@ public class PlayerController : MonoBehaviour {
                 }
             }
         }
-
+       
         //jump
-        if (Input.GetButton("Jump"))
+        if (Input.GetButton("Jump") || axisButtonJump)
         {
             jumpHoldTimer += Time.fixedDeltaTime;
             //hold down jump to jump higher
@@ -144,7 +141,7 @@ public class PlayerController : MonoBehaviour {
                 playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
             }
             //initial press
-            if (Input.GetButtonDown("Jump") && grounded && jumpTimer > 0.2f)
+            if ((Input.GetButtonDown("Jump") || axisButtonDownJump) && grounded && jumpTimer > 0.2f)
             {
                 jumpTimer = 0.0f;
                 jumpHoldCanceled = false;
@@ -153,7 +150,7 @@ public class PlayerController : MonoBehaviour {
                 playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
             }
 
-            if (Input.GetButtonUp("Jump"))
+            if (Input.GetButtonUp("Jump") || axisButtonUpJump)
             {
                 jumpHoldCanceled = true;
             }
@@ -168,32 +165,14 @@ public class PlayerController : MonoBehaviour {
             jumpHoldCanceled = true;
         }
         //run
-        if (Input.GetAxis("Run") > 0.0f)
-        {
-            running = true;
-        }
-        else
-        {
-            running = false;
-        }
-        exitingFocus = false;
-        enteringFocus = false;
-        if (Input.GetAxis("Focus") > 0)
-        {
-            if (!inFocus)
-            {
-                enteringFocus = true;
-                inFocus = true;
-            }
-        }
-        else
-        {
-            if (inFocus)
-            {
-                exitingFocus = true;
-                inFocus = false;
-            }
-        }
+        //if (Input.GetAxis("Run") > 0.0f)
+        //{
+        //    running = true;
+        //}
+        //else
+        //{
+        //    running = false;
+        //}
 
         if (FlipMechanic.aniTime <= 1.0f)
 			FlipMechanic.aniTime += 6.0f * Time.deltaTime / Time.timeScale;
@@ -202,7 +181,7 @@ public class PlayerController : MonoBehaviour {
 			Time.timeScale = 0.2f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}
-		if (exitingFocus || (!inFocus && (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY"))))
+		if (exitingFocus || (!inFocus && (axisButtonDownFlipX || axisButtonDownFlipY)))
 		{
 			inSequence = true;
 			recordedPosition = transform.position;
@@ -384,5 +363,28 @@ public class PlayerController : MonoBehaviour {
         yield return new WaitForSeconds(0.3f);
         tmp.a = 1.0f;
         GetComponent<SpriteRenderer>().color = tmp;
+    }
+
+    void convertAxisToButton(float axisValue, ref bool buttonDown, ref bool button, ref bool buttonUp)
+    {
+        buttonDown = false;
+        buttonUp = false;
+        if (axisValue != 0)
+        {
+
+            if (!button)
+            {
+                buttonDown = true;
+                button = true;
+            }
+        }
+        else
+        {
+            if (button)
+            {
+                buttonUp = true;
+                button = false;
+            }
+        }
     }
 }
