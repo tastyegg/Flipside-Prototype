@@ -240,7 +240,7 @@ public class FlipMechanic : MonoBehaviour {
 						destination = previewGoal;
 						inSequence = true;
 						aniTime = 0.0f;
-                        xrot = (xrot + (flipside % 2)) %2;
+                        xrot = (xrot + (flipside % 2)) % 2;
                         yrot = (yrot + (flipside / 2)) % 2;
 					}
                     else if(previewFlipside != 0 && PlayerController.dangerCheck)

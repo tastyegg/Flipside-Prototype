@@ -41,14 +41,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
+  - name: Player
+    uniqueID: 2831112797
     locked: 0
   - name: Preview Layer
     uniqueID: 3391191909
     locked: 0
-  - name: Player
-    uniqueID: 2831112797
+  - name: Default
+    uniqueID: 0
     locked: 0
   - name: FrontParticle Layer
     uniqueID: 2359091119
