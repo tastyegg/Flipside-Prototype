@@ -208,7 +208,11 @@ public class FlipMechanic : MonoBehaviour {
                         done = true;
                     }
 				}
-                if (Input.GetButtonDown("FlipX"))
+                if (PlayerController.xdanger && Input.GetButtonDown("FlipX"))
+                {
+                    done = true;
+                }
+                else if (Input.GetButtonDown("FlipX"))
                 {
                     flipside = 1;
                     flipsideD = flipside;
@@ -217,7 +221,11 @@ public class FlipMechanic : MonoBehaviour {
                     aniTime = 0.0f;
                     done = false;
                 }
-                if (Input.GetButtonDown("FlipY"))
+                if (PlayerController.ydanger && Input.GetButtonDown("FlipY"))
+                {
+                    done = true;
+                }
+                else if (Input.GetButtonDown("FlipY"))
                 {
                     flipside = 2;
                     flipsideD = flipside;
