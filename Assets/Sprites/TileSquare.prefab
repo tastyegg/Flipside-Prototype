@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21269860}
   - 114: {fileID: 11415964}
   - 114: {fileID: 11454216}
-  - 61: {fileID: 6144352}
+  - 60: {fileID: 6071522}
   m_Layer: 0
   m_Name: TileSquare
   m_TagString: Untagged
@@ -31,8 +31,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!61 &6144352
-BoxCollider2D:
+--- !u!60 &6071522
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -43,8 +43,12 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Points:
+    m_Paths:
+    - - {x: 0.5, y: -0.5}
+      - {x: 0.5, y: 0.5}
+      - {x: -0.5, y: 0.5}
+      - {x: -0.5, y: -0.5}
 --- !u!114 &11415964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -70,6 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!212 &21269860
 SpriteRenderer:
   m_ObjectHideFlags: 1

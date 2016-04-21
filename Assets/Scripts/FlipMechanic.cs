@@ -39,6 +39,8 @@ public class FlipMechanic : MonoBehaviour {
     public static float blinktime;
     float blinkmax = 5.0f;
 
+    Vector3 destscale;
+
 	void Start ()
 	{
 		inSequence = false;
@@ -53,13 +55,14 @@ public class FlipMechanic : MonoBehaviour {
 		flipside = 0;
         //added for red preview
         previewGoalTemp = preview;
-        previewGoalTemp.AddComponent<BoxCollider2D>();
-        previewGoalTemp.GetComponent<BoxCollider2D>().isTrigger = true;
+        previewGoalTemp.AddComponent<PolygonCollider2D>();
+        previewGoalTemp.GetComponent<PolygonCollider2D>().isTrigger = true;
         axisX = false;
         axisY = false;
         blinktime = blinkmax + 0.1f;
         errcolor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
         basecolor = new Color(1f, 1f, 1f, 1f);
+        destscale = transform.localScale;
 	}
 
 	void Flipside()
@@ -68,16 +71,19 @@ public class FlipMechanic : MonoBehaviour {
 		{
 			transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), transform.position.y, transform.position.z);
 			transform.eulerAngles = new Vector3(0.0f, Mathf.Lerp(0, 180, aniTime), 0.0f);
+            //transform.localScale = new Vector3(Mathf.Lerp(-destscale.x, destscale.x, aniTime), transform.localScale.y, transform.localScale.z);
 		}
 		else if (flipside == 2)
 		{
 			transform.position = new Vector3(transform.position.x, Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
 			transform.eulerAngles = new Vector3(Mathf.Lerp(0, 180, aniTime), 0.0f, 0.0f);
+            //transform.localScale = new Vector3(transform.localScale.x, Mathf.Lerp(-destscale.y, destscale.y, aniTime), transform.localScale.z);
 		}
 		else if (flipside == 3)
 		{
 			transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
             transform.eulerAngles = new Vector3(0.0f, 0.0f, Mathf.Lerp(0, 180, aniTime));
+            //transform.localScale = new Vector3(Mathf.Lerp(-destscale.x, destscale.x, aniTime), Mathf.Lerp(-destscale.y, destscale.y, aniTime), transform.localScale.z);
 		}
         axisX = false;
         axisY = false;
@@ -171,7 +177,7 @@ public class FlipMechanic : MonoBehaviour {
 		if (inSequence)
 		{
 			previewSprite.color = Color.clear;
-			GetComponent<BoxCollider2D>().enabled = false;
+			GetComponent<PolygonCollider2D>().enabled = false;
 			Flipside();
 			if (aniTime >= 1.0f)
 			{
@@ -179,24 +185,26 @@ public class FlipMechanic : MonoBehaviour {
 				inSequence = false;
 				transform.eulerAngles = Vector3.zero;
                 preview.transform.position = transform.position;
+                preview.transform.localScale = transform.localScale;
+                destscale = preview.transform.localScale;
                 done = true;
 			}
         }
         else if (blinktime < blinkmax){
             previewSprite.color = Color.clear;
             gameObject.GetComponent<SpriteRenderer>().color = errcolor;
-            if (blinktime > 1 && blinktime < 2)
+            if (blinktime > 0.2 * blinkmax && blinktime < 0.4 * blinkmax)
             {
                 gameObject.GetComponent<SpriteRenderer>().color = basecolor;
             }
-            if (blinktime > 3 && blinktime < 4)
+            if (blinktime > 0.6 * blinkmax && blinktime < 0.8 * blinkmax)
             {
                 gameObject.GetComponent<SpriteRenderer>().color = basecolor;
             }
         }
         else //if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().getFocus() > 0.0f)
 		{
-			GetComponent<BoxCollider2D>().enabled = true;
+			GetComponent<PolygonCollider2D>().enabled = true;
 
 			if (PlayerController.inFocus)
 			{
@@ -241,6 +249,7 @@ public class FlipMechanic : MonoBehaviour {
                     flipside = 1;
                     flipsideD = flipside;
                     destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
+                    destscale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
                     inSequence = true;
                     aniTime = 0.0f;
                     done = false;
@@ -255,6 +264,7 @@ public class FlipMechanic : MonoBehaviour {
                     flipside = 2;
                     flipsideD = flipside;
                     destination = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
+                    destscale = new Vector3(transform.localScale.x, -transform.localScale.y, transform.localScale.z);
                     inSequence = true;
                     aniTime = 0.0f;
                     done = false;
