@@ -39,7 +39,8 @@ public class FlipMechanic : MonoBehaviour {
     public static float blinktime;
     float blinkmax = 5.0f;
 
-    Vector3 destscale;
+    int xrot;
+    int yrot;
 
 	void Start ()
 	{
@@ -62,7 +63,8 @@ public class FlipMechanic : MonoBehaviour {
         blinktime = blinkmax + 0.1f;
         errcolor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
         basecolor = new Color(1f, 1f, 1f, 1f);
-        destscale = transform.localScale;
+        xrot = 1;
+        yrot = 1;
 	}
 
 	void Flipside()
@@ -70,20 +72,17 @@ public class FlipMechanic : MonoBehaviour {
 		if (flipside == 1)
 		{
 			transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), transform.position.y, transform.position.z);
-			transform.eulerAngles = new Vector3(0.0f, Mathf.Lerp(0, 180, aniTime), 0.0f);
-            //transform.localScale = new Vector3(Mathf.Lerp(-destscale.x, destscale.x, aniTime), transform.localScale.y, transform.localScale.z);
+            transform.eulerAngles = new Vector3(180 + 180 * yrot, Mathf.Lerp(180 * xrot, 180 + 180 * xrot, aniTime), 0.0f);
 		}
 		else if (flipside == 2)
 		{
 			transform.position = new Vector3(transform.position.x, Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
-			transform.eulerAngles = new Vector3(Mathf.Lerp(0, 180, aniTime), 0.0f, 0.0f);
-            //transform.localScale = new Vector3(transform.localScale.x, Mathf.Lerp(-destscale.y, destscale.y, aniTime), transform.localScale.z);
+            transform.eulerAngles = new Vector3(Mathf.Lerp(180 * yrot, 180 + 180 * yrot, aniTime), 180 + 180 * xrot, 0.0f);
 		}
 		else if (flipside == 3)
 		{
 			transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
             transform.eulerAngles = new Vector3(0.0f, 0.0f, Mathf.Lerp(0, 180, aniTime));
-            //transform.localScale = new Vector3(Mathf.Lerp(-destscale.x, destscale.x, aniTime), Mathf.Lerp(-destscale.y, destscale.y, aniTime), transform.localScale.z);
 		}
         axisX = false;
         axisY = false;
@@ -183,11 +182,10 @@ public class FlipMechanic : MonoBehaviour {
 			{
 				PlayerController.dangerCheck = false;
 				inSequence = false;
-				transform.eulerAngles = Vector3.zero;
+				//transform.eulerAngles = Vector3.zero;
                 preview.transform.position = transform.position;
-                preview.transform.localScale = transform.localScale;
-                destscale = preview.transform.localScale;
                 done = true;
+                transform.rotation = Quaternion.Euler(new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0));
 			}
         }
         else if (blinktime < blinkmax){
@@ -232,10 +230,16 @@ public class FlipMechanic : MonoBehaviour {
 						destination = previewGoal;
 						inSequence = true;
 						aniTime = 0.0f;
+                        xrot = (xrot + (flipside % 2)) %2;
+                        yrot = (yrot + (flipside / 2)) % 2;
 					}
-                    else
+                    else if(previewFlipside != 0 && PlayerController.dangerCheck)
                     {
                         blinktime = 0.0f;
+                        done = true;
+                    }
+                    else
+                    {
                         done = true;
                     }
 				}
@@ -249,10 +253,10 @@ public class FlipMechanic : MonoBehaviour {
                     flipside = 1;
                     flipsideD = flipside;
                     destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
-                    destscale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
                     inSequence = true;
                     aniTime = 0.0f;
                     done = false;
+                    xrot = (xrot + 1) % 2;
                 }
                 if (PlayerController.ydanger && PlayerController.axisButtonDownFlipY)
                 {
@@ -264,12 +268,15 @@ public class FlipMechanic : MonoBehaviour {
                     flipside = 2;
                     flipsideD = flipside;
                     destination = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
-                    destscale = new Vector3(transform.localScale.x, -transform.localScale.y, transform.localScale.z);
                     inSequence = true;
                     aniTime = 0.0f;
                     done = false;
+                    yrot = (yrot + 1) % 2;
                 }
             }
+            
         }
+        
 	}
+    
 }

@@ -2752,8 +2752,8 @@ GameObject:
   - 4: {fileID: 1143016042}
   - 212: {fileID: 1143016046}
   - 114: {fileID: 1143016045}
-  - 61: {fileID: 1143016044}
   - 114: {fileID: 1143016043}
+  - 60: {fileID: 1143016044}
   m_Layer: 0
   m_Name: wallleft
   m_TagString: Wall
@@ -2785,8 +2785,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewGoalTemp: {fileID: 0}
---- !u!61 &1143016044
-BoxCollider2D:
+--- !u!60 &1143016044
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -2797,8 +2797,12 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Points:
+    m_Paths:
+    - - {x: 0.5, y: -0.5}
+      - {x: 0.5, y: 0.5}
+      - {x: -0.5, y: 0.5}
+      - {x: -0.5, y: -0.5}
 --- !u!114 &1143016045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2949,8 +2953,8 @@ GameObject:
   - 4: {fileID: 1168077600}
   - 212: {fileID: 1168077599}
   - 114: {fileID: 1168077598}
-  - 61: {fileID: 1168077602}
   - 114: {fileID: 1168077601}
+  - 60: {fileID: 1168077602}
   m_Layer: 0
   m_Name: wallup
   m_TagString: Wall
@@ -3026,8 +3030,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewGoalTemp: {fileID: 0}
---- !u!61 &1168077602
-BoxCollider2D:
+--- !u!60 &1168077602
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -3038,8 +3042,12 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Points:
+    m_Paths:
+    - - {x: 0.5, y: -0.5}
+      - {x: 0.5, y: 0.5}
+      - {x: -0.5, y: 0.5}
+      - {x: -0.5, y: -0.5}
 --- !u!4 &1169768927 stripped
 Transform:
   m_PrefabParentObject: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
@@ -3566,8 +3574,8 @@ GameObject:
   - 4: {fileID: 1403993220}
   - 212: {fileID: 1403993224}
   - 114: {fileID: 1403993223}
-  - 61: {fileID: 1403993222}
   - 114: {fileID: 1403993221}
+  - 60: {fileID: 1403993222}
   m_Layer: 0
   m_Name: wallright
   m_TagString: Wall
@@ -3599,8 +3607,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewGoalTemp: {fileID: 0}
---- !u!61 &1403993222
-BoxCollider2D:
+--- !u!60 &1403993222
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -3611,8 +3619,12 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Points:
+    m_Paths:
+    - - {x: 0.5, y: -0.5}
+      - {x: 0.5, y: 0.5}
+      - {x: -0.5, y: 0.5}
+      - {x: -0.5, y: -0.5}
 --- !u!114 &1403993223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4187,8 +4199,8 @@ GameObject:
   - 4: {fileID: 1721136187}
   - 212: {fileID: 1721136191}
   - 114: {fileID: 1721136190}
-  - 61: {fileID: 1721136189}
   - 114: {fileID: 1721136188}
+  - 60: {fileID: 1721136189}
   m_Layer: 0
   m_Name: wallright (1)
   m_TagString: Wall
@@ -4220,8 +4232,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewGoalTemp: {fileID: 0}
---- !u!61 &1721136189
-BoxCollider2D:
+--- !u!60 &1721136189
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -4232,8 +4244,12 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Points:
+    m_Paths:
+    - - {x: 0.5, y: -0.5}
+      - {x: 0.5, y: 0.5}
+      - {x: -0.5, y: 0.5}
+      - {x: -0.5, y: -0.5}
 --- !u!114 &1721136190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4442,8 +4458,8 @@ GameObject:
   - 4: {fileID: 1798329717}
   - 212: {fileID: 1798329721}
   - 114: {fileID: 1798329720}
-  - 61: {fileID: 1798329719}
   - 114: {fileID: 1798329718}
+  - 60: {fileID: 1798329719}
   m_Layer: 0
   m_Name: walldown
   m_TagString: Wall
@@ -4475,8 +4491,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewGoalTemp: {fileID: 0}
---- !u!61 &1798329719
-BoxCollider2D:
+--- !u!60 &1798329719
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -4487,8 +4503,12 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Points:
+    m_Paths:
+    - - {x: 0.5, y: -0.5}
+      - {x: 0.5, y: 0.5}
+      - {x: -0.5, y: 0.5}
+      - {x: -0.5, y: -0.5}
 --- !u!114 &1798329720
 MonoBehaviour:
   m_ObjectHideFlags: 0
