@@ -81,7 +81,7 @@ public class FlipMechanic : MonoBehaviour {
 
         //broken line of code
         //if (Input.GetButtonDown("FlipX") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisX && !axisX)
-        if (Input.GetButtonDown("FlipX"))
+        if (PlayerController.axisButtonDownFlipX)
         {
             previewStart = previewGoal;
             if (previewFlipside % 2 == 1)
@@ -101,7 +101,7 @@ public class FlipMechanic : MonoBehaviour {
         }
         //broken line of code
         //if (Input.GetButtonDown("FlipY") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisY && !axisY)
-        if (Input.GetButtonDown("FlipY"))
+        if (PlayerController.axisButtonDownFlipY)
         {
             previewStart = previewGoal;
             if (previewFlipside > 1)
@@ -208,11 +208,11 @@ public class FlipMechanic : MonoBehaviour {
                         done = true;
                     }
 				}
-                if (PlayerController.xdanger && Input.GetButtonDown("FlipX"))
+                if (PlayerController.xdanger && PlayerController.axisButtonDownFlipX)
                 {
                     done = true;
                 }
-                else if (Input.GetButtonDown("FlipX"))
+                else if (PlayerController.axisButtonDownFlipX)
                 {
                     flipside = 1;
                     flipsideD = flipside;
@@ -221,11 +221,11 @@ public class FlipMechanic : MonoBehaviour {
                     aniTime = 0.0f;
                     done = false;
                 }
-                if (PlayerController.ydanger && Input.GetButtonDown("FlipY"))
+                if (PlayerController.ydanger && PlayerController.axisButtonDownFlipY)
                 {
                     done = true;
                 }
-                else if (Input.GetButtonDown("FlipY"))
+                else if (PlayerController.axisButtonDownFlipY)
                 {
                     flipside = 2;
                     flipsideD = flipside;

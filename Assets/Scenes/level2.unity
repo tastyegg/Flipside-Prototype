@@ -2019,10 +2019,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 11478174, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
-      propertyPath: jumpForce
-      value: 5.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
   m_IsPrefabParent: 0
@@ -2104,22 +2100,6 @@ Prefab:
     - target: {fileID: 22495612, guid: 69c53e39a5b87bf4187145dc9d5211bb, type: 2}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11433794, guid: 69c53e39a5b87bf4187145dc9d5211bb, type: 2}
-      propertyPath: gTime
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 11433794, guid: 69c53e39a5b87bf4187145dc9d5211bb, type: 2}
-      propertyPath: sTime
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 11433794, guid: 69c53e39a5b87bf4187145dc9d5211bb, type: 2}
-      propertyPath: bTime
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 11433794, guid: 69c53e39a5b87bf4187145dc9d5211bb, type: 2}
-      propertyPath: levelnum
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 69c53e39a5b87bf4187145dc9d5211bb, type: 2}
