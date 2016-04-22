@@ -8,8 +8,8 @@ using System.Collections;
 
 public class FlipMechanic : MonoBehaviour {
     public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
-    Color errcolor;
-    Color basecolor;
+    public static Color errcolor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
+    public static Color basecolor;
 	public static float aniTime = 0.0f;
 	public static int flipsideD;
     public static bool done;
@@ -61,7 +61,6 @@ public class FlipMechanic : MonoBehaviour {
         axisX = false;
         axisY = false;
         blinktime = blinkmax + 0.1f;
-        errcolor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
         basecolor = new Color(1f, 1f, 1f, 1f);
         xrot = 1;
         yrot = 1;

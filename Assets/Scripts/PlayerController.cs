@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour {
 
         animator.SetBool("walking", false);
         //playerRB.velocity = new Vector2(0, playerRB.velocity.y);
-        if (!playerRB.isKinematic)
+        if (!inSequence)//!playerRB.isKinematic)
         {
             //player move left
             if (Input.GetAxis("Horizontal") < 0 && (playerRB.velocity.x <= 0.0f || !grounded))
@@ -229,39 +229,31 @@ public class PlayerController : MonoBehaviour {
 			FlipMechanic f = g.GetComponent<FlipMechanic>();
 			if (f && f.preview)
 			{
-                g.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
-				if ((new Rect(f.previewGoal - g.transform.localScale * 0.5f, g.transform.localScale)).Contains(transform.position))
+                g.GetComponent<SpriteRenderer>().color = FlipMechanic.basecolor;
+				if (f.preview.GetComponent<Collider2D>().OverlapPoint(transform.localPosition))
 				{
                     dangerCheck = true;
-                    
 				}
 			}
 		}
 
+		Vector3 tempLocation = transform.localPosition;
         xdanger = false;
-        ydanger = false;
-        foreach (GameObject g in FindObjectsOfType<GameObject>())
-        {
-            FlipMechanic f = g.GetComponent<FlipMechanic>();
-            if (f)
-            {
-                if ((new Rect(new Vector3(-g.transform.position.x, g.transform.position.y, g.transform.position.z) - g.transform.localScale * 0.5f, g.transform.localScale)).Contains(transform.position))
-                {
-                    xdanger = true;
-                }
-            }
-        }
+		Vector3 xFlipPredictiveLocation = transform.localPosition;
+		xFlipPredictiveLocation.x *= -1;
+		ydanger = false;
+		Vector3 yFlipPredictiveLocation = transform.localPosition;
+		yFlipPredictiveLocation.y *= -1;
 
-        foreach (GameObject g in FindObjectsOfType<GameObject>())
+		foreach (GameObject g in FindObjectsOfType<GameObject>())
         {
             FlipMechanic f = g.GetComponent<FlipMechanic>();
             if (f)
-            {
-                if ((new Rect(new Vector3(g.transform.position.x, -g.transform.position.y, g.transform.position.z) - g.transform.localScale * 0.5f, g.transform.localScale)).Contains(transform.position))
-                {
-                    ydanger = true;
-                }
-            }
+			{
+				Collider2D c = f.GetComponent<Collider2D>();
+				if (c.OverlapPoint(xFlipPredictiveLocation)) { xdanger = true; }
+				if (c.OverlapPoint(yFlipPredictiveLocation)) { ydanger = true; }
+			}
         }
 
 		foreach (GameObject g in FindObjectsOfType<GameObject>())
@@ -269,8 +261,8 @@ public class PlayerController : MonoBehaviour {
 			FlipMechanic f = g.GetComponent<FlipMechanic>();
 			if (f && f.preview)
 			{
-                if (dangerCheck)
-					f.preview.GetComponent<SpriteRenderer>().color = new Color(0.7f, 0.0f, 0.0f, 0.9f);
+				if (dangerCheck && FlipMechanic.aniTime >= 1.0f)
+					f.preview.GetComponent<SpriteRenderer>().color = FlipMechanic.errcolor;
 				else
 					f.preview.GetComponent<SpriteRenderer>().color = FlipMechanic.previewColor;
 			}
@@ -329,7 +321,7 @@ public class PlayerController : MonoBehaviour {
             GetComponent<SpriteRenderer>().enabled = false; //This automatically executes OnBecameInvisible()
             Destroy(collision.collider.gameObject);
         }
-        if (collision.collider.bounds.Contains(recordedPosition))
+        if (collision.collider.OverlapPoint(recordedPosition))
         {
             dangerCheck = true;
             transform.position = recordedPosition;
