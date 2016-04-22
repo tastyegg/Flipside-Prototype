@@ -92,6 +92,13 @@ public class PlayerController : MonoBehaviour {
         convertAxisToButton(Input.GetAxis("Jump"), ref axisButtonDownJump, ref axisButtonJump, ref axisButtonUpJump);
         convertAxisToButton(Input.GetAxis("FlipX"), ref axisButtonDownFlipX, ref axisButtonFlipX, ref axisButtonUpFlipX);
         convertAxisToButton(Input.GetAxis("FlipY"), ref axisButtonDownFlipY, ref axisButtonFlipY, ref axisButtonUpFlipY);
+        if (inSequence)
+        {
+            axisButtonDownFlipX = false;
+            axisButtonUpFlipX = false;
+            axisButtonDownFlipY = false;
+            axisButtonUpFlipY = false;
+        }
 
         animator.SetBool("walking", false);
         //playerRB.velocity = new Vector2(0, playerRB.velocity.y);
@@ -139,7 +146,7 @@ public class PlayerController : MonoBehaviour {
         {
             jumpHoldTimer += Time.fixedDeltaTime;
             //hold down jump to jump higher
-            if (jumpHoldTimer < jump_hold_max && !jumpHoldCanceled)
+            if (jumpHoldTimer < jump_hold_max && !jumpHoldCanceled && !inSequence)
             {
                 playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
             }
@@ -187,7 +194,7 @@ public class PlayerController : MonoBehaviour {
 			Time.timeScale = 0.2f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}
-		if (exitingFocus || (!inFocus && (axisButtonDownFlipX || axisButtonDownFlipY)))
+		if (exitingFocus || (!inFocus && (axisButtonDownFlipX || axisButtonDownFlipY) && FlipMechanic.blinktime > FlipMechanic.blinkmax))
 		{
 			inSequence = true;
 			recordedPosition = transform.position;

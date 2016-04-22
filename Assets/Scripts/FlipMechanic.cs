@@ -37,7 +37,7 @@ public class FlipMechanic : MonoBehaviour {
 
     //Redblinking
     public static float blinktime;
-    float blinkmax = 5.0f;
+    public static float blinkmax = 2.0f;
 
     int xrot;
     int yrot;
@@ -205,10 +205,10 @@ public class FlipMechanic : MonoBehaviour {
 			}
 			previewSprite.GetComponent<SpriteRenderer>().color = errcolor;
 
-            if (blinktime > 0.33 * blinkmax && blinktime < 0.66 * blinkmax)
-            {
-				previewSprite.GetComponent<SpriteRenderer>().color = Color.clear;
-            }
+    //        if (blinktime > 0.33 * blinkmax && blinktime < 0.66 * blinkmax)
+    //        {
+				//previewSprite.GetComponent<SpriteRenderer>().color = Color.clear;
+    //        }
         }
         else //if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().getFocus() > 0.0f)
 		{
