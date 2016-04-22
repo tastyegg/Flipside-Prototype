@@ -139,8 +139,8 @@ public class FlipMechanic : MonoBehaviour {
             previewFlipside = 0;
             previewGoal = new Vector3(transform.position.x, transform.position.y, previewGoal.z);
             aniTime = 0;
-            previewStartRotation = new Vector3(0, 0, previewGoalRotation.z);
-            previewGoalRotation = new Vector3(0, 0, previewGoalRotation.z);
+            previewStartRotation = new Vector3(previewGoalRotation.x, previewGoalRotation.y, previewGoalRotation.z);
+            previewGoalRotation = new Vector3(transform.rotation.x * -180, transform.rotation.y * -180, transform.rotation.z * -180);
         }
 
 
