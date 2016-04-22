@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkVelocity: 5.5
-  jumpForce: 8.5
+  jumpForce: 11
   FOCUS_TIMER: 10
   rateOfDecay: 1
   groundCheckLeft: {fileID: 479108}
@@ -333,7 +333,8 @@ MonoBehaviour:
   stopping_power: 1.4
   immediate_stop_cutoff: 5
   air_stopping_power: 1
-  jump_hold_max: 0.2
+  jump_hold_max: 0.18
+  jump_hold_min: 0.1
   run_factor: 1
 --- !u!198 &19813646
 ParticleSystem:

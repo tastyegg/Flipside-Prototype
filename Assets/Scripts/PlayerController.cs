@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour {
     public float immediate_stop_cutoff;
     public float air_stopping_power;
     public float jump_hold_max;
+    public float jump_hold_min;
     public float run_factor;
 
     // Use this for initialization
@@ -159,7 +160,7 @@ public class PlayerController : MonoBehaviour {
         }
         else
         {
-            if (playerRB.velocity.y > 0.0f && jumpTimer > 0.15f)
+            if (playerRB.velocity.y > 0.0f && jumpTimer > jump_hold_min)
             {
                 playerRB.velocity = new Vector2(playerRB.velocity.x, 0.0f);
             }
