@@ -22,6 +22,7 @@ public class FlipMechanic : MonoBehaviour {
 	public Vector3 previewGoal { get; private set; }
 	Vector3 previewGoalRotation;
     int previewFlipside;
+	public static int StaticPreviewFlipside { get; private set; }
 
 	bool inSequence;    //Time for frozen animation
 	int flipside;   //1 for horizontial, 2 for vertical
@@ -74,23 +75,21 @@ public class FlipMechanic : MonoBehaviour {
 			preview.transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), transform.position.y, transform.position.z);
 			transform.position = new Vector3(destination.x, transform.position.y, transform.position.z);
 			preview.transform.eulerAngles = new Vector3(180 + 180 * yrot, Mathf.Lerp(180 * xrot, 180 + 180 * xrot, aniTime), 0.0f);
-			transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
 		}
 		else if (flipside == 2)
 		{
 			preview.transform.position = new Vector3(transform.position.x, Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
 			transform.position = new Vector3(transform.position.x, destination.y, transform.position.z);
 			preview.transform.eulerAngles = new Vector3(Mathf.Lerp(180 * yrot, 180 + 180 * yrot, aniTime), 180 + 180 * xrot, 0.0f);
-			transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
 		}
 		else if (flipside == 3)
 		{
-			preview.transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
+			preview.transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime * 2), Mathf.Lerp(-destination.y, destination.y, aniTime * 2 - 1.0f), transform.position.z);
 			transform.position = new Vector3(destination.x, destination.y, transform.position.z);
-			preview.transform.eulerAngles = new Vector3(0.0f, 0.0f, Mathf.Lerp(0, 180, aniTime));
-			transform.eulerAngles = new Vector3(0.0f, 0.0f, 180);
+			preview.transform.eulerAngles = new Vector3(Mathf.Lerp(180 * yrot, 180 + 180 * yrot, aniTime * 2 - 1.0f), Mathf.Lerp(180 * xrot, 180 + 180 * xrot, aniTime * 2), 0.0f);
 		}
-        axisX = false;
+		transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
+		axisX = false;
         axisY = false;
 	}
 
@@ -114,7 +113,7 @@ public class FlipMechanic : MonoBehaviour {
                 previewFlipside += 1;
                 previewGoal = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
             }
-            aniTime = 0;
+            previewAniTime = 0;
             previewStartRotation = new Vector3(previewGoalRotation.x, previewGoalRotation.y, previewGoalRotation.z);
             previewGoalRotation = new Vector3(previewGoalRotation.x, (previewGoalRotation.y + 180) % 360, previewGoalRotation.z);
             axisX = true;
@@ -134,7 +133,7 @@ public class FlipMechanic : MonoBehaviour {
                 previewFlipside += 2;
                 previewGoal = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
             }
-            aniTime = 0;
+			previewAniTime = 0;
             previewStartRotation = new Vector3(previewGoalRotation.x, previewGoalRotation.y, previewGoalRotation.z);
             previewGoalRotation = new Vector3((previewGoalRotation.x + 180) % 360, previewGoalRotation.y, previewGoalRotation.z);
             axisY = true;
@@ -144,16 +143,16 @@ public class FlipMechanic : MonoBehaviour {
             previewStart = previewGoal;
             previewFlipside = 0;
             previewGoal = new Vector3(transform.position.x, transform.position.y, previewGoal.z);
-            aniTime = 0;
+			previewAniTime = 0;
             previewStartRotation = new Vector3(previewGoalRotation.x, previewGoalRotation.y, previewGoalRotation.z);
             previewGoalRotation = new Vector3(transform.rotation.x * -180, transform.rotation.y * -180, transform.rotation.z * -180);
         }
-
+		StaticPreviewFlipside = previewFlipside;
 
         previewGoalTemp.transform.position = previewGoal; //added for red
         
-		preview.transform.position = new Vector3(Mathf.Lerp(previewStart.x, previewGoal.x, aniTime), Mathf.Lerp(previewStart.y, previewGoal.y, aniTime), preview.transform.position.z);
-		preview.transform.eulerAngles = new Vector3(Mathf.Lerp(previewStartRotation.x, previewGoalRotation.x, aniTime), Mathf.Lerp(previewStartRotation.y, previewGoalRotation.y, aniTime), previewGoalRotation.z);
+		preview.transform.position = new Vector3(Mathf.Lerp(previewStart.x, previewGoal.x, previewAniTime), Mathf.Lerp(previewStart.y, previewGoal.y, previewAniTime), preview.transform.position.z);
+		preview.transform.eulerAngles = new Vector3(Mathf.Lerp(previewStartRotation.x, previewGoalRotation.x, previewAniTime), Mathf.Lerp(previewStartRotation.y, previewGoalRotation.y, previewAniTime), previewGoalRotation.z);
     }
 
 	void reverseFlipside()

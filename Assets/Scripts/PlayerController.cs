@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
-	public float animationSpeed = 13.0f;
+	public float animationSpeed = 11.0f;
 	public float previewAnimationSpeed = 5.0f;
 	public float blinkSpeed = 6.0f;
 	public float slowSpeed = 0.1f;
@@ -168,15 +168,6 @@ public class PlayerController : MonoBehaviour {
             jumpHoldTimer = 0.0f;
             jumpHoldCanceled = true;
         }
-        //run
-        //if (Input.GetAxis("Run") > 0.0f)
-        //{
-        //    running = true;
-        //}
-        //else
-        //{
-        //    running = false;
-        //}
 
         if (FlipMechanic.aniTime <= 1.0f)
 			FlipMechanic.aniTime += animationSpeed * Time.deltaTime / Time.timeScale;
@@ -205,26 +196,15 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		dangerCheck = false;
-		foreach (GameObject g in FindObjectsOfType<GameObject>())
-		{
-			FlipMechanic f = g.GetComponent<FlipMechanic>();
-			if (f && f.preview)
-			{
-                g.GetComponent<SpriteRenderer>().color = FlipMechanic.basecolor;
-				if (f.preview.GetComponent<Collider2D>().OverlapPoint(transform.localPosition))
-				{
-                    dangerCheck = true;
-				}
-			}
-		}
-
-		Vector3 tempLocation = transform.localPosition;
         xdanger = false;
-		Vector3 xFlipPredictiveLocation = transform.localPosition;
-		xFlipPredictiveLocation.x *= -1;
 		ydanger = false;
+		Vector3 xFlipPredictiveLocation = transform.localPosition;
 		Vector3 yFlipPredictiveLocation = transform.localPosition;
+		Vector3 xyFlipPredictiveLocation = transform.localPosition;
+		xFlipPredictiveLocation.x *= -1;
 		yFlipPredictiveLocation.y *= -1;
+		xyFlipPredictiveLocation.x *= -1;
+		xyFlipPredictiveLocation.y *= -1;
 
 		foreach (GameObject g in FindObjectsOfType<GameObject>())
         {
@@ -232,8 +212,22 @@ public class PlayerController : MonoBehaviour {
             if (f)
 			{
 				Collider2D c = f.GetComponent<Collider2D>();
-				if (c.OverlapPoint(xFlipPredictiveLocation)) { xdanger = true; }
-				if (c.OverlapPoint(yFlipPredictiveLocation)) { ydanger = true; }
+				if (c.OverlapPoint(xFlipPredictiveLocation))
+				{
+					xdanger = true;
+					if (FlipMechanic.StaticPreviewFlipside == 1)
+						dangerCheck = true;
+				}
+				if (c.OverlapPoint(yFlipPredictiveLocation))
+				{
+					ydanger = true;
+					if (FlipMechanic.StaticPreviewFlipside == 2)
+						dangerCheck = true;
+				}
+				if (FlipMechanic.StaticPreviewFlipside == 3 && c.OverlapPoint(xyFlipPredictiveLocation))
+				{
+					dangerCheck = true;
+				}
 			}
         }
 
