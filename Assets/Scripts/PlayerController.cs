@@ -4,6 +4,10 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
+	public float animationSpeed = 13.0f;
+	public float previewAnimationSpeed = 5.0f;
+	public float blinkSpeed = 6.0f;
+	public float slowSpeed = 0.1f;
     public float walkVelocity = 5.5f;
     public float jumpForce = 7.5f;
     public float FOCUS_TIMER = 10.0f;
@@ -92,52 +96,42 @@ public class PlayerController : MonoBehaviour {
         convertAxisToButton(Input.GetAxis("Jump"), ref axisButtonDownJump, ref axisButtonJump, ref axisButtonUpJump);
         convertAxisToButton(Input.GetAxis("FlipX"), ref axisButtonDownFlipX, ref axisButtonFlipX, ref axisButtonUpFlipX);
         convertAxisToButton(Input.GetAxis("FlipY"), ref axisButtonDownFlipY, ref axisButtonFlipY, ref axisButtonUpFlipY);
-        if (inSequence)
-        {
-            axisButtonDownFlipX = false;
-            axisButtonUpFlipX = false;
-            axisButtonDownFlipY = false;
-            axisButtonUpFlipY = false;
-        }
 
         animator.SetBool("walking", false);
-        //playerRB.velocity = new Vector2(0, playerRB.velocity.y);
-        if (!inSequence)//!playerRB.isKinematic)
+
+        //player move left
+        if (Input.GetAxis("Horizontal") < 0 && (playerRB.velocity.x <= 0.0f || !grounded))
         {
-            //player move left
-            if (Input.GetAxis("Horizontal") < 0 && (playerRB.velocity.x <= 0.0f || !grounded))
+            if (facingRight && playerRB.velocity.x <= 0.0f) ChangeDirection();
+            animator.SetBool("walking", true);
+            playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
+        }
+        //player move right
+        else if (Input.GetAxis("Horizontal") > 0 && (playerRB.velocity.x >= 0.0f || !grounded))
+        {
+            if (!facingRight && playerRB.velocity.x >= 0.0f) ChangeDirection();
+            animator.SetBool("walking", true);
+            playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
+        }
+        else
+        {
+            //ground friction
+            if (grounded)
             {
-                if (facingRight && playerRB.velocity.x <= 0.0f) ChangeDirection();
-                animator.SetBool("walking", true);
-                playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
-            }
-            //player move right
-            else if (Input.GetAxis("Horizontal") > 0 && (playerRB.velocity.x >= 0.0f || !grounded))
-            {
-                if (!facingRight && playerRB.velocity.x >= 0.0f) ChangeDirection();
-                animator.SetBool("walking", true);
-                playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
-            }
-            else
-            {
-                //ground friction
-                if (grounded)
+                //player stops immediately once velocity is low enough
+                if (playerRB.velocity.x > immediate_stop_cutoff || playerRB.velocity.x < -immediate_stop_cutoff)
                 {
-                    //player stops immediately once velocity is low enough
-                    if (playerRB.velocity.x > immediate_stop_cutoff || playerRB.velocity.x < -immediate_stop_cutoff)
-                    {
-                        playerRB.velocity = new Vector2(playerRB.velocity.x / stopping_power, playerRB.velocity.y);
-                    }
-                    else
-                    {
-                        playerRB.velocity = new Vector2(0.0f, playerRB.velocity.y);
-                    }
+                    playerRB.velocity = new Vector2(playerRB.velocity.x / stopping_power, playerRB.velocity.y);
                 }
-                //air friction
                 else
                 {
-                    playerRB.velocity = new Vector2(playerRB.velocity.x / air_stopping_power, playerRB.velocity.y);
+                    playerRB.velocity = new Vector2(0.0f, playerRB.velocity.y);
                 }
+            }
+            //air friction
+            else
+            {
+                playerRB.velocity = new Vector2(playerRB.velocity.x / air_stopping_power, playerRB.velocity.y);
             }
         }
        
@@ -185,34 +179,21 @@ public class PlayerController : MonoBehaviour {
         //}
 
         if (FlipMechanic.aniTime <= 1.0f)
-			FlipMechanic.aniTime += 6.0f * Time.deltaTime / Time.timeScale;
+			FlipMechanic.aniTime += animationSpeed * Time.deltaTime / Time.timeScale;
+		if (FlipMechanic.previewAniTime <= 1.0f)
+			FlipMechanic.previewAniTime += previewAnimationSpeed * Time.deltaTime / Time.timeScale;
 
-        FlipMechanic.blinktime += 6.0f * Time.deltaTime / Time.timeScale;
+		FlipMechanic.blinktime += blinkSpeed * Time.deltaTime / Time.timeScale;
 
 		if (enteringFocus)
 		{
-			Time.timeScale = 0.2f;
+			Time.timeScale = slowSpeed;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}
 		if (exitingFocus || (!inFocus && (axisButtonDownFlipX || axisButtonDownFlipY) && FlipMechanic.blinktime > FlipMechanic.blinkmax))
 		{
-			inSequence = true;
-			recordedPosition = transform.position;
-			recordedVelocity = playerRB.velocity;
-			playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
-			playerRB.isKinematic = true;
-			
 			Time.timeScale = 1.0f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-		}
-		if (inSequence && FlipMechanic.aniTime >= 1.0f && FlipMechanic.done)
-		{
-			inSequence = false;
-			transform.position = recordedPosition;
-			playerRB.velocity = recordedVelocity;
-			playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
-			playerRB.isKinematic = false;
-            FlipMechanic.done = false;
 		}
 		if (Input.GetKeyDown(KeyCode.R))
 		{
@@ -324,11 +305,6 @@ public class PlayerController : MonoBehaviour {
         if (collision.collider.OverlapPoint(recordedPosition))
         {
             dangerCheck = true;
-            transform.position = recordedPosition;
-            inSequence = true;
-            playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
-            playerRB.isKinematic = true;
-            FlipMechanic.aniTime = 0.0f;
         }
 	}
 

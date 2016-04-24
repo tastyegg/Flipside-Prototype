@@ -11,6 +11,7 @@ public class FlipMechanic : MonoBehaviour {
     public static Color errcolor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
     public static Color basecolor;
 	public static float aniTime = 0.0f;
+	public static float previewAniTime = 0.0f;
 	public static int flipsideD;
     public static bool done;
 
@@ -70,18 +71,24 @@ public class FlipMechanic : MonoBehaviour {
 	{
 		if (flipside == 1)
 		{
-			transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), transform.position.y, transform.position.z);
-            transform.eulerAngles = new Vector3(180 + 180 * yrot, Mathf.Lerp(180 * xrot, 180 + 180 * xrot, aniTime), 0.0f);
+			preview.transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), transform.position.y, transform.position.z);
+			transform.position = new Vector3(destination.x, transform.position.y, transform.position.z);
+			preview.transform.eulerAngles = new Vector3(180 + 180 * yrot, Mathf.Lerp(180 * xrot, 180 + 180 * xrot, aniTime), 0.0f);
+			transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
 		}
 		else if (flipside == 2)
 		{
-			transform.position = new Vector3(transform.position.x, Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
-            transform.eulerAngles = new Vector3(Mathf.Lerp(180 * yrot, 180 + 180 * yrot, aniTime), 180 + 180 * xrot, 0.0f);
+			preview.transform.position = new Vector3(transform.position.x, Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
+			transform.position = new Vector3(transform.position.x, destination.y, transform.position.z);
+			preview.transform.eulerAngles = new Vector3(Mathf.Lerp(180 * yrot, 180 + 180 * yrot, aniTime), 180 + 180 * xrot, 0.0f);
+			transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
 		}
 		else if (flipside == 3)
 		{
-			transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
-            transform.eulerAngles = new Vector3(0.0f, 0.0f, Mathf.Lerp(0, 180, aniTime));
+			preview.transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
+			transform.position = new Vector3(destination.x, destination.y, transform.position.z);
+			preview.transform.eulerAngles = new Vector3(0.0f, 0.0f, Mathf.Lerp(0, 180, aniTime));
+			transform.eulerAngles = new Vector3(0.0f, 0.0f, 180);
 		}
         axisX = false;
         axisY = false;
@@ -171,23 +178,8 @@ public class FlipMechanic : MonoBehaviour {
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
         axisX = false;
         axisY = false;
-        gameObject.GetComponent<SpriteRenderer>().color = basecolor;
-		if (inSequence)
-		{
-			previewSprite.color = Color.clear;
-			GetComponent<PolygonCollider2D>().enabled = false;
-			Flipside();
-			if (aniTime >= 1.0f)
-			{
-				PlayerController.dangerCheck = false;
-				inSequence = false;
-				//transform.eulerAngles = Vector3.zero;
-                preview.transform.position = transform.position;
-                done = true;
-                transform.rotation = Quaternion.Euler(new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0));
-			}
-        }
-        else if (blinktime < blinkmax){
+        GetComponent<SpriteRenderer>().color = basecolor;
+        if (blinktime < blinkmax){
 			if (PlayerController.ydanger)
 			{
 				preview.transform.localPosition = new Vector3(transform.localPosition.x, -transform.localPosition.y, transform.localPosition.z);
@@ -203,16 +195,9 @@ public class FlipMechanic : MonoBehaviour {
 				preview.transform.localEulerAngles = angle;
 			}
 			previewSprite.GetComponent<SpriteRenderer>().color = errcolor;
-
-    //        if (blinktime > 0.33 * blinkmax && blinktime < 0.66 * blinkmax)
-    //        {
-				//previewSprite.GetComponent<SpriteRenderer>().color = Color.clear;
-    //        }
         }
-        else //if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().getFocus() > 0.0f)
+        else
 		{
-			GetComponent<PolygonCollider2D>().enabled = true;
-
 			if (PlayerController.inFocus)
 			{
 				if (PlayerController.enteringFocus)
@@ -283,9 +268,23 @@ public class FlipMechanic : MonoBehaviour {
                     yrot = (yrot + 1) % 2;
                 }
             }
-            
-        }
-        
+
+		}
+		if (inSequence)
+		{
+			previewSprite.color = basecolor;
+			GetComponent<SpriteRenderer>().color = Color.clear;
+			Flipside();
+			if (aniTime >= 1.0f)
+			{
+				PlayerController.dangerCheck = false;
+				inSequence = false;
+				preview.transform.position = transform.position;
+				done = true;
+				transform.rotation = Quaternion.Euler(new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0));
+			}
+		}
+
 	}
     
 }
