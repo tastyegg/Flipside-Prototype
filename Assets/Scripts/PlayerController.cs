@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour {
 	Rigidbody2D playerRB;
     private Animator animator;
     private AudioSource audioPlayer;
+    private AudioSource bgmPlayer;
 
     bool inSequence;	//Time for frozen animation
 	bool grounded;
@@ -48,6 +49,11 @@ public class PlayerController : MonoBehaviour {
     public AudioClip spawnAudio;
     public AudioClip jumpAudio;
 
+    //more audio
+    public AudioClip landingAudio;
+    public AudioClip focusAudio;
+    public AudioClip bgm; //notreally used
+
     float focusTimer;
     bool dropFocus;
 
@@ -71,6 +77,7 @@ public class PlayerController : MonoBehaviour {
 		playerRB = GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
         audioPlayer = this.GetComponent<AudioSource>();
+        bgmPlayer = this.GetComponents<AudioSource>()[1];
         recordedPosition = transform.position;
         facingRight = true;
         StartCoroutine("Spawn");
@@ -78,6 +85,9 @@ public class PlayerController : MonoBehaviour {
         dropFocus = false;
         axisX = false;
         axisY = false;
+
+        //bgmPlayer.PlayOneShot(bgm);
+        //bgmPlayer.loop = true;
     }
 	
 	public void Reset()
@@ -193,6 +203,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			Time.timeScale = 0.2f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            audioPlayer.PlayOneShot(focusAudio);
 		}
 		if (exitingFocus || (!inFocus && (axisButtonDownFlipX || axisButtonDownFlipY) && FlipMechanic.blinktime > FlipMechanic.blinkmax))
 		{
@@ -204,6 +215,7 @@ public class PlayerController : MonoBehaviour {
 			
 			Time.timeScale = 1.0f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            audioPlayer.Stop();
 		}
 		if (inSequence && FlipMechanic.aniTime >= 1.0f && FlipMechanic.done)
 		{
@@ -357,7 +369,6 @@ public class PlayerController : MonoBehaviour {
         {
             //run teleport
         }*/
-        
 	}
 
 	void OnBecameInvisible()
