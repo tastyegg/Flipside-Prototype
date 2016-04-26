@@ -55,7 +55,6 @@ public class PlayerController : MonoBehaviour {
     public bool axisX;
     public bool axisY;
    
-
     public float acceleration_speed;
     public float velocity_cap;
     public float stopping_power;
@@ -64,6 +63,8 @@ public class PlayerController : MonoBehaviour {
     public float jump_hold_max;
     public float jump_hold_min;
     public float run_factor;
+
+	ParticleSystem dustSystem;
 
     // Use this for initialization
     void Start ()
@@ -78,6 +79,7 @@ public class PlayerController : MonoBehaviour {
         dropFocus = false;
         axisX = false;
         axisY = false;
+		dustSystem = GetComponentsInChildren<ParticleSystem>()[3];
     }
 	
 	public void Reset()
@@ -304,9 +306,14 @@ public class PlayerController : MonoBehaviour {
         }
 
         if (jumpTimer <= 2.0f) jumpTimer += Time.fixedDeltaTime;
-        
+
+		bool prevGrounded = grounded;
         grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
-        if (!animator.GetBool("jumping") != grounded)
+		Color dc = dustSystem.startColor;
+		dc.a = grounded || jumpTimer <= 0.11f ? 0.3f : 0;
+		dustSystem.startColor = dc;
+
+		if (!animator.GetBool("jumping") != grounded)
             animator.SetBool("jumping", !grounded);
 
         //Sync walk animation with velocity
