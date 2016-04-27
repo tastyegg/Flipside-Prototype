@@ -14,8 +14,9 @@ public class SceneSelector : MonoBehaviour {
 
 	int sceneIndex, maxScenes;
 	int flip = 0;
-	
-	void Awake() {
+    float levelSelectAxis;
+
+    void Awake() {
 		c = GetComponent<Canvas>();
 		t = c.GetComponentInChildren<Button>().GetComponentInChildren<Text>();
 		Button[] buttons = c.GetComponentsInChildren<Button>();
@@ -29,6 +30,7 @@ public class SceneSelector : MonoBehaviour {
 		levelThumbnail = images[1];
 		loadingThumbnail = images[2];
 
+        levelSelectAxis = 0;
 		sceneIndex = 1;
 		UpdateSceneSelection();
 	}
@@ -47,31 +49,34 @@ public class SceneSelector : MonoBehaviour {
 		t.position = new Vector3(-v.x, v.y, v.z);
 	}
 
+
 	void Update()
-	{
-		leftButton.gameObject.GetComponent<Image>().color = Color.white;
+    {
+        float levelSelectAxisCurrent = Input.GetAxis("SelectLevel");
+
+        leftButton.gameObject.GetComponent<Image>().color = Color.white;
 		rightButton.gameObject.GetComponent<Image>().color = Color.white;
-		if (Input.GetKeyDown(KeyCode.LeftShift))
+		if (PlayerController.inFocus)
 		{
 			shiftButton.gameObject.GetComponent<Image>().color = Color.cyan;
 			RevealButton(true);
-		} else if (Input.GetKeyUp(KeyCode.LeftShift))
+		} else if (PlayerController.exitingFocus)
 		{
 			shiftButton.gameObject.GetComponent<Image>().color = Color.white;
 			RevealButton(false);
 		}
-		if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+		if (PlayerController.axisButtonDownFlipX || Input.GetKey(KeyCode.LeftArrow))
 		{
 			leftButton.gameObject.GetComponent<Image>().color = Color.cyan;
 		}
-		if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+		if (PlayerController.axisButtonDownFlipX || Input.GetKey(KeyCode.RightArrow))
 		{
 			rightButton.gameObject.GetComponent<Image>().color = Color.cyan;
 		}
-		if (!Input.GetKey(KeyCode.LeftShift) && (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)))
+		if (!PlayerController.inFocus && (levelSelectAxis == 0 && levelSelectAxisCurrent < 0))
 		{
 			PreviousLevel();
-		} else if (!Input.GetKey(KeyCode.LeftShift) && (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)))
+		} else if (!PlayerController.inFocus && (levelSelectAxis == 0 && levelSelectAxisCurrent > 0))
 		{
 			NextLevel();
 		}
@@ -96,6 +101,7 @@ public class SceneSelector : MonoBehaviour {
 			flip = 0;
 			FlipChildren(transform);
 		}
+        levelSelectAxis = levelSelectAxisCurrent;
 	}
 
 	void UpdateSceneSelection()

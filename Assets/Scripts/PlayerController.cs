@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour {
     private Animator animator;
     private AudioSource audioPlayer;
 
-    bool inSequence;	//Time for frozen animation
 	bool grounded;
     bool facingRight;
 	public static bool dangerCheck;
@@ -31,7 +30,6 @@ public class PlayerController : MonoBehaviour {
     bool jumpHoldCanceled = true;
 	Vector3 recordedPosition;
 	Vector2 recordedVelocity;
-    bool running;
     public static bool enteringFocus;
     public static bool inFocus;
     public static bool exitingFocus;
@@ -142,7 +140,7 @@ public class PlayerController : MonoBehaviour {
         {
             jumpHoldTimer += Time.fixedDeltaTime;
             //hold down jump to jump higher
-            if (jumpHoldTimer < jump_hold_max && !jumpHoldCanceled && !inSequence)
+            if (jumpHoldTimer < jump_hold_max && !jumpHoldCanceled)
             {
                 playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
             }
@@ -269,7 +267,6 @@ public class PlayerController : MonoBehaviour {
     {
         //cap velocity
         float cur_velocity_cap = velocity_cap;
-        if (running) cur_velocity_cap *= run_factor;
 
         if (playerRB.velocity.x >= cur_velocity_cap)
         {
@@ -282,7 +279,6 @@ public class PlayerController : MonoBehaviour {
 
         if (jumpTimer <= 2.0f) jumpTimer += Time.fixedDeltaTime;
 
-		bool prevGrounded = grounded;
         grounded = Physics2D.OverlapArea(groundCheckLeft.position, groundCheckRight.position, whatIsGround);
 		Color dc = dustSystem.startColor;
 		dc.a = grounded || jumpTimer <= 0.11f ? 0.3f : 0;
@@ -296,7 +292,18 @@ public class PlayerController : MonoBehaviour {
         
     }
 	
-
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.collider.CompareTag("Cannonball") && !collision.collider.GetComponent<Rigidbody2D>().isKinematic && collision.collider.GetComponent<Cannonball>().killsPlayer)
+		{
+            GetComponent<SpriteRenderer>().enabled = false; //This automatically executes OnBecameInvisible()
+            Destroy(collision.collider.gameObject);
+        }
+        if (collision.collider.OverlapPoint(recordedPosition))
+        {
+            dangerCheck = true;
+        }
+	}
 
 	void LoadNextLevel()
 	{
@@ -345,10 +352,10 @@ public class PlayerController : MonoBehaviour {
                 transform.position = pos;
             }
             else if (posPixel.y < 0)
-                Invoke("Reset", 0.7f);
+                Die();
         }
         else
-            Invoke("Reset", 0.7f);
+            Die();
 	}
 
     void ChangeDirection()
@@ -357,6 +364,17 @@ public class PlayerController : MonoBehaviour {
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    public void Die()
+    {
+        Color tmp = GetComponent<SpriteRenderer>().color;
+        tmp.a = 0;
+        GetComponent<SpriteRenderer>().color = tmp;
+        audioPlayer.PlayOneShot(smokeAudio);
+        GetComponent<ParticleSystem>().Emit(20);
+        Invoke("Reset", 0.7f);
+        transform.position = new Vector3(int.MaxValue, 0, 0);
     }
 
     IEnumerator Spawn()

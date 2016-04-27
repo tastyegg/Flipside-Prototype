@@ -285,7 +285,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: D
+  m_Text: ->
 --- !u!222 &125109848
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -678,7 +678,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: A
+  m_Text: <-
 --- !u!222 &610562994
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -797,6 +797,7 @@ GameObject:
   - 212: {fileID: 887904900}
   - 114: {fileID: 887904899}
   - 61: {fileID: 887904898}
+  - 114: {fileID: 887904901}
   m_Layer: 0
   m_Name: walldown (1)
   m_TagString: Wall
@@ -874,6 +875,18 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!114 &887904901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 887904896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!1 &899061169
 GameObject:
   m_ObjectHideFlags: 0
@@ -1574,6 +1587,7 @@ GameObject:
   - 212: {fileID: 1419480933}
   - 114: {fileID: 1419480932}
   - 61: {fileID: 1419480931}
+  - 114: {fileID: 1419480930}
   m_Layer: 0
   m_Name: walldown
   m_TagString: Wall
@@ -1593,6 +1607,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1404029137}
   m_RootOrder: 0
+--- !u!114 &1419480930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1419480928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previewGoalTemp: {fileID: 0}
 --- !u!61 &1419480931
 BoxCollider2D:
   m_ObjectHideFlags: 0

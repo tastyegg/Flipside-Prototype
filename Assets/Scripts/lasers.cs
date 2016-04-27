@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[ExecuteInEditMode]
 public class lasers : MonoBehaviour
 {
 	public int direction;
@@ -8,28 +9,15 @@ public class lasers : MonoBehaviour
 	PlayerController pc;
 	LineRenderer lr;
 	RaycastHit2D[] rchs2d;
-	Vector2 dvec;
+
+    Vector3 lastHitPoint;
+
 	// Use this for initialization
 	void Start()
 	{
 		lr = gameObject.GetComponent<LineRenderer>();
-		if (direction == 0)
-		{
-			dvec = Vector2.up;
-		}
-		else if (direction == 1)
-		{
-			dvec = Vector2.right;
-		}
-		else if (direction == 2)
-		{
-			dvec = Vector2.down;
-		}
-		else
-		{
-			dvec = Vector2.left;
-		}
 		pc = player.GetComponent<PlayerController>();
+        lastHitPoint = transform.position;
 	}
 
 	// Update is called once per frame
@@ -61,6 +49,7 @@ public class lasers : MonoBehaviour
 		lr.SetPosition(1, new Vector3(x, y, 2));
 
 		int laserHit = rchs2d.Length;
+        Vector3 npos = transform.position;
 		for (int i = rchs2d.Length - 1; i >= 0; i--)
 		{
 			RaycastHit2D rch2d = rchs2d[i];
@@ -69,21 +58,19 @@ public class lasers : MonoBehaviour
 				//Checks if the first collision is the player, which would mean it's hitting the player.
 				if (rch2d.collider.tag == "Player" && i == 0)
 				{
-					pc.Reset();
+					pc.Die();
 				}
 				else if (rch2d.collider.tag != "WallPreview")
 				{
 					if (direction == 0 || direction == 2)
 					{
 						y = rch2d.point.y;
-						Vector3 npos = new Vector3(transform.position.x, y, 1);
-						lr.SetPosition(1, npos);
-					}
+						npos = new Vector3(transform.position.x, y, 1);
+                    }
 					else
 					{
 						x = rch2d.point.x;
-						Vector3 npos = new Vector3(x, transform.position.y, 1);
-						lr.SetPosition(1, npos);
+						npos = new Vector3(x, transform.position.y, 1);
 					}
 				} else
 				{
@@ -92,9 +79,11 @@ public class lasers : MonoBehaviour
 			}
 		}
 
-		//Disables rendering during flip
-		if (laserHit <= 0) {
-			lr.SetPosition(1, new Vector3(transform.position.x, transform.position.y, 1));
+        lastHitPoint = Vector3.Lerp(lastHitPoint, npos, FlipMechanic.aniTime);
+        lr.SetPosition(1, lastHitPoint);
+        //Disables rendering during flip
+        if (laserHit <= 0) {
+			lr.SetPosition(1, transform.position);
 		}
 	}
 }
