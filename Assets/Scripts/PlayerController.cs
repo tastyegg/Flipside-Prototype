@@ -296,18 +296,7 @@ public class PlayerController : MonoBehaviour {
         
     }
 	
-	void OnCollisionEnter2D(Collision2D collision)
-	{
-		if (collision.collider.CompareTag("Cannonball") && !collision.collider.GetComponent<Rigidbody2D>().isKinematic && collision.collider.GetComponent<Cannonball>().killsPlayer)
-		{
-            GetComponent<SpriteRenderer>().enabled = false; //This automatically executes OnBecameInvisible()
-            Destroy(collision.collider.gameObject);
-        }
-        if (collision.collider.OverlapPoint(recordedPosition))
-        {
-            dangerCheck = true;
-        }
-	}
+
 
 	void LoadNextLevel()
 	{
@@ -328,7 +317,7 @@ public class PlayerController : MonoBehaviour {
             audioPlayer.PlayOneShot(smokeAudio);
             GetComponent<ParticleSystem>().Emit(500);
 			GetComponentsInChildren<ParticleSystem>()[2].gameObject.SetActive(false);
-			GetComponentsInChildren<ParticleSystem>()[3].gameObject.SetActive(false);
+			//GetComponentsInChildren<ParticleSystem>()[3].gameObject.SetActive(false);
 			Invoke("LoadNextLevel", 2.1f);
             double tRank = GameObject.Find("Text").GetComponent<Text>().GetComponent<Timer>().stop();
         }
