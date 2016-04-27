@@ -27,7 +27,7 @@ public class Timer : MonoBehaviour {
 	void Update () {
         if (stopped == false)
         {
-            ttime += Time.deltaTime;
+            ttime += Time.deltaTime / Time.timeScale;
             double itime = (int)(ttime * 1000);
             double dtime = (double)itime / 1000;
             tbox.text = "" + dtime;
