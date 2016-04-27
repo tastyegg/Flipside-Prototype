@@ -319,7 +319,16 @@ public class PlayerController : MonoBehaviour {
 			GetComponentsInChildren<ParticleSystem>()[2].gameObject.SetActive(false);
 			//GetComponentsInChildren<ParticleSystem>()[3].gameObject.SetActive(false);
 			Invoke("LoadNextLevel", 2.1f);
-            double tRank = GameObject.Find("Text").GetComponent<Text>().GetComponent<Timer>().stop();
+            double tRank = GameObject.Find("StarBox").GetComponent<Timer>().stop();
+        }
+        if (collider.CompareTag("Star"))
+        {
+            Color tmp = GetComponent<SpriteRenderer>().color;
+            tmp.a = 0;
+            collider.GetComponent<SpriteRenderer>().color = tmp;
+            //GetComponentsInChildren<ParticleSystem>()[3].gameObject.SetActive(false);
+            GameObject.Find("StarBox").GetComponent<Timer>().bonusStar();
+            Destroy(collider.gameObject);
         }
         /*else if (collider.gameObject.CompareTag("Portal"))
         {
@@ -327,6 +336,7 @@ public class PlayerController : MonoBehaviour {
         }*/
         
 	}
+
 
 	void OnBecameInvisible()
 	{
