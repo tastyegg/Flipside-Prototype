@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour {
 	Rigidbody2D playerRB;
     private Animator animator;
     private AudioSource audioPlayer;
+    private AudioSource bgmPlayer;
 
 	bool grounded;
     bool facingRight;
@@ -50,6 +51,11 @@ public class PlayerController : MonoBehaviour {
     public AudioClip spawnAudio;
     public AudioClip jumpAudio;
 
+    //more audio
+    public AudioClip landingAudio;
+    public AudioClip focusAudio;
+    public AudioClip bgm; //notreally used
+
     float focusTimer;
     bool dropFocus;
 
@@ -74,6 +80,7 @@ public class PlayerController : MonoBehaviour {
 		playerRB = GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
         audioPlayer = this.GetComponent<AudioSource>();
+        bgmPlayer = this.GetComponents<AudioSource>()[1];
         recordedPosition = transform.position;
         facingRight = true;
         StartCoroutine("Spawn");
@@ -82,6 +89,8 @@ public class PlayerController : MonoBehaviour {
         axisX = false;
         axisY = false;
 		dustSystem = GetComponentsInChildren<ParticleSystem>()[3];
+        //bgmPlayer.PlayOneShot(bgm);
+        //bgmPlayer.loop = true;
     }
 	
 	public void Reset()
@@ -150,6 +159,7 @@ public class PlayerController : MonoBehaviour {
                 jumpTimer = 0.0f;
                 jumpHoldCanceled = false;
                 audioPlayer.PlayOneShot(jumpAudio);
+                audioPlayer.volume = 0.5f;
                 animator.SetBool("jumping", true);
                 playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
             }
@@ -180,11 +190,15 @@ public class PlayerController : MonoBehaviour {
 		{
 			Time.timeScale = slowSpeed;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            //audioPlayer.PlayOneShot(focusAudio);
+            bgmPlayer.pitch = Time.timeScale * 2.0f;
 		}
 		if (exitingFocus || (!inFocus && (axisButtonDownFlipX || axisButtonDownFlipY) && FlipMechanic.blinktime > FlipMechanic.blinkmax))
 		{
 			Time.timeScale = 1.0f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            //audioPlayer.Stop();
+            bgmPlayer.pitch = Time.timeScale;
 		}
 		if (Input.GetButtonDown("Exit"))
 		{
