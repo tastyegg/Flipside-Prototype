@@ -186,13 +186,12 @@ public class PlayerController : MonoBehaviour {
 			Time.timeScale = 1.0f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 		}
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			Reset();
-		}
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (Input.GetButtonDown("Exit"))
 		{
 			SceneManager.LoadScene(0);
+		} else if (Input.GetButtonDown("Reset"))
+		{
+			Reset();
 		}
 
 		dangerCheck = false;

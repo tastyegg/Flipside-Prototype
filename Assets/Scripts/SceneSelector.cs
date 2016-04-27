@@ -23,8 +23,6 @@ public class SceneSelector : MonoBehaviour {
 		shiftButton = buttons[3];
 		leftButton = buttons[4];
 		rightButton = buttons[5];
-		leftButton.gameObject.SetActive(false);
-		rightButton.gameObject.SetActive(false);
 
 		Image[] images = buttons[0].GetComponentsInChildren<Image>();
 		levelThumbnail = images[1];
@@ -35,21 +33,6 @@ public class SceneSelector : MonoBehaviour {
 		UpdateSceneSelection();
 	}
 
-	void FlipChildren(Transform t)
-	{
-		for (int i = 0; i < t.childCount; i++)
-		{
-			FlipPosition(t.GetChild(i));
-		}
-	}
-
-	void FlipPosition(Transform t)
-	{
-		Vector3 v = t.position;
-		t.position = new Vector3(-v.x, v.y, v.z);
-	}
-
-
 	void Update()
     {
         float levelSelectAxisCurrent = Input.GetAxis("SelectLevel");
@@ -59,24 +42,22 @@ public class SceneSelector : MonoBehaviour {
 		if (PlayerController.inFocus)
 		{
 			shiftButton.gameObject.GetComponent<Image>().color = Color.cyan;
-			RevealButton(true);
 		} else if (PlayerController.exitingFocus)
 		{
 			shiftButton.gameObject.GetComponent<Image>().color = Color.white;
-			RevealButton(false);
 		}
-		if (PlayerController.axisButtonDownFlipX || Input.GetKey(KeyCode.LeftArrow))
+		if (PlayerController.axisButtonFlipY)
 		{
 			leftButton.gameObject.GetComponent<Image>().color = Color.cyan;
 		}
-		if (PlayerController.axisButtonDownFlipX || Input.GetKey(KeyCode.RightArrow))
+		if (PlayerController.axisButtonFlipX)
 		{
 			rightButton.gameObject.GetComponent<Image>().color = Color.cyan;
 		}
-		if (!PlayerController.inFocus && (levelSelectAxis == 0 && levelSelectAxisCurrent < 0))
+		if (levelSelectAxis != levelSelectAxisCurrent && levelSelectAxisCurrent < 0)
 		{
 			PreviousLevel();
-		} else if (!PlayerController.inFocus && (levelSelectAxis == 0 && levelSelectAxisCurrent > 0))
+		} else if (levelSelectAxis != levelSelectAxisCurrent && levelSelectAxisCurrent > 0)
 		{
 			NextLevel();
 		}
@@ -88,20 +69,26 @@ public class SceneSelector : MonoBehaviour {
 		{
 			loadingThumbnail.color = Color.Lerp(loadingThumbnail.color, Color.clear, 0.1f);
 		}
-
-		if (Input.GetKey(KeyCode.LeftShift))
+		
+		if (Input.GetButtonDown("FlipX") || Input.GetButtonDown("FlipY"))
 		{
-			if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
-			{
-				flip++;
-			}
+			flip++;
 		}
-		if (Input.GetKeyUp(KeyCode.LeftShift) && flip % 2 == 1)
+		if (flip % 2 == 1)
 		{
+			GameObject g = GameObject.Find("Panel");
+			Transform t = g.transform;
+			t.localScale = new Vector3(-t.localScale.x, t.localScale.y, t.localScale.z);
+			flip--;
+		}
+		if (flip == 2)
+		{
+			GameObject g = GameObject.Find("Panel");
+			Transform t = g.transform;
+			t.localScale = new Vector3(t.localScale.x, -t.localScale.y, t.localScale.z);
 			flip = 0;
-			FlipChildren(transform);
 		}
-        levelSelectAxis = levelSelectAxisCurrent;
+		levelSelectAxis = levelSelectAxisCurrent;
 	}
 
 	void UpdateSceneSelection()
@@ -131,12 +118,6 @@ public class SceneSelector : MonoBehaviour {
 		{
 			return new Sprite();
 		}
-	}
-
-	public void RevealButton(bool value)
-	{
-		leftButton.gameObject.SetActive(value);
-		rightButton.gameObject.SetActive(value);
 	}
 
 	public void PreviousLevel()
