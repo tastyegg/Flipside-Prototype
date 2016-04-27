@@ -330,6 +330,10 @@ Prefab:
       propertyPath: m_Name
       value: TileSquare (24)
       objectReference: {fileID: 0}
+    - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
   m_IsPrefabParent: 0
@@ -380,6 +384,10 @@ Prefab:
       propertyPath: m_Name
       value: TileSquare (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
   m_IsPrefabParent: 0
@@ -429,6 +437,10 @@ Prefab:
     - target: {fileID: 167552, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
       propertyPath: m_Name
       value: TileSquare (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
@@ -554,6 +566,10 @@ Prefab:
       propertyPath: m_Name
       value: TileSquare (27)
       objectReference: {fileID: 0}
+    - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
   m_IsPrefabParent: 0
@@ -657,6 +673,10 @@ Prefab:
     - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
       propertyPath: m_LocalScale.y
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
@@ -1019,6 +1039,10 @@ Prefab:
     - target: {fileID: 167552, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
       propertyPath: m_Name
       value: TileSquare (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
@@ -1406,6 +1430,10 @@ Prefab:
       propertyPath: m_Name
       value: TileSquare (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
   m_IsPrefabParent: 0
@@ -1463,6 +1491,10 @@ Prefab:
     - target: {fileID: 167552, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
       propertyPath: m_Name
       value: TileSquare (23)
+      objectReference: {fileID: 0}
+    - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
@@ -1555,6 +1587,10 @@ Prefab:
     - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
       propertyPath: m_LocalScale.x
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
@@ -1659,6 +1695,10 @@ Prefab:
     - target: {fileID: 167552, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
       propertyPath: m_Name
       value: TileSquare (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
@@ -1858,6 +1898,10 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
   m_IsPrefabParent: 0
@@ -2012,6 +2056,10 @@ Prefab:
       propertyPath: m_Name
       value: TileSquare (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
   m_IsPrefabParent: 0
@@ -2061,6 +2109,10 @@ Prefab:
     - target: {fileID: 167552, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
       propertyPath: m_Name
       value: TileSquare (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 412086, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 928c5b9f618388a419f69b4604be66d5, type: 2}
