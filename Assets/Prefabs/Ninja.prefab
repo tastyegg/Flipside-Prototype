@@ -344,6 +344,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77670febed66a1d4988ca1ae8b9f70ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationSpeed: 11
+  previewAnimationSpeed: 5
+  blinkSpeed: 6
+  slowSpeed: 0.1
   walkVelocity: 5.5
   jumpForce: 11
   FOCUS_TIMER: 10
