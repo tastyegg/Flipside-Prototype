@@ -328,7 +328,7 @@ public class PlayerController : MonoBehaviour {
             audioPlayer.PlayOneShot(smokeAudio);
             GetComponent<ParticleSystem>().Emit(500);
 			GetComponentsInChildren<ParticleSystem>()[2].gameObject.SetActive(false);
-			//GetComponentsInChildren<ParticleSystem>()[3].gameObject.SetActive(false);
+			GetComponentsInChildren<ParticleSystem>()[2].gameObject.SetActive(false);
 			Invoke("LoadNextLevel", 2.1f);
             double tRank = GameObject.Find("Text").GetComponent<Text>().GetComponent<Timer>().stop();
         }
