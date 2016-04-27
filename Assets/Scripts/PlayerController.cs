@@ -166,6 +166,7 @@ public class PlayerController : MonoBehaviour {
                 jumpTimer = 0.0f;
                 jumpHoldCanceled = false;
                 audioPlayer.PlayOneShot(jumpAudio);
+                audioPlayer.volume = 0.5f;
                 animator.SetBool("jumping", true);
                 playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
             }
