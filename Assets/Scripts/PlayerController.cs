@@ -203,7 +203,8 @@ public class PlayerController : MonoBehaviour {
 		{
 			Time.timeScale = 0.2f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            audioPlayer.PlayOneShot(focusAudio);
+            //audioPlayer.PlayOneShot(focusAudio);
+            bgmPlayer.pitch = Time.timeScale * 2.0f;
 		}
 		if (exitingFocus || (!inFocus && (axisButtonDownFlipX || axisButtonDownFlipY) && FlipMechanic.blinktime > FlipMechanic.blinkmax))
 		{
@@ -215,7 +216,8 @@ public class PlayerController : MonoBehaviour {
 			
 			Time.timeScale = 1.0f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            audioPlayer.Stop();
+            //audioPlayer.Stop();
+            bgmPlayer.pitch = Time.timeScale;
 		}
 		if (inSequence && FlipMechanic.aniTime >= 1.0f && FlipMechanic.done)
 		{
