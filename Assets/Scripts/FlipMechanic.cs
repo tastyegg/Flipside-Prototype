@@ -7,9 +7,9 @@ using UnityEngine;
 using System.Collections;
 
 public class FlipMechanic : MonoBehaviour {
-    public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.6f);
+    public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.8f);
     public static Color errcolor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
-    public static Color basecolor = new Color(0.8f, 0.8f, 1.0f, 1.0f);
+    public static Color basecolor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 	public static float aniTime = 0.0f;
 	public static float previewAniTime = 0.0f;
 	public static int flipsideD;
@@ -51,6 +51,7 @@ public class FlipMechanic : MonoBehaviour {
 		preview.tag = "WallPreview";
 		SpriteRenderer previewSprite = preview.AddComponent<SpriteRenderer>();
 		previewSprite.sprite = GetComponent<SpriteRenderer>().sprite;
+		previewSprite.material = GetComponent<SpriteRenderer>().material;
 		previewSprite.color = Color.clear;
 		flipside = 0;
         //added for red preview
