@@ -67,8 +67,8 @@ public class FlipMechanic : MonoBehaviour {
 
 	void Flipside()
 	{
-		Debug.Log(CG_flipside % 4);
-		GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
+		if (aniTime >= 0.5f)
+			GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 		if (flipside == 1)
 		{
 			preview.transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), transform.position.y, transform.position.z);
@@ -209,6 +209,7 @@ public class FlipMechanic : MonoBehaviour {
 				{
 					if (previewFlipside != 0 && !PlayerController.dangerCheck)
 					{
+						GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 						flipside = previewFlipside;
 						flipsideD = previewFlipside;
 						if (flipside % 2 == 1)
@@ -244,6 +245,7 @@ public class FlipMechanic : MonoBehaviour {
                 }
                 else if (PlayerController.axisButtonDownFlipX)
 				{
+					GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 					if (CG_flipside % 2 == 0)
 						CG_flipside++;
 					else
@@ -263,6 +265,7 @@ public class FlipMechanic : MonoBehaviour {
                 }
                 else if (PlayerController.axisButtonDownFlipY)
 				{
+					GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 					CG_flipside += 2;
 					flipside = 2;
                     flipsideD = flipside;
