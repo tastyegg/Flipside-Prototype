@@ -28,6 +28,7 @@ public class FlipMechanic : MonoBehaviour {
 	int flipside;   //1 for horizontial, 2 for vertical
 	int CG_flipside;
 	Vector3 destination;
+	static int lastFlipAttempt;
 
     public bool getSeq() { return inSequence; }
 
@@ -60,9 +61,10 @@ public class FlipMechanic : MonoBehaviour {
         previewGoalTemp = preview;
         previewGoalTemp.AddComponent<PolygonCollider2D>();
         previewGoalTemp.GetComponent<PolygonCollider2D>().isTrigger = true;
-        blinktime = blinkmax + 0.1f;
+        blinktime = blinkmax;
         xrot = 1;
         yrot = 1;
+		lastFlipAttempt = 0;
 	}
 
 	void Flipside()
@@ -145,7 +147,7 @@ public class FlipMechanic : MonoBehaviour {
 
         previewGoalTemp.transform.position = previewGoal; //added for red
         
-		preview.transform.position = new Vector3(Mathf.Lerp(previewStart.x, previewGoal.x, previewAniTime), Mathf.Lerp(previewStart.y, previewGoal.y, previewAniTime), preview.transform.position.z);
+		preview.transform.position = new Vector3(Mathf.Lerp(previewStart.x, previewGoal.x, previewAniTime), Mathf.Lerp(previewStart.y, previewGoal.y, previewAniTime), preview.transform.position.z - 1);
 		preview.transform.eulerAngles = new Vector3(Mathf.Lerp(previewStartRotation.x, previewGoalRotation.x, previewAniTime), Mathf.Lerp(previewStartRotation.y, previewGoalRotation.y, previewAniTime), previewGoalRotation.z);
     }
 
@@ -170,21 +172,23 @@ public class FlipMechanic : MonoBehaviour {
 	{
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
         GetComponent<SpriteRenderer>().color = basecolor;
+
         if (blinktime < blinkmax){
-			if (PlayerController.ydanger)
+			Vector3 errorPosition = transform.localPosition;
+			Vector3 errorAngle = transform.localEulerAngles;
+			if (lastFlipAttempt >= 2)
 			{
-				preview.transform.localPosition = new Vector3(transform.localPosition.x, -transform.localPosition.y, transform.localPosition.z);
-				Vector3 angle = transform.localEulerAngles;
-				angle.x = (angle.x + 180) % 360;
-				preview.transform.localEulerAngles = angle;
+				errorPosition.y *= -1;
+				errorAngle.x = (errorAngle.x + 180) % 360;
 			}
-			else if (PlayerController.xdanger)
+			if (lastFlipAttempt % 2 == 1)
 			{
-				preview.transform.localPosition = new Vector3(-transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
-				Vector3 angle = transform.localEulerAngles;
-				angle.y = (angle.y + 180) % 360;
-				preview.transform.localEulerAngles = angle;
+				errorPosition.x *= -1;
+				errorAngle.y = (errorAngle.y + 180) % 360;
 			}
+			errorPosition.z -= 0.001f;
+			preview.transform.localPosition = errorPosition;
+			preview.transform.localEulerAngles = errorAngle;
 			previewSprite.GetComponent<SpriteRenderer>().color = errcolor;
         }
         else
@@ -229,8 +233,9 @@ public class FlipMechanic : MonoBehaviour {
                         yrot = (yrot + (flipside / 2)) % 2;
 					}
                     else if(previewFlipside != 0 && PlayerController.dangerCheck)
-                    {
-                        blinktime = 0.0f;
+					{
+						lastFlipAttempt = previewFlipside;
+						blinktime = 0.0f;
                         done = true;
                     }
                     else
@@ -240,7 +245,8 @@ public class FlipMechanic : MonoBehaviour {
 				}
                 if (PlayerController.xdanger && PlayerController.axisButtonDownFlipX)
                 {
-                    blinktime = 0.0f;
+					lastFlipAttempt = 1;
+					blinktime = 0.0f;
                     done = true;
                 }
                 else if (PlayerController.axisButtonDownFlipX)
@@ -259,8 +265,9 @@ public class FlipMechanic : MonoBehaviour {
                     xrot = (xrot + 1) % 2;
                 }
                 if (PlayerController.ydanger && PlayerController.axisButtonDownFlipY)
-                {
-                    blinktime = 0.0f;
+				{
+					lastFlipAttempt = 2;
+					blinktime = 0.0f;
                     done = true;
                 }
                 else if (PlayerController.axisButtonDownFlipY)
@@ -281,7 +288,9 @@ public class FlipMechanic : MonoBehaviour {
 		if (inSequence)
 		{
 			previewSprite.color = basecolor;
-			GetComponent<SpriteRenderer>().color = Color.clear;
+			Color ghostColor = basecolor;
+			ghostColor.a = FlipMechanic.aniTime * 0.4f;
+			GetComponent<SpriteRenderer>().color = ghostColor;
 			Flipside();
 			if (aniTime >= 1.0f)
 			{

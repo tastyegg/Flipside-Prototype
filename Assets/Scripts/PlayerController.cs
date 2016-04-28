@@ -184,21 +184,28 @@ public class PlayerController : MonoBehaviour {
 		if (FlipMechanic.previewAniTime <= 1.0f)
 			FlipMechanic.previewAniTime += previewAnimationSpeed * Time.deltaTime / Time.timeScale;
 
-		FlipMechanic.blinktime += blinkSpeed * Time.deltaTime / Time.timeScale;
+		if (FlipMechanic.blinktime <= FlipMechanic.blinkmax)
+			FlipMechanic.blinktime += blinkSpeed * Time.deltaTime / Time.timeScale;
 
-		if (enteringFocus)
+		if (inFocus)
 		{
 			Time.timeScale = slowSpeed;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            //audioPlayer.PlayOneShot(focusAudio);
-            bgmPlayer.pitch = Time.timeScale * 2.0f;
+			//audioPlayer.PlayOneShot(focusAudio);
+			bgmPlayer.pitch = Time.timeScale * 8.0f;
 		}
-		if (exitingFocus || (!inFocus && (axisButtonDownFlipX || axisButtonDownFlipY) && FlipMechanic.blinktime > FlipMechanic.blinkmax))
+		if (!inFocus && FlipMechanic.aniTime < 1.0f)
+		{
+			Time.timeScale = Mathf.Clamp(FlipMechanic.aniTime * 2, 0.0001f, 1.0f);
+			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+			bgmPlayer.pitch = Time.timeScale * 8.0f;
+		}
+		if (FlipMechanic.aniTime >= 1.0f && !inFocus || exitingFocus || (!inFocus && (axisButtonDownFlipX || axisButtonDownFlipY) && FlipMechanic.blinktime >= FlipMechanic.blinkmax))
 		{
 			Time.timeScale = 1.0f;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            //audioPlayer.Stop();
-            bgmPlayer.pitch = Time.timeScale;
+			//audioPlayer.Stop();
+			bgmPlayer.pitch = Time.timeScale;
 		}
 		if (Input.GetButtonDown("Exit"))
 		{

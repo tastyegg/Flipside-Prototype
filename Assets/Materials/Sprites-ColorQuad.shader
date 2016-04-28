@@ -45,7 +45,7 @@ Shader "Sprites/ColorQuad"
 				float4 vertex   : SV_POSITION;
 				fixed4 color    : COLOR;
 				float2 texcoord  : TEXCOORD0;
-				float2 screenPos : TEXCOORD1;
+				float4 screenPos : TEXCOORD1;
 			};
 			
 			fixed4 _Color;
@@ -60,7 +60,8 @@ Shader "Sprites/ColorQuad"
 				OUT.vertex = UnityPixelSnap (OUT.vertex);
 				#endif
 				OUT.screenPos = ComputeScreenPos(OUT.vertex);
-
+				OUT.screenPos.x = OUT.screenPos.x / OUT.screenPos.w;
+				OUT.screenPos.y = OUT.screenPos.y / OUT.screenPos.w;
 				return OUT;
 			}
 
