@@ -87,15 +87,15 @@ Shader "Sprites/ColorHalfX"
 				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
 				c.rgb *= c.a;
 				if (IN.screenPos.x < 0.5) {
-					if (Flipside == 0)
+					if (Flipside % 2 == 0)
 						c.gb *= 0.94 * ((IN.screenPos.x) / 0.5 / 4 + 0.75);
-					else if (Flipside == 1)
+					else if (Flipside % 2 == 1)
 						c.rb *= 0.94 * ((IN.screenPos.x) / 0.5 / 4 + 0.75);
 				}
 				else if (IN.screenPos.x > 0.5) {
-					if (Flipside == 0)
+					if (Flipside % 2 == 0)
 						c.rb *= 0.94 * ((1.0 - IN.screenPos.x) / 0.5 / 4 + 0.75);
-					else if (Flipside == 1)
+					else if (Flipside % 2 == 1)
 						c.gb *= 0.94 * ((1.0 - IN.screenPos.x) / 0.5 / 4 + 0.75);
 				}
 
