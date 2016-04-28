@@ -26,6 +26,7 @@ public class FlipMechanic : MonoBehaviour {
 
 	bool inSequence;    //Time for frozen animation
 	int flipside;   //1 for horizontial, 2 for vertical
+	int CG_flipside;
 	Vector3 destination;
 
     public bool getSeq() { return inSequence; }
@@ -42,6 +43,7 @@ public class FlipMechanic : MonoBehaviour {
 
 	void Start ()
 	{
+		CG_flipside = 0;
 		inSequence = false;
 		preview = new GameObject(transform.name + " (Preview)");
 		preview.transform.parent = transform.parent;
@@ -65,6 +67,8 @@ public class FlipMechanic : MonoBehaviour {
 
 	void Flipside()
 	{
+		Debug.Log(CG_flipside % 4);
+		GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 		if (flipside == 1)
 		{
 			preview.transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), transform.position.y, transform.position.z);
@@ -207,6 +211,15 @@ public class FlipMechanic : MonoBehaviour {
 					{
 						flipside = previewFlipside;
 						flipsideD = previewFlipside;
+						if (flipside % 2 == 1)
+						{
+							if (CG_flipside % 2 == 0)
+								CG_flipside++;
+							else
+								CG_flipside--;
+						}
+						if (flipside >= 2)
+							CG_flipside += 2;
 						previewFlipside = 0;
 						destination = previewGoal;
 						inSequence = true;
@@ -230,8 +243,12 @@ public class FlipMechanic : MonoBehaviour {
                     done = true;
                 }
                 else if (PlayerController.axisButtonDownFlipX)
-                {
-                    flipside = 1;
+				{
+					if (CG_flipside % 2 == 0)
+						CG_flipside++;
+					else
+						CG_flipside--;
+					flipside = 1;
                     flipsideD = flipside;
                     destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
                     inSequence = true;
@@ -245,8 +262,9 @@ public class FlipMechanic : MonoBehaviour {
                     done = true;
                 }
                 else if (PlayerController.axisButtonDownFlipY)
-                {
-                    flipside = 2;
+				{
+					CG_flipside += 2;
+					flipside = 2;
                     flipsideD = flipside;
                     destination = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
                     inSequence = true;

@@ -5,6 +5,7 @@ Shader "Sprites/ColorQuad"
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
+		Flipside ("Flipside", Float) = 0
 	}
 
 	SubShader
@@ -78,21 +79,51 @@ Shader "Sprites/ColorQuad"
 				return color;
 			}
 
+			int Flipside;
+
 			fixed4 frag(v2f IN) : SV_Target
 			{
 				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
 				c.rgb *= c.a;
 				if (IN.screenPos.x < 0.5 && IN.screenPos.y > 0.5) {
-					c.gb *= 0.94 * ((IN.screenPos.x) / 0.5 / 4 + 0.75) * ((1.0 - IN.screenPos.y) / 0.5 / 4 + 0.75);
+					if (Flipside == 0)
+						c.gb *= 0.94 * ((IN.screenPos.x) / 0.5 / 4 + 0.75) * ((1.0 - IN.screenPos.y) / 0.5 / 4 + 0.75);
+					else if (Flipside == 1)
+						c.rb *= 0.94 * ((IN.screenPos.x) / 0.5 / 4 + 0.75) * ((1.0 - IN.screenPos.y) / 0.5 / 4 + 0.75);
+					else if (Flipside == 2)
+						c.rg *= 0.94 * ((IN.screenPos.x) / 0.5 / 4 + 0.75) * ((1.0 - IN.screenPos.y) / 0.5 / 4 + 0.75);
+					else if (Flipside == 3)
+						c.r *= 0.94 * ((IN.screenPos.x) / 0.5 / 4 + 0.75) * ((1.0 - IN.screenPos.y) / 0.5 / 4 + 0.75);
 				}
 				else if (IN.screenPos.x > 0.5 && IN.screenPos.y > 0.5) {
-					c.rb *= 0.94 * ((1.0 - IN.screenPos.x) / 0.5 / 4 + 0.75) * ((1.0 - IN.screenPos.y) / 0.5 / 4 + 0.75);
+					if (Flipside == 0)
+						c.rb *= 0.94 * ((1.0 - IN.screenPos.x) / 0.5 / 4 + 0.75) * ((1.0 - IN.screenPos.y) / 0.5 / 4 + 0.75);
+					else if (Flipside == 1)
+						c.gb *= 0.94 * ((1.0 - IN.screenPos.x) / 0.5 / 4 + 0.75) * ((1.0 - IN.screenPos.y) / 0.5 / 4 + 0.75);
+					else if (Flipside == 2)
+						c.r *= 0.94 * ((1.0 - IN.screenPos.x) / 0.5 / 4 + 0.75) * ((1.0 - IN.screenPos.y) / 0.5 / 4 + 0.75);
+					else if (Flipside == 3)
+						c.rg *= 0.94 * ((1.0 - IN.screenPos.x) / 0.5 / 4 + 0.75) * ((1.0 - IN.screenPos.y) / 0.5 / 4 + 0.75);
 				}
 				else if (IN.screenPos.x < 0.5 && IN.screenPos.y < 0.5) {
-					c.rg *= 0.94 * ((IN.screenPos.x) / 0.5 / 4 + 0.75) * ((IN.screenPos.y) / 0.5 / 4 + 0.75);
+					if (Flipside == 0)
+						c.rg *= 0.94 * ((IN.screenPos.x) / 0.5 / 4 + 0.75) * ((IN.screenPos.y) / 0.5 / 4 + 0.75);
+					else if (Flipside == 1)
+						c.r *= 0.94 * ((IN.screenPos.x) / 0.5 / 4 + 0.75) * ((IN.screenPos.y) / 0.5 / 4 + 0.75);
+					else if (Flipside == 2)
+						c.gb *= 0.94 * ((IN.screenPos.x) / 0.5 / 4 + 0.75) * ((IN.screenPos.y) / 0.5 / 4 + 0.75);
+					else if (Flipside == 3)
+						c.rb *= 0.94 * ((IN.screenPos.x) / 0.5 / 4 + 0.75) * ((IN.screenPos.y) / 0.5 / 4 + 0.75);
 				}
 				else if (IN.screenPos.x > 0.5 && IN.screenPos.y < 0.5) {
-					c.r *= 0.94 * ((1.0 - IN.screenPos.x) / 0.5 / 4 + 0.75) * ((IN.screenPos.y) / 0.5 / 4 + 0.75);
+					if (Flipside == 0)
+						c.r *= 0.94 * ((1.0 - IN.screenPos.x) / 0.5 / 4 + 0.75) * ((IN.screenPos.y) / 0.5 / 4 + 0.75);
+					else if (Flipside == 1)
+						c.rg *= 0.94 * ((1.0 - IN.screenPos.x) / 0.5 / 4 + 0.75) * ((IN.screenPos.y) / 0.5 / 4 + 0.75);
+					else if (Flipside == 3)
+						c.gb *= 0.94 * ((1.0 - IN.screenPos.x) / 0.5 / 4 + 0.75) * ((IN.screenPos.y) / 0.5 / 4 + 0.75);
+					else if (Flipside == 2)
+						c.rb *= 0.94 * ((1.0 - IN.screenPos.x) / 0.5 / 4 + 0.75) * ((IN.screenPos.y) / 0.5 / 4 + 0.75);
 				}
 
 				return c;
