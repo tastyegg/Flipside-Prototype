@@ -10,7 +10,7 @@ public class FlipMechanic : MonoBehaviour {
     public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.8f);
     public static Color errcolor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
     public static Color basecolor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-	public static float aniTime = 0.0f;
+	public static float aniTime = 1.0f;
 	public static float previewAniTime = 0.0f;
 	public static int flipsideD;
     public static bool done;
@@ -73,23 +73,19 @@ public class FlipMechanic : MonoBehaviour {
 			GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 		if (flipside == 1)
 		{
-			preview.transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), transform.position.y, transform.position.z);
 			transform.position = new Vector3(destination.x, transform.position.y, transform.position.z);
-			preview.transform.eulerAngles = new Vector3(180 + 180 * yrot, Mathf.Lerp(180 * xrot, 180 + 180 * xrot, aniTime), 0.0f);
 		}
 		else if (flipside == 2)
 		{
-			preview.transform.position = new Vector3(transform.position.x, Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
 			transform.position = new Vector3(transform.position.x, destination.y, transform.position.z);
-			preview.transform.eulerAngles = new Vector3(Mathf.Lerp(180 * yrot, 180 + 180 * yrot, aniTime), 180 + 180 * xrot, 0.0f);
 		}
 		else if (flipside == 3)
 		{
-			preview.transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime * 2), Mathf.Lerp(-destination.y, destination.y, aniTime * 2 - 1.0f), transform.position.z);
 			transform.position = new Vector3(destination.x, destination.y, transform.position.z);
-			preview.transform.eulerAngles = new Vector3(Mathf.Lerp(180 * yrot, 180 + 180 * yrot, aniTime * 2 - 1.0f), Mathf.Lerp(180 * xrot, 180 + 180 * xrot, aniTime * 2), 0.0f);
 		}
+		preview.transform.position = transform.position;
 		transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
+		preview.transform.eulerAngles = transform.eulerAngles;
 	}
 
 	void FlipsidePreview()
@@ -289,16 +285,14 @@ public class FlipMechanic : MonoBehaviour {
 		{
 			previewSprite.color = basecolor;
 			Color ghostColor = basecolor;
-			ghostColor.a = FlipMechanic.aniTime * 0.4f;
+			ghostColor.a = FlipMechanic.aniTime * 0.3f;
 			GetComponent<SpriteRenderer>().color = ghostColor;
 			Flipside();
 			if (aniTime >= 1.0f)
 			{
 				PlayerController.dangerCheck = false;
 				inSequence = false;
-				preview.transform.position = transform.position;
 				done = true;
-				transform.rotation = Quaternion.Euler(new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0));
 			}
 		}
 
