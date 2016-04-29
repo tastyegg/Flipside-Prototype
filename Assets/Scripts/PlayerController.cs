@@ -384,8 +384,9 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void Die()
-    {
-        Color tmp = GetComponent<SpriteRenderer>().color;
+	{
+		bgmPlayer.Stop();
+		Color tmp = GetComponent<SpriteRenderer>().color;
         tmp.a = 0;
         GetComponent<SpriteRenderer>().color = tmp;
         audioPlayer.PlayOneShot(smokeAudio);

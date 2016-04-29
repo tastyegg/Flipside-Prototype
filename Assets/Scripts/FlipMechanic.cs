@@ -289,7 +289,7 @@ public class FlipMechanic : MonoBehaviour {
 		{
 			previewSprite.color = basecolor;
 			Color ghostColor = basecolor;
-			ghostColor.a = FlipMechanic.aniTime * 0.4f;
+			ghostColor.a = FlipMechanic.aniTime * 0.2f;
 			GetComponent<SpriteRenderer>().color = ghostColor;
 			Flipside();
 			if (aniTime >= 1.0f)
