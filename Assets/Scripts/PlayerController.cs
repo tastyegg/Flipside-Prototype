@@ -198,13 +198,13 @@ public class PlayerController : MonoBehaviour {
 			Time.timeScale = slowSpeed;
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
 			//audioPlayer.PlayOneShot(focusAudio);
-			bgmPlayer.pitch = Time.timeScale * 8.0f;
+			bgmPlayer.pitch = Time.timeScale * 2.0f;
 		}
 		if (!inFocus && FlipMechanic.aniTime < 1.0f)
 		{
 			Time.timeScale = Mathf.Clamp(FlipMechanic.aniTime * 2, 0.0001f, 1.0f);
 			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-			bgmPlayer.pitch = Time.timeScale * 8.0f;
+			bgmPlayer.pitch = Time.timeScale * 2.0f;
 		}
 		if (FlipMechanic.aniTime >= 1.0f && !inFocus || exitingFocus || (!inFocus && (axisButtonDownFlipX || axisButtonDownFlipY) && FlipMechanic.blinktime >= FlipMechanic.blinkmax))
 		{
@@ -368,16 +368,14 @@ public class PlayerController : MonoBehaviour {
 
 	void OnBecameInvisible()
 	{
-		if (Camera.allCamerasCount > 0)
-		{
-			Vector3 posPixel = Camera.allCameras[0].WorldToScreenPoint(transform.position);
-			if (posPixel.y > 0 && posPixel.y < Camera.allCameras[0].pixelHeight)
-			{
-				Vector3 pos = transform.position;
-				pos.x = pos.x * (-0.98f);
-				transform.position = pos;
-			}
-		}
+        if (Camera.allCamerasCount > 0)
+        {
+            Vector3 posPixel = Camera.allCameras[0].WorldToScreenPoint(transform.position);
+            if (!(posPixel.y > 0 && posPixel.y < Camera.allCameras[0].pixelHeight))
+                Die();
+        }
+        else
+            Die();
 	}
 
     void ChangeDirection()
