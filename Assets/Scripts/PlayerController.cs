@@ -179,8 +179,14 @@ public class PlayerController : MonoBehaviour {
             jumpHoldCanceled = true;
         }
 
-        if (FlipMechanic.aniTime <= 1.0f)
+		FlipMechanic.aniTimeReset = false;
+		if (FlipMechanic.aniTime <= 1.0f)
 			FlipMechanic.aniTime += animationSpeed * Time.deltaTime / Time.timeScale;
+		else
+		{
+			FlipMechanic.flipsideD = 0;
+			FollowPlayer.reverse = false;
+		}
 		if (FlipMechanic.previewAniTime <= 1.0f)
 			FlipMechanic.previewAniTime += previewAnimationSpeed * Time.deltaTime / Time.timeScale;
 
@@ -362,20 +368,16 @@ public class PlayerController : MonoBehaviour {
 
 	void OnBecameInvisible()
 	{
-        if (Camera.allCamerasCount > 0)
-        {
-            Vector3 posPixel = Camera.allCameras[0].WorldToScreenPoint(transform.position);
-            if (posPixel.y > 0 && posPixel.y < Camera.allCameras[0].pixelHeight)
-            {
-                Vector3 pos = transform.position;
-                pos.x = pos.x * (-0.98f);
-                transform.position = pos;
-            }
-            else if (posPixel.y < 0)
-                Die();
-        }
-        else
-            Die();
+		if (Camera.allCamerasCount > 0)
+		{
+			Vector3 posPixel = Camera.allCameras[0].WorldToScreenPoint(transform.position);
+			if (posPixel.y > 0 && posPixel.y < Camera.allCameras[0].pixelHeight)
+			{
+				Vector3 pos = transform.position;
+				pos.x = pos.x * (-0.98f);
+				transform.position = pos;
+			}
+		}
 	}
 
     void ChangeDirection()

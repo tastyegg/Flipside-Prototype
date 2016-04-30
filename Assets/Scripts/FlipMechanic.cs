@@ -10,10 +10,11 @@ public class FlipMechanic : MonoBehaviour {
     public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.8f);
     public static Color errcolor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
     public static Color basecolor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-	public static float aniTime = 0.0f;
+	public static float aniTime = 1.0f;
 	public static float previewAniTime = 0.0f;
 	public static int flipsideD;
     public static bool done;
+	public static bool aniTimeReset;
 
 	public GameObject preview { get; private set; }
 
@@ -73,23 +74,38 @@ public class FlipMechanic : MonoBehaviour {
 			GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 		if (flipside == 1)
 		{
-			preview.transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime), transform.position.y, transform.position.z);
 			transform.position = new Vector3(destination.x, transform.position.y, transform.position.z);
-			preview.transform.eulerAngles = new Vector3(180 + 180 * yrot, Mathf.Lerp(180 * xrot, 180 + 180 * xrot, aniTime), 0.0f);
+			transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
+			preview.transform.eulerAngles = transform.eulerAngles;
+			preview.transform.position = transform.position;
+			preview.transform.localScale = transform.localScale;
 		}
 		else if (flipside == 2)
 		{
-			preview.transform.position = new Vector3(transform.position.x, Mathf.Lerp(-destination.y, destination.y, aniTime), transform.position.z);
 			transform.position = new Vector3(transform.position.x, destination.y, transform.position.z);
-			preview.transform.eulerAngles = new Vector3(Mathf.Lerp(180 * yrot, 180 + 180 * yrot, aniTime), 180 + 180 * xrot, 0.0f);
+			transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
+			preview.transform.eulerAngles = transform.eulerAngles;
+			preview.transform.position = transform.position;
+			preview.transform.localScale = transform.localScale;
 		}
 		else if (flipside == 3)
 		{
-			preview.transform.position = new Vector3(Mathf.Lerp(-destination.x, destination.x, aniTime * 2), Mathf.Lerp(-destination.y, destination.y, aniTime * 2 - 1.0f), transform.position.z);
 			transform.position = new Vector3(destination.x, destination.y, transform.position.z);
-			preview.transform.eulerAngles = new Vector3(Mathf.Lerp(180 * yrot, 180 + 180 * yrot, aniTime * 2 - 1.0f), Mathf.Lerp(180 * xrot, 180 + 180 * xrot, aniTime * 2), 0.0f);
+			transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
+			if (aniTime >= 0.5f)
+			{
+				preview.transform.position = new Vector3(destination.x, destination.y, transform.position.z);
+				preview.transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
+				preview.transform.localScale = transform.localScale;
+			} else
+			{
+				preview.transform.position = new Vector3(destination.x, -destination.y, transform.position.z);
+				preview.transform.eulerAngles = new Vector3(180 * yrot, 180 * xrot, 0.0f);
+				Vector3 previewScale = transform.localScale;
+				previewScale.x *= -1;
+				preview.transform.localScale = previewScale;
+			}
 		}
-		transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
 	}
 
 	void FlipsidePreview()
@@ -215,6 +231,17 @@ public class FlipMechanic : MonoBehaviour {
 					{
 						GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 						flipside = previewFlipside;
+						if (!aniTimeReset)
+						{
+							if (flipsideD == previewFlipside)
+							{
+								FollowPlayer.reverse = true;
+								aniTime = 1.0f - aniTime;
+							}
+							else
+								aniTime = 0;
+							aniTimeReset = true;
+						}
 						flipsideD = previewFlipside;
 						if (flipside % 2 == 1)
 						{
@@ -228,8 +255,7 @@ public class FlipMechanic : MonoBehaviour {
 						previewFlipside = 0;
 						destination = previewGoal;
 						inSequence = true;
-						aniTime = 0.0f;
-                        xrot = (xrot + (flipside % 2)) %2;
+						xrot = (xrot + (flipside % 2)) %2;
                         yrot = (yrot + (flipside / 2)) % 2;
 					}
                     else if(previewFlipside != 0 && PlayerController.dangerCheck)
@@ -257,11 +283,24 @@ public class FlipMechanic : MonoBehaviour {
 					else
 						CG_flipside--;
 					flipside = 1;
-                    flipsideD = flipside;
+					if (!aniTimeReset)
+					{
+						if (flipsideD == 1)
+						{
+							FollowPlayer.reverse = !FollowPlayer.reverse;
+							aniTime = 1.0f - aniTime;
+						}
+						else
+						{
+							FollowPlayer.reverse = false;
+							aniTime = 0;
+						}
+						aniTimeReset = true;
+					}
+					flipsideD = flipside;
                     destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
                     inSequence = true;
-                    aniTime = 0.0f;
-                    done = false;
+					done = false;
                     xrot = (xrot + 1) % 2;
                 }
                 if (PlayerController.ydanger && PlayerController.axisButtonDownFlipY)
@@ -275,11 +314,24 @@ public class FlipMechanic : MonoBehaviour {
 					GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 					CG_flipside += 2;
 					flipside = 2;
-                    flipsideD = flipside;
+					if (!aniTimeReset)
+					{
+						if (flipsideD == 2)
+						{
+							FollowPlayer.reverse = !FollowPlayer.reverse;
+							aniTime = 1.0f - aniTime;
+						}
+						else
+						{
+							FollowPlayer.reverse = false;
+							aniTime = 0;
+						}
+						aniTimeReset = true;
+					}
+					flipsideD = flipside;
                     destination = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
                     inSequence = true;
-                    aniTime = 0.0f;
-                    done = false;
+					done = false;
                     yrot = (yrot + 1) % 2;
                 }
             }
@@ -296,9 +348,7 @@ public class FlipMechanic : MonoBehaviour {
 			{
 				PlayerController.dangerCheck = false;
 				inSequence = false;
-				preview.transform.position = transform.position;
 				done = true;
-				transform.rotation = Quaternion.Euler(new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0));
 			}
 		}
 

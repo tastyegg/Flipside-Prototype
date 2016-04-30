@@ -404,7 +404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77670febed66a1d4988ca1ae8b9f70ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationSpeed: 5
+  animationSpeed: 2
   previewAnimationSpeed: 8
   blinkSpeed: 6
   slowSpeed: 0.1
@@ -416,7 +416,7 @@ MonoBehaviour:
   groundCheckRight: {fileID: 490780}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 513
   smokeAudio: {fileID: 8300000, guid: f1ed0dd043dc3fe46aa65e5ddfd6bb3c, type: 3}
   spawnAudio: {fileID: 8300000, guid: 930d580f989622d4d81e7fced41f3b70, type: 3}
   jumpAudio: {fileID: 8300000, guid: 1573c2299e7d947428a396daf6bab237, type: 3}
