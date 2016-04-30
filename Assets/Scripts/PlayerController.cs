@@ -182,6 +182,11 @@ public class PlayerController : MonoBehaviour {
 		FlipMechanic.aniTimeReset = false;
 		if (FlipMechanic.aniTime <= 1.0f)
 			FlipMechanic.aniTime += animationSpeed * Time.deltaTime / Time.timeScale;
+		else
+		{
+			FlipMechanic.flipsideD = 0;
+			FollowPlayer.reverse = false;
+		}
 		if (FlipMechanic.previewAniTime <= 1.0f)
 			FlipMechanic.previewAniTime += previewAnimationSpeed * Time.deltaTime / Time.timeScale;
 

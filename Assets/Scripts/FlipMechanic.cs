@@ -75,18 +75,37 @@ public class FlipMechanic : MonoBehaviour {
 		if (flipside == 1)
 		{
 			transform.position = new Vector3(destination.x, transform.position.y, transform.position.z);
+			transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
+			preview.transform.eulerAngles = transform.eulerAngles;
+			preview.transform.position = transform.position;
+			preview.transform.localScale = transform.localScale;
 		}
 		else if (flipside == 2)
 		{
 			transform.position = new Vector3(transform.position.x, destination.y, transform.position.z);
+			transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
+			preview.transform.eulerAngles = transform.eulerAngles;
+			preview.transform.position = transform.position;
+			preview.transform.localScale = transform.localScale;
 		}
 		else if (flipside == 3)
 		{
 			transform.position = new Vector3(destination.x, destination.y, transform.position.z);
+			transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
+			if (aniTime >= 0.5f)
+			{
+				preview.transform.position = new Vector3(destination.x, destination.y, transform.position.z);
+				preview.transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
+				preview.transform.localScale = transform.localScale;
+			} else
+			{
+				preview.transform.position = new Vector3(destination.x, -destination.y, transform.position.z);
+				preview.transform.eulerAngles = new Vector3(180 * yrot, 180 * xrot, 0.0f);
+				Vector3 previewScale = transform.localScale;
+				previewScale.x *= -1;
+				preview.transform.localScale = previewScale;
+			}
 		}
-		preview.transform.position = transform.position;
-		transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
-		preview.transform.eulerAngles = transform.eulerAngles;
 	}
 
 	void FlipsidePreview()
@@ -214,8 +233,11 @@ public class FlipMechanic : MonoBehaviour {
 						flipside = previewFlipside;
 						if (!aniTimeReset)
 						{
-							if (flipsideD == flipside)
+							if (flipsideD == previewFlipside)
+							{
+								FollowPlayer.reverse = true;
 								aniTime = 1.0f - aniTime;
+							}
 							else
 								aniTime = 0;
 							aniTimeReset = true;
@@ -263,10 +285,16 @@ public class FlipMechanic : MonoBehaviour {
 					flipside = 1;
 					if (!aniTimeReset)
 					{
-						if (flipsideD == flipside)
+						if (flipsideD == 1)
+						{
+							FollowPlayer.reverse = !FollowPlayer.reverse;
 							aniTime = 1.0f - aniTime;
+						}
 						else
+						{
+							FollowPlayer.reverse = false;
 							aniTime = 0;
+						}
 						aniTimeReset = true;
 					}
 					flipsideD = flipside;
@@ -288,10 +316,16 @@ public class FlipMechanic : MonoBehaviour {
 					flipside = 2;
 					if (!aniTimeReset)
 					{
-						if (flipsideD == flipside)
+						if (flipsideD == 2)
+						{
+							FollowPlayer.reverse = !FollowPlayer.reverse;
 							aniTime = 1.0f - aniTime;
+						}
 						else
+						{
+							FollowPlayer.reverse = false;
 							aniTime = 0;
+						}
 						aniTimeReset = true;
 					}
 					flipsideD = flipside;
