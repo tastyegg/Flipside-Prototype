@@ -14,6 +14,7 @@ public class FlipMechanic : MonoBehaviour {
 	public static float previewAniTime = 0.0f;
 	public static int flipsideD;
     public static bool done;
+	public static bool aniTimeReset;
 
 	public GameObject preview { get; private set; }
 
@@ -211,6 +212,14 @@ public class FlipMechanic : MonoBehaviour {
 					{
 						GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 						flipside = previewFlipside;
+						if (!aniTimeReset)
+						{
+							if (flipsideD == flipside)
+								aniTime = 1.0f - aniTime;
+							else
+								aniTime = 0;
+							aniTimeReset = true;
+						}
 						flipsideD = previewFlipside;
 						if (flipside % 2 == 1)
 						{
@@ -224,8 +233,7 @@ public class FlipMechanic : MonoBehaviour {
 						previewFlipside = 0;
 						destination = previewGoal;
 						inSequence = true;
-						aniTime = 0.0f;
-                        xrot = (xrot + (flipside % 2)) %2;
+						xrot = (xrot + (flipside % 2)) %2;
                         yrot = (yrot + (flipside / 2)) % 2;
 					}
                     else if(previewFlipside != 0 && PlayerController.dangerCheck)
@@ -253,11 +261,18 @@ public class FlipMechanic : MonoBehaviour {
 					else
 						CG_flipside--;
 					flipside = 1;
-                    flipsideD = flipside;
+					if (!aniTimeReset)
+					{
+						if (flipsideD == flipside)
+							aniTime = 1.0f - aniTime;
+						else
+							aniTime = 0;
+						aniTimeReset = true;
+					}
+					flipsideD = flipside;
                     destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
                     inSequence = true;
-                    aniTime = 0.0f;
-                    done = false;
+					done = false;
                     xrot = (xrot + 1) % 2;
                 }
                 if (PlayerController.ydanger && PlayerController.axisButtonDownFlipY)
@@ -271,11 +286,18 @@ public class FlipMechanic : MonoBehaviour {
 					GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 					CG_flipside += 2;
 					flipside = 2;
-                    flipsideD = flipside;
+					if (!aniTimeReset)
+					{
+						if (flipsideD == flipside)
+							aniTime = 1.0f - aniTime;
+						else
+							aniTime = 0;
+						aniTimeReset = true;
+					}
+					flipsideD = flipside;
                     destination = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
                     inSequence = true;
-                    aniTime = 0.0f;
-                    done = false;
+					done = false;
                     yrot = (yrot + 1) % 2;
                 }
             }

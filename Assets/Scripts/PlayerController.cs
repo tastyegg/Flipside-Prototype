@@ -179,7 +179,8 @@ public class PlayerController : MonoBehaviour {
             jumpHoldCanceled = true;
         }
 
-        if (FlipMechanic.aniTime <= 1.0f)
+		FlipMechanic.aniTimeReset = false;
+		if (FlipMechanic.aniTime <= 1.0f)
 			FlipMechanic.aniTime += animationSpeed * Time.deltaTime / Time.timeScale;
 		if (FlipMechanic.previewAniTime <= 1.0f)
 			FlipMechanic.previewAniTime += previewAnimationSpeed * Time.deltaTime / Time.timeScale;
