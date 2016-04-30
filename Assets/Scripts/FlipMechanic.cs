@@ -239,7 +239,10 @@ public class FlipMechanic : MonoBehaviour {
 								aniTime = 1.0f - aniTime;
 							}
 							else
+							{
+								FollowPlayer.reverse = false;
 								aniTime = 0;
+							}
 							aniTimeReset = true;
 						}
 						flipsideD = previewFlipside;
