@@ -163,7 +163,7 @@ public class FlipMechanic : MonoBehaviour {
 
         previewGoalTemp.transform.position = previewGoal; //added for red
         
-		preview.transform.position = new Vector3(Mathf.Lerp(previewStart.x, previewGoal.x, previewAniTime), Mathf.Lerp(previewStart.y, previewGoal.y, previewAniTime), preview.transform.position.z - 1);
+		preview.transform.position = new Vector3(Mathf.Lerp(previewStart.x, previewGoal.x, previewAniTime), Mathf.Lerp(previewStart.y, previewGoal.y, previewAniTime), preview.transform.position.z);
 		preview.transform.eulerAngles = new Vector3(Mathf.Lerp(previewStartRotation.x, previewGoalRotation.x, previewAniTime), Mathf.Lerp(previewStartRotation.y, previewGoalRotation.y, previewAniTime), previewGoalRotation.z);
     }
 
