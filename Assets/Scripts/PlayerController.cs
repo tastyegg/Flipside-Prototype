@@ -232,25 +232,32 @@ public class PlayerController : MonoBehaviour {
 		xyFlipPredictiveLocation.x *= -1;
 		xyFlipPredictiveLocation.y *= -1;
 
+        float sqrad = 0.25f;
 		foreach (GameObject g in FindObjectsOfType<GameObject>())
         {
             FlipMechanic f = g.GetComponent<FlipMechanic>();
             if (f)
 			{
+                Vector3 ploc = transform.localPosition;
+                ploc.x *= -1;
+
 				Collider2D c = f.GetComponent<Collider2D>();
-				if (c.OverlapPoint(xFlipPredictiveLocation))
+                if (c.OverlapPoint(new Vector2(ploc.x + sqrad, ploc.y + sqrad)) || c.OverlapPoint(new Vector2(ploc.x - sqrad, ploc.y + sqrad)) || c.OverlapPoint(new Vector2(ploc.x - sqrad, ploc.y - sqrad)) || c.OverlapPoint(new Vector2(ploc.x + sqrad, ploc.y - sqrad)))
 				{
 					xdanger = true;
 					if (FlipMechanic.StaticPreviewFlipside == 1)
 						dangerCheck = true;
 				}
-				if (c.OverlapPoint(yFlipPredictiveLocation))
-				{
+                ploc = transform.localPosition;
+                ploc.y *= -1;
+                if (c.OverlapPoint(new Vector2(ploc.x + sqrad, ploc.y + sqrad)) || c.OverlapPoint(new Vector2(ploc.x - sqrad, ploc.y + sqrad)) || c.OverlapPoint(new Vector2(ploc.x - sqrad, ploc.y - sqrad)) || c.OverlapPoint(new Vector2(ploc.x + sqrad, ploc.y - sqrad)))
+                {
 					ydanger = true;
 					if (FlipMechanic.StaticPreviewFlipside == 2)
 						dangerCheck = true;
 				}
-				if (FlipMechanic.StaticPreviewFlipside == 3 && c.OverlapPoint(xyFlipPredictiveLocation))
+                ploc.x *= -1;
+                if (FlipMechanic.StaticPreviewFlipside == 3 && (c.OverlapPoint(new Vector2(ploc.x + sqrad, ploc.y + sqrad)) || c.OverlapPoint(new Vector2(ploc.x - sqrad, ploc.y + sqrad)) || c.OverlapPoint(new Vector2(ploc.x - sqrad, ploc.y - sqrad)) || c.OverlapPoint(new Vector2(ploc.x + sqrad, ploc.y - sqrad))))
 				{
 					dangerCheck = true;
 				}

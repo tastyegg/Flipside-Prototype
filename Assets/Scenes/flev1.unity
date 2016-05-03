@@ -751,7 +751,7 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
---- !u!1001 &1708314127
+--- !u!1001 &1679337039
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -760,11 +760,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 404988, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -14.5
+      value: -16.5
       objectReference: {fileID: 0}
     - target: {fileID: 404988, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -10.5
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 404988, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
       propertyPath: m_LocalPosition.z
@@ -788,7 +788,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 404988, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
