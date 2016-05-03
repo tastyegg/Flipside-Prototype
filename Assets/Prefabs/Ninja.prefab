@@ -223,7 +223,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 81718cdee6f5d784f803fc877a90baec, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5297ff4c11749d241a9c876bdd20efbe, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -422,7 +422,7 @@ MonoBehaviour:
   jumpAudio: {fileID: 8300000, guid: 1573c2299e7d947428a396daf6bab237, type: 3}
   landingAudio: {fileID: 8300000, guid: cc92bff6a26ece041b2c56f26bec5b9a, type: 3}
   focusAudio: {fileID: 8300000, guid: a5a42ea66076c1d42be5bf1ff523ee15, type: 3}
-  bgm: {fileID: 8300000, guid: 686db97d46a89334dab2ecce90d8b312, type: 3}
+  bgm: {fileID: 8300000, guid: a51b79236f46f4a43bdb35f71a4cce76, type: 3}
   axisX: 0
   axisY: 0
   acceleration_speed: 45
