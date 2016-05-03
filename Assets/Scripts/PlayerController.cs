@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour {
     public float run_factor;
 
     private Vector3 spawnPosition;
+    private bool isDead;
 
 	ParticleSystem dustSystem;
 
@@ -321,6 +322,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (collider.CompareTag("Finish") && GetComponent<SpriteRenderer>().color.a != 0)
 		{
+            playerRB.isKinematic = true;
             Color tmp = GetComponent<SpriteRenderer>().color;
             tmp.a = 0;
             GetComponent<SpriteRenderer>().color = tmp;
@@ -366,20 +368,27 @@ public class PlayerController : MonoBehaviour {
 
     public void Die()
 	{
-		Color tmp = GetComponent<SpriteRenderer>().color;
-        tmp.a = 0;
-        GetComponent<SpriteRenderer>().color = tmp;
-        audioPlayer.PlayOneShot(smokeAudio);
-        GetComponent<ParticleSystem>().Emit(20);
-        StartCoroutine(Spawn(0.7f));
+        if (!isDead)
+        {
+            isDead = true;
+            Color tmp = GetComponent<SpriteRenderer>().color;
+            tmp.a = 0;
+            GetComponent<SpriteRenderer>().color = tmp;
+            audioPlayer.PlayOneShot(smokeAudio);
+            GetComponent<ParticleSystem>().Emit(20);
+            if (gameObject.activeSelf) StartCoroutine(Spawn(0.7f));
+        }
     }
 
     IEnumerator Spawn(float delayStart)
     {
         transform.Find("Mirage Particle System").GetComponent<ParticleSystem>().Stop();
+        transform.Find("Dust Particle System").GetComponent<ParticleSystem>().Stop();
         yield return new WaitForSeconds(delayStart);
+        isDead = false;
         transform.position = spawnPosition;
         transform.Find("Mirage Particle System").GetComponent<ParticleSystem>().Play();
+        transform.Find("Dust Particle System").GetComponent<ParticleSystem>().Play();
         playerRB.velocity = new Vector2(0.0f, 0.0f);
         Color tmp = GetComponent<SpriteRenderer>().color;
         tmp.a = 0;
