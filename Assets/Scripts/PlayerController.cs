@@ -325,18 +325,7 @@ public class PlayerController : MonoBehaviour {
         
     }
 	
-	void OnCollisionEnter2D(Collision2D collision)
-	{
-		if (collision.collider.CompareTag("Cannonball") && !collision.collider.GetComponent<Rigidbody2D>().isKinematic && collision.collider.GetComponent<Cannonball>().killsPlayer)
-		{
-            GetComponent<SpriteRenderer>().enabled = false; //This automatically executes OnBecameInvisible()
-            Destroy(collision.collider.gameObject);
-        }
-        if (collision.collider.OverlapPoint(recordedPosition))
-        {
-            dangerCheck = true;
-        }
-	}
+
 
 	void LoadNextLevel()
 	{
