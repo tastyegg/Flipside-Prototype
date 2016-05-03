@@ -15,7 +15,6 @@ public class FlipMechanic : MonoBehaviour {
 	public static int flipsideD;
     public static bool done;
 	public static bool aniTimeReset;
-    bool visible;
 
 	public GameObject preview { get; private set; }
 
@@ -69,11 +68,12 @@ public class FlipMechanic : MonoBehaviour {
         yrot = 1;
 		lastFlipAttempt = 0;
 		queueFlip = 0;
-        visible = true;
 	}
 
 	void Flipside()
 	{
+		if (aniTime >= 0.5f)
+			GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 		if (flipside == 1)
 		{
 			transform.position = new Vector3(destination.x, transform.position.y, transform.position.z);
@@ -189,9 +189,11 @@ public class FlipMechanic : MonoBehaviour {
 	void Update ()
 	{
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
-        GetComponent<SpriteRenderer>().enabled = false;
-        //GetComponent<SpriteRenderer>().color = basecolor;
-        //GetComponent<SpriteRenderer>().enabled = true;
+        GetComponent<SpriteRenderer>().color = basecolor;
+        foreach (Transform child in transform)
+        {
+            child.GetComponent<SpriteRenderer>().color = basecolor;
+        }
         if (blinktime < blinkmax){
 			Vector3 errorPosition = transform.localPosition;
 			Vector3 errorAngle = transform.localEulerAngles;
@@ -234,6 +236,7 @@ public class FlipMechanic : MonoBehaviour {
 					{
 						if (flipsideD == previewFlipside || aniTime >= 1.0f)
 						{
+							GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 							flipside = previewFlipside;
 							if (!aniTimeReset)
 							{
@@ -262,7 +265,6 @@ public class FlipMechanic : MonoBehaviour {
 							previewFlipside = 0;
 							destination = previewGoal;
 							inSequence = true;
-                            visible = false;
 							xrot = (xrot + (flipside % 2)) % 2;
 							yrot = (yrot + (flipside / 2)) % 2;
 						} else
@@ -291,7 +293,7 @@ public class FlipMechanic : MonoBehaviour {
 				{
 					if (flipsideD == 1 || aniTime >= 1.0f)
 					{
-						//GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
+						GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 						if (CG_flipside % 2 == 0)
 							CG_flipside++;
 						else
@@ -314,7 +316,6 @@ public class FlipMechanic : MonoBehaviour {
 						flipsideD = flipside;
 						destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
 						inSequence = true;
-                        visible = false;
 						done = false;
 						xrot = (xrot + 1) % 2;
 					} else
@@ -332,7 +333,7 @@ public class FlipMechanic : MonoBehaviour {
 				{
 					if (flipsideD == 2 || aniTime >= 1.0f)
 					{
-						//GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
+						GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 						CG_flipside += 2;
 						flipside = 2;
 						if (!aniTimeReset)
@@ -352,7 +353,6 @@ public class FlipMechanic : MonoBehaviour {
 						flipsideD = flipside;
 						destination = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
 						inSequence = true;
-                        visible = false;
 						done = false;
 						yrot = (yrot + 1) % 2;
 					} else
@@ -366,16 +366,19 @@ public class FlipMechanic : MonoBehaviour {
 		if (inSequence)
 		{
 			previewSprite.color = basecolor;
-			//Color ghostColor = basecolor;
-			//ghostColor.a = FlipMechanic.aniTime * 0.2f;
-			//GetComponent<SpriteRenderer>().color = ghostColor;
-            visible = false;
-			
+			Color ghostColor = basecolor;
+			ghostColor.a = FlipMechanic.aniTime * 0.2f;
+			GetComponent<SpriteRenderer>().color = ghostColor;
+            foreach (Transform child in transform)
+            {
+                child.GetComponent<SpriteRenderer>().color = ghostColor;
+            }
+			Flipside();
 			if (aniTime >= 1.0f || (queueFlip != 0 && aniTime == 0))
 			{
 				if (queueFlip != 0 && (queueFlip % 2 == 0 || (queueFlip % 2 == 1 && !PlayerController.xdanger)) && (queueFlip < 2 || (queueFlip >= 2 && !PlayerController.ydanger)))
 				{
-					//GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
+					GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 					flipside = queueFlip;
 					FollowPlayer.reverse = false;
 					aniTime = 0;
@@ -392,7 +395,6 @@ public class FlipMechanic : MonoBehaviour {
 					destination = new Vector3((queueFlip % 2 == 0 ? 1 : -1) * transform.position.x, (queueFlip >= 2 ? -1 : 1) * transform.position.y, transform.position.z);
 					queueFlip = 0;
 					inSequence = true;
-                    visible = false;
 					xrot = (xrot + (flipside % 2)) % 2;
 					yrot = (yrot + (flipside / 2)) % 2;
 				}
@@ -401,17 +403,11 @@ public class FlipMechanic : MonoBehaviour {
 					queueFlip = 0;
 					PlayerController.dangerCheck = false;
 					inSequence = false;
-                    visible = true;
 					done = true;
 				}
 			}
 		}
-        Flipside();
-        foreach (Transform child in transform)
-        {
-           // child.GetComponent<SpriteRenderer>().enabled = GetComponent<SpriteRenderer>().enabled;
-            child.GetComponent<SpriteRenderer>().enabled = visible;
-        }
+
 	}
     
 }
