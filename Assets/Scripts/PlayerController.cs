@@ -101,6 +101,7 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+
         convertAxisToButton(Input.GetAxis("Focus"), ref enteringFocus, ref inFocus, ref exitingFocus);
         convertAxisToButton(Input.GetAxis("Jump"), ref axisButtonDownJump, ref axisButtonJump, ref axisButtonUpJump);
         convertAxisToButton(Input.GetAxis("FlipX"), ref axisButtonDownFlipX, ref axisButtonFlipX, ref axisButtonUpFlipX);
@@ -215,7 +216,8 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (Input.GetButtonDown("Exit"))
 		{
-			SceneManager.LoadScene(0);
+			//SceneManager.LoadScene(0);
+            LoadScene("TitleScreen"); //temporary
 		} else if (Input.GetButtonDown("Reset"))
 		{
 			Reset();
@@ -431,5 +433,10 @@ public class PlayerController : MonoBehaviour {
                 button = false;
             }
         }
+    }
+
+    public void LoadScene(string level)
+    {
+        SceneManager.LoadScene(level);
     }
 }

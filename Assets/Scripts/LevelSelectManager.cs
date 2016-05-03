@@ -8,6 +8,7 @@ public class LevelSelectManager : MonoBehaviour {
 
     //public List<GameObject> buttons = new List<GameObject>();
     public List<string> levels = new List<string>();
+    public Image img;
     public GameObject button;
     public GameObject back;
     //prob a picture
@@ -144,13 +145,9 @@ public class LevelSelectManager : MonoBehaviour {
         SceneManager.LoadScene(level);
     }
 
-    //void LoadScene(int level)
-    //{
-    //    SceneManager.LoadScene(level);
-    //}
-
     void handleSelect(string data)
     {
         LoadScene(data);
     }
+
 }
