@@ -50,18 +50,24 @@ public class lasers : MonoBehaviour
 
 		int laserHit = rchs2d.Length;
         Vector3 npos = transform.position;
+        bool killPlayer = false;
 		for (int i = rchs2d.Length - 1; i >= 0; i--)
 		{
 			RaycastHit2D rch2d = rchs2d[i];
 			if (rch2d.collider != null)
 			{
 				//Checks if the first collision is the player, which would mean it's hitting the player.
-				if (rch2d.collider.tag == "Player" && i == 0)
+                if (rch2d.collider.tag == "WallPreview")
+                {
+                    laserHit--;
+                }
+                else if (rch2d.collider.tag == "Player")
+                {
+                    killPlayer = true;
+                }
+				else
 				{
-					pc.Die();
-				}
-				else if (rch2d.collider.tag != "WallPreview")
-				{
+                    killPlayer = false;
 					if (direction == 0 || direction == 2)
 					{
 						y = rch2d.point.y;
@@ -72,12 +78,13 @@ public class lasers : MonoBehaviour
 						x = rch2d.point.x;
 						npos = new Vector3(x, transform.position.y, 1);
 					}
-				} else
-				{
-					laserHit--;
-				}
-			}
+                }
+            }
 		}
+        if (killPlayer)
+        {
+            pc.Die();
+        }
 
         lastHitPoint = Vector3.Lerp(lastHitPoint, npos, FlipMechanic.aniTime);
         lr.SetPosition(1, lastHitPoint);
