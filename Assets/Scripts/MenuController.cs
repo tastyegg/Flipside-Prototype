@@ -23,12 +23,13 @@ public class MenuController : MonoBehaviour {
             handleSelect(text.text);
         }
 
-        if (Input.GetAxis("Vertical") > 0.1f && timer > 14)
+        if ((Input.GetAxis("Vertical") > 0.1f && timer > 14) || (Input.GetKeyDown(KeyCode.W) && timer > 14))
         {
             timer = 14;
             text.color = new Color(1.0f, 1.0f, 1.0f);
             selectUp();
-        } else if (Input.GetAxis("Vertical") < -0.1f && timer > 14)
+        }
+        else if ((Input.GetAxis("Vertical") < -0.1f && timer > 14) || (Input.GetKeyDown(KeyCode.S) && timer > 14))
         {
             timer = 14;
             text.color = new Color(1.0f, 1.0f, 1.0f);

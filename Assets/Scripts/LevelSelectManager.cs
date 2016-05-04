@@ -8,6 +8,8 @@ public class LevelSelectManager : MonoBehaviour {
 
     //public List<GameObject> buttons = new List<GameObject>();
     public List<string> levels = new List<string>();
+    public List<Sprite> imgs = new List<Sprite>(); //how to laod with path? 
+    public Image img;
     public GameObject button;
     public GameObject back;
     //prob a picture
@@ -29,6 +31,7 @@ public class LevelSelectManager : MonoBehaviour {
         //Text text = buttons[index].transform.GetChild(0).GetComponent<Text>();
         Text title = button.transform.GetChild(0).GetComponent<Text>();
         Text backButton = back.transform.GetChild(0).GetComponent<Text>();
+        Image img = button.transform.GetChild(1).GetComponent<Image>();
         
         if (Input.GetButtonDown("Jump"))
         {
@@ -53,13 +56,13 @@ public class LevelSelectManager : MonoBehaviour {
             timer = 14;
             selectLeft();
         }
-        
-        if (Input.GetAxis("Vertical") > 0.1f && timer2 > 14)
+
+        if ((Input.GetAxis("Vertical") > 0.1f && timer2 > 14) || (Input.GetKeyDown(KeyCode.W) && timer2 > 14))
         {
             timer2 = 14;
             navIdx = !navIdx;
         }
-        else if (Input.GetAxis("Vertical") < -0.1f && timer2 > 14)
+        else if ((Input.GetAxis("Vertical") < -0.1f && timer2 > 14) || (Input.GetKeyDown(KeyCode.S) && timer2 > 14))
         {
             timer2 = 14;
             navIdx = !navIdx;
@@ -97,6 +100,7 @@ public class LevelSelectManager : MonoBehaviour {
 
         //title.text = levels[index];
         title.text = "Level " + index;
+        img.sprite = imgs[index];
         //text = buttons[index].transform.GetChild(0).GetComponent<Text>();
         //text.color = new Color(0.0784f, 0.9607f, 0.4157f);
     }
@@ -144,13 +148,9 @@ public class LevelSelectManager : MonoBehaviour {
         SceneManager.LoadScene(level);
     }
 
-    //void LoadScene(int level)
-    //{
-    //    SceneManager.LoadScene(level);
-    //}
-
     void handleSelect(string data)
     {
         LoadScene(data);
     }
+
 }
