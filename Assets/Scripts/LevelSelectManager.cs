@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class LevelSelectManager : MonoBehaviour {
-
+    public Text title;
+    public Text backButton;
+    public Image img;
     //public List<GameObject> buttons = new List<GameObject>();
     public List<string> levels = new List<string>();
     public List<Sprite> imgs = new List<Sprite>(); //how to laod with path? 
-    public Image img;
     public GameObject button;
     public GameObject back;
     //prob a picture
@@ -29,19 +30,16 @@ public class LevelSelectManager : MonoBehaviour {
     void Update()
     {
         //Text text = buttons[index].transform.GetChild(0).GetComponent<Text>();
-        Text title = button.transform.GetChild(0).GetComponent<Text>();
-        Text backButton = back.transform.GetChild(0).GetComponent<Text>();
-        Image img = button.transform.GetChild(1).GetComponent<Image>();
         
         if (Input.GetButtonDown("Jump"))
         {
             if (navIdx)
             {
-                handleSelect(levels[index]);
+                handleSelect(index+1);
             }
             else
             {
-                handleSelect("TitleScreen");
+                handleSelect(0);
             }
             
         } 
@@ -143,12 +141,12 @@ public class LevelSelectManager : MonoBehaviour {
         }
     }
 
-    void LoadScene(string level)
+    void LoadScene(int level)
     {
         SceneManager.LoadScene(level);
     }
 
-    void handleSelect(string data)
+    void handleSelect(int data)
     {
         LoadScene(data);
     }
