@@ -99,7 +99,7 @@ public class LevelSelectManager : MonoBehaviour {
         }
 
         //title.text = levels[index];
-        title.text = "Level " + index;
+        title.text = "Level " + (index + 1);
         img.sprite = imgs[index];
         //text = buttons[index].transform.GetChild(0).GetComponent<Text>();
         //text.color = new Color(0.0784f, 0.9607f, 0.4157f);

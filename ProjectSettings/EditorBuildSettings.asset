@@ -36,6 +36,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/minhtri_lev2.unity
   - enabled: 1
+    path: Assets/Scenes/minhtri_lev3.unity
+  - enabled: 1
     path: Assets/Scenes/flev7.unity
   - enabled: 1
     path: Assets/Scenes/flev8.unity
