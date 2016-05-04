@@ -375,7 +375,10 @@ public class PlayerController : MonoBehaviour {
 			GetComponentsInChildren<ParticleSystem>()[2].gameObject.SetActive(false);
 			GetComponentsInChildren<ParticleSystem>()[2].gameObject.SetActive(false);
 			Invoke("LoadNextLevel", 2.1f);
-            double tRank = GameObject.Find("StarBox").GetComponent<Timer>().stop();
+            if (GameObject.Find("StarBox"))
+            {
+                GameObject.Find("StarBox").GetComponent<Timer>().stop();
+            }
         }
         if (collider.CompareTag("Star"))
         {
