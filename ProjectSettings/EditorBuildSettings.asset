@@ -5,36 +5,20 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Menu.unity
   - enabled: 1
-    path: Assets/Scenes/rlev1.unity
-  - enabled: 1
-    path: Assets/Scenes/rlev2.unity
-  - enabled: 1
-    path: Assets/Scenes/rlev3.unity
-  - enabled: 1
-    path: Assets/Scenes/test1.unity
-  - enabled: 1
-    path: Assets/Scenes/main.unity
-  - enabled: 1
-    path: Assets/Scenes/level2.unity
-  - enabled: 1
-    path: Assets/Scenes/level3.unity
-  - enabled: 1
-    path: Assets/Scenes/level4.unity
-  - enabled: 1
-    path: Assets/Scenes/level5.unity
-  - enabled: 1
-    path: Assets/Scenes/level6.unity
-  - enabled: 1
-    path: Assets/Scenes/level7.unity
-  - enabled: 1
     path: Assets/Scenes/TitleScreen.unity
-  - enabled: 1
-    path: Assets/Scenes/test2.unity
-  - enabled: 1
-    path: Assets/Scenes/SelectionScreen.unity
+  - enabled: 0
+    path: Assets/Scenes/rlev1.unity
+  - enabled: 0
+    path: Assets/Scenes/rlev2.unity
+  - enabled: 0
+    path: Assets/Scenes/rlev3.unity
+  - enabled: 0
+    path: Assets/Scenes/test1.unity
+  - enabled: 0
+    path: Assets/Scenes/main.unity
   - enabled: 1
     path: Assets/Scenes/flev1.unity
   - enabled: 1
@@ -43,3 +27,21 @@ EditorBuildSettings:
     path: Assets/Scenes/flev3.unity
   - enabled: 1
     path: Assets/Scenes/flev4.unity
+  - enabled: 0
+    path: Assets/Scenes/flev5.unity
+  - enabled: 0
+    path: Assets/Scenes/flev6.unity
+  - enabled: 1
+    path: Assets/Scenes/minhtri_lev1.unity
+  - enabled: 1
+    path: Assets/Scenes/minhtri_lev2.unity
+  - enabled: 1
+    path: Assets/Scenes/minhtri_lev3.unity
+  - enabled: 1
+    path: Assets/Scenes/flev7.unity
+  - enabled: 1
+    path: Assets/Scenes/flev8.unity
+  - enabled: 1
+    path: Assets/Scenes/test2.unity
+  - enabled: 1
+    path: Assets/Scenes/SelectionScreen.unity

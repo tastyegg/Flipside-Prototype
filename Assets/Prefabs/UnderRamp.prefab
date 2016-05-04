@@ -12,7 +12,7 @@ GameObject:
   - 114: {fileID: 11463900}
   - 114: {fileID: 11446544}
   - 60: {fileID: 6061532}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: UnderRamp
   m_TagString: Wall
   m_Icon: {fileID: 0}

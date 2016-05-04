@@ -50,10 +50,11 @@ public class PlayerController : MonoBehaviour {
     public AudioClip jumpAudio;
 
     //more audio
-    public AudioClip landingAudio;
+    public AudioClip walkingAudio;
     public AudioClip focusAudio;
     public AudioClip bgm; //notreally used
 
+	float walkingTimer;
     float focusTimer;
     bool dropFocus;
 
@@ -75,6 +76,11 @@ public class PlayerController : MonoBehaviour {
 
 	ParticleSystem dustSystem;
 
+    //for moving sound
+    bool walkFlag;
+    public int WALKTIME = 30;
+    int walkSoundTimer;
+
     // Use this for initialization
     void Start ()
 	{
@@ -90,6 +96,8 @@ public class PlayerController : MonoBehaviour {
         axisX = false;
         axisY = false;
 		dustSystem = GetComponentsInChildren<ParticleSystem>()[3];
+        walkFlag = false;
+        walkSoundTimer = WALKTIME; 
     }
 	
 	public void Reset()
@@ -100,7 +108,7 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-
+		walkingTimer += 8.0f * Time.deltaTime / Time.timeScale;
         convertAxisToButton(Input.GetAxis("Focus"), ref enteringFocus, ref inFocus, ref exitingFocus);
         convertAxisToButton(Input.GetAxis("Jump"), ref axisButtonDownJump, ref axisButtonJump, ref axisButtonUpJump);
         convertAxisToButton(Input.GetAxis("FlipX"), ref axisButtonDownFlipX, ref axisButtonFlipX, ref axisButtonUpFlipX);
@@ -113,19 +121,49 @@ public class PlayerController : MonoBehaviour {
         {
             if (facingRight && playerRB.velocity.x <= 0.0f) ChangeDirection();
             animator.SetBool("walking", true);
+			if (walkingTimer >= 1.0f && grounded)
+			{
+				audioPlayer.Play();
+				walkingTimer = 0;
+			}
             playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
+
+            //if (walkSoundTimer > WALKTIME-1 && grounded)
+            //{
+            //    audioPlayer.volume = 2.0f;
+            //    audioPlayer.PlayOneShot(walkingAudio);
+            //    walkFlag = true;
+            //    audioPlayer.volume = 1.0f;
+            //}
         }
         //player move right
         else if (Input.GetAxis("Horizontal") > 0 && (playerRB.velocity.x >= 0.0f || !grounded))
         {
             if (!facingRight && playerRB.velocity.x >= 0.0f) ChangeDirection();
             animator.SetBool("walking", true);
+
             playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
+
+            //if (walkSoundTimer > WALKTIME - 1 && grounded)
+            //{
+            //    //audioPlayer.volume = 2.0f;
+            //    audioPlayer.PlayOneShot(walkingAudio);
+            //    walkFlag = true;
+            //    //audioPlayer.volume = 1.0f;
+            //}
+			if (walkingTimer >= 1.0f && grounded)
+			{
+				audioPlayer.Play();
+				walkingTimer = 0;
+			}
+			playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
+
         }
         else
-        {
-            //ground friction
-            if (grounded)
+		{
+			audioPlayer.Stop();
+			//ground friction
+			if (grounded)
             {
                 //player stops immediately once velocity is low enough
                 if (playerRB.velocity.x > immediate_stop_cutoff || playerRB.velocity.x < -immediate_stop_cutoff)
@@ -139,8 +177,8 @@ public class PlayerController : MonoBehaviour {
             }
             //air friction
             else
-            {
-                playerRB.velocity = new Vector2(playerRB.velocity.x / air_stopping_power, playerRB.velocity.y);
+			{
+				playerRB.velocity = new Vector2(playerRB.velocity.x / air_stopping_power, playerRB.velocity.y);
             }
         }
        
@@ -159,7 +197,7 @@ public class PlayerController : MonoBehaviour {
                 jumpTimer = 0.0f;
                 jumpHoldCanceled = false;
                 audioPlayer.PlayOneShot(jumpAudio);
-                audioPlayer.volume = 0.5f;
+                //audioPlayer.volume = 0.5f;
                 animator.SetBool("jumping", true);
                 playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
             }
@@ -319,6 +357,16 @@ public class PlayerController : MonoBehaviour {
         //Sync walk animation with velocity
         animator.SetFloat("movementSpeed", Mathf.Clamp(Mathf.Abs(playerRB.velocity.x)/2.0f, 0.0f, 1.5f));
         
+        //for walking sound delay 
+        if (walkFlag)
+        {
+            walkSoundTimer--;
+        }
+        if (walkSoundTimer < 0)
+        {
+            walkFlag = false;
+            walkSoundTimer = WALKTIME;
+        }
     }
 	
 
