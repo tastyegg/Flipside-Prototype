@@ -31,7 +31,7 @@ public class LevelSelectManager : MonoBehaviour {
     {
         //Text text = buttons[index].transform.GetChild(0).GetComponent<Text>();
         
-        if (Input.GetButtonDown("Select"))
+        if (Input.GetButtonDown("Jump"))
         {
             if (navIdx)
             {

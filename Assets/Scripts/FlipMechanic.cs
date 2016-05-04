@@ -7,8 +7,8 @@ using UnityEngine;
 using System.Collections;
 
 public class FlipMechanic : MonoBehaviour {
-    public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.3f);
-    public static Color errcolor = new Color(0.7f, 0.0f, 0.0f, 0.2f);
+    public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.8f);
+    public static Color errcolor = new Color(0.7f, 0.0f, 0.0f, 0.9f);
     public static Color basecolor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 	public static float aniTime = 1.0f;
 	public static float previewAniTime = 0.0f;
