@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour {
         animator.SetBool("walking", false);
         
         //player move left
-        if (Input.GetAxis("Horizontal") < 0 && (playerRB.velocity.x <= 0.0f || !grounded))
+        if (Input.GetAxis("Horizontal") < 0 && (playerRB.velocity.x <= 1.0f || !grounded))
         {
             if (facingRight && playerRB.velocity.x <= 0.0f) ChangeDirection();
             animator.SetBool("walking", true);
@@ -130,7 +130,7 @@ public class PlayerController : MonoBehaviour {
             //}
         }
         //player move right
-        else if (Input.GetAxis("Horizontal") > 0 && (playerRB.velocity.x >= 0.0f || !grounded))
+        else if (Input.GetAxis("Horizontal") > 0 && (playerRB.velocity.x >= -1.0f || !grounded))
         {
             if (!facingRight && playerRB.velocity.x >= 0.0f) ChangeDirection();
             animator.SetBool("walking", true);
