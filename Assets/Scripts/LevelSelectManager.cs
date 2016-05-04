@@ -35,11 +35,11 @@ public class LevelSelectManager : MonoBehaviour {
         {
             if (navIdx)
             {
-                handleSelect(levels[index]);
+                handleSelect(index+1);
             }
             else
             {
-                handleSelect("TitleScreen");
+                handleSelect(0);
             }
             
         } 
@@ -141,12 +141,12 @@ public class LevelSelectManager : MonoBehaviour {
         }
     }
 
-    void LoadScene(string level)
+    void LoadScene(int level)
     {
         SceneManager.LoadScene(level);
     }
 
-    void handleSelect(string data)
+    void handleSelect(int data)
     {
         LoadScene(data);
     }
