@@ -818,6 +818,10 @@ Prefab:
       propertyPath: m_Name
       value: grassHillLeft
       objectReference: {fileID: 0}
+    - target: {fileID: 489148, guid: 26e5150547f758142bfecf489bdb49d7, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 26e5150547f758142bfecf489bdb49d7, type: 2}
   m_IsPrefabParent: 0
