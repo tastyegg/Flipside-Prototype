@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class MusicPlayer : MonoBehaviour {
     int musicind;
     public AudioSource player;
+
+    public Image bgim;
 	// Use this for initialization
 	void Start () {
         musicind = 0;
@@ -21,6 +24,8 @@ public class MusicPlayer : MonoBehaviour {
                 player.clip = mb.bgm.clip;
                 musicind = mb.musicind;
                 player.Play();
+                bgim.sprite = mb.sim.sprite;
+                bgim.color = mb.sim.color;
             }
         }
 	}

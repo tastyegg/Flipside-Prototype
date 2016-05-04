@@ -804,7 +804,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
 --- !u!1001 &1109636293
 Prefab:
   m_ObjectHideFlags: 0
@@ -1301,6 +1301,18 @@ Prefab:
       propertyPath: m_Color.b
       value: 0.85490197
       objectReference: {fileID: 0}
+    - target: {fileID: 11461652, guid: eee24701355ae324a8380a633caf6456, type: 2}
+      propertyPath: m_Color.r
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 11461652, guid: eee24701355ae324a8380a633caf6456, type: 2}
+      propertyPath: m_Color.g
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 11461652, guid: eee24701355ae324a8380a633caf6456, type: 2}
+      propertyPath: m_Color.b
+      value: 0.78431374
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eee24701355ae324a8380a633caf6456, type: 2}
   m_IsPrefabParent: 0
@@ -1590,7 +1602,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 22
 --- !u!114 &1498842186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2227,6 +2239,26 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11489678, guid: d54d3ec4289e3734f8db92b03838b2fa, type: 2}
+      propertyPath: m_Color.r
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 11489678, guid: d54d3ec4289e3734f8db92b03838b2fa, type: 2}
+      propertyPath: m_Color.g
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 11489678, guid: d54d3ec4289e3734f8db92b03838b2fa, type: 2}
+      propertyPath: m_Color.b
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 11497720, guid: d54d3ec4289e3734f8db92b03838b2fa, type: 2}
+      propertyPath: musicind
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205194, guid: d54d3ec4289e3734f8db92b03838b2fa, type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0584602a64eecc24fbc536847867b137, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d54d3ec4289e3734f8db92b03838b2fa, type: 2}
   m_IsPrefabParent: 0
