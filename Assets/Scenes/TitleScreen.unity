@@ -279,7 +279,7 @@ MonoBehaviour:
   buttons:
   - {fileID: 1651971856}
   - {fileID: 1622299399}
-  firstLevelName: test2
+  firstLevelName: flev1
 --- !u!1 &400910032
 GameObject:
   m_ObjectHideFlags: 0
