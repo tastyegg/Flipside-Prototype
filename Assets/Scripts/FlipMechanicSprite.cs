@@ -70,6 +70,39 @@ public class FlipMechanicSprite : MonoBehaviour {
 		queueFlip = 0;
 	}
 
+    public void FlipReset()
+    {
+        queueFlip = 0;
+
+        GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
+        flipside = 0;
+        if (transform.localEulerAngles.y > 170 && transform.localEulerAngles.z < 10)
+            flipside = 1;
+        if (transform.localEulerAngles.y > 170 && transform.localEulerAngles.z > 170)
+            flipside = 2;
+        if (transform.localEulerAngles.y < 10 && transform.localEulerAngles.z > 170)
+            flipside = 3;
+
+        aniTime = 0;
+        flipsideD = flipside;
+        if (flipside % 2 == 1)
+        {
+            if (CG_flipside % 2 == 0)
+                CG_flipside++;
+            else
+                CG_flipside--;
+        }
+        if (flipside >= 2)
+            CG_flipside += 2;
+        previewFlipside = 0;
+        destination = new Vector3((flipside % 2 == 0 ? 1 : -1) * transform.position.x, (flipside < 2 ? 1 : -1) * transform.position.y, transform.position.z);
+        inSequence = true;
+        FollowPlayer.reverse = false;
+        xrot = (xrot + (flipside % 2)) % 2;
+        yrot = (yrot + (flipside / 2)) % 2;
+    }
+
+
 	void Flipside()
 	{
 		if (flipside == 1)

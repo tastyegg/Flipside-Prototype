@@ -414,12 +414,12 @@ public class PlayerController : MonoBehaviour {
         if (!isDead)
         {
             isDead = true;
+            GameObject.Find("StarBox").GetComponent<Timer>().restart();
             Color tmp = GetComponent<SpriteRenderer>().color;
             tmp.a = 0;
             GetComponent<SpriteRenderer>().color = tmp;
             audioPlayer.PlayOneShot(smokeAudio);
             GetComponent<ParticleSystem>().Emit(20);
-            if (gameObject.activeSelf) StartCoroutine(Spawn(0.7f));
             foreach (GameObject g in FindObjectsOfType<GameObject>())
             {
                 FlipMechanic fm = g.GetComponent<FlipMechanic>();
@@ -427,7 +427,13 @@ public class PlayerController : MonoBehaviour {
                 {
                     fm.FlipReset();
                 }
+                FlipMechanicSprite fms = g.GetComponent<FlipMechanicSprite>();
+                if (fms)
+                {
+                    fms.FlipReset();
+                }
             }
+            if (gameObject.activeSelf) StartCoroutine(Spawn(1.5f));
         }
     }
 
