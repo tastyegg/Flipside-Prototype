@@ -438,6 +438,14 @@ public class PlayerController : MonoBehaviour {
             audioPlayer.PlayOneShot(smokeAudio);
             GetComponent<ParticleSystem>().Emit(20);
             if (gameObject.activeSelf) StartCoroutine(Spawn(0.7f));
+            foreach (GameObject g in FindObjectsOfType<GameObject>())
+            {
+                FlipMechanic fm = g.GetComponent<FlipMechanic>();
+                if (fm)
+                {
+                    fm.FlipReset();
+                }
+            }
         }
     }
 
