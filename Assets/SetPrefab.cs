@@ -7,7 +7,7 @@ public class SetPrefab : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Vector3 pos = transform.position;
-		pos.z = -45;
+		pos.z = -50;
 		transform.position = pos;
 	}
 	
