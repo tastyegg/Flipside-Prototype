@@ -414,7 +414,9 @@ public class PlayerController : MonoBehaviour {
         if (!isDead)
         {
             isDead = true;
-            GameObject.Find("StarBox").GetComponent<Timer>().restart();
+            GameObject starbox = GameObject.Find("StarBox");
+            if (starbox)
+                starbox.GetComponent<Timer>().restart();
             Color tmp = GetComponent<SpriteRenderer>().color;
             tmp.a = 0;
             GetComponent<SpriteRenderer>().color = tmp;
