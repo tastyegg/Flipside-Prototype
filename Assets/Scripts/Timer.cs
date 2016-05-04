@@ -32,6 +32,10 @@ public class Timer : MonoBehaviour {
     public void bonusStar()
     {
         BStar.GetComponent<Image>().fillAmount = 1.0f;
+        SpriteRenderer sprite = TStar1.GetComponent<SpriteRenderer>();
+        TStar1.rectTransform.localPosition = TStar1.rectTransform.localPosition + (new Vector3(TStar1.rectTransform.localScale.x / 2, 0, 0));
+        TStar2.rectTransform.localPosition = TStar2.rectTransform.localPosition + (new Vector3(TStar2.rectTransform.localScale.x / 2, 0, 0));
+        TStar3.rectTransform.localPosition = TStar3.rectTransform.localPosition + (new Vector3(TStar3.rectTransform.localScale.x / 2, 0, 0));
     }
 
 	// Update is called once per frame

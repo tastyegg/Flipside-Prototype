@@ -193,6 +193,20 @@ public class PlayerController : MonoBehaviour {
 		if (FlipMechanic.blinktime <= FlipMechanic.blinkmax)
 			FlipMechanic.blinktime += blinkSpeed * Time.deltaTime / Time.timeScale;
 
+        FlipMechanicSprite.aniTimeReset = false;
+        if (FlipMechanicSprite.aniTime <= 1.0f)
+            FlipMechanicSprite.aniTime += animationSpeed * Time.deltaTime / Time.timeScale;
+        else
+        {
+            FlipMechanicSprite.flipsideD = 0;
+            FollowPlayer.reverse = false;
+        }
+        if (FlipMechanicSprite.previewAniTime <= 1.0f)
+            FlipMechanicSprite.previewAniTime += previewAnimationSpeed * Time.deltaTime / Time.timeScale;
+
+        if (FlipMechanicSprite.blinktime <= FlipMechanicSprite.blinkmax)
+            FlipMechanicSprite.blinktime += blinkSpeed * Time.deltaTime / Time.timeScale;
+
 		if (Input.GetButtonDown("Exit"))
 		{
 			//SceneManager.LoadScene(0);
@@ -255,6 +269,7 @@ public class PlayerController : MonoBehaviour {
 				else
 					f.preview.GetComponent<SpriteRenderer>().color = FlipMechanic.previewColor;
 			}
+
 		}
         //for focus
         if (dropFocus)

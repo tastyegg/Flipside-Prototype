@@ -210,7 +210,7 @@ public class FlipMechanicSprite : MonoBehaviour {
 			errorPosition.z -= 0.001f;
 			preview.transform.localPosition = errorPosition;
 			preview.transform.localEulerAngles = errorAngle;
-			previewSprite.GetComponent<SpriteRenderer>().color = errcolor;
+			//previewSprite.GetComponent<SpriteRenderer>().color = errcolor;
         }
         else
 		{
