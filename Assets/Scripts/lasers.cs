@@ -46,7 +46,7 @@ public class lasers : MonoBehaviour
 			rchs2d = Physics2D.RaycastAll(transform.position, Vector2.left);
 			x -= 50;
 		}
-		lr.SetPosition(1, new Vector3(x, y, 2));
+		lr.SetPosition(1, new Vector3(x, y, 0));
 
 		int laserHit = rchs2d.Length;
         Vector3 npos = transform.position;
@@ -90,7 +90,15 @@ public class lasers : MonoBehaviour
         lr.SetPosition(1, lastHitPoint);
         //Disables rendering during flip
         if (laserHit <= 0) {
-			lr.SetPosition(1, transform.position);
+			if (direction == 0 || direction == 2)
+			{
+				npos = new Vector3(transform.position.x, transform.position.y + 50 * (direction == 0 ? 1 : -1), 0);
+			}
+			else
+			{
+				npos = new Vector3(transform.position.x + 50 * (direction == 1 ? 1 : -1), transform.position.y, 0);
+			}
+			lr.SetPosition(1, npos);
 		}
 	}
 }
