@@ -11,6 +11,7 @@ GameObject:
   - 20: {fileID: 2059048}
   - 92: {fileID: 9200398}
   - 124: {fileID: 12481012}
+  - 114: {fileID: 11464220}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -27,7 +28,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 495466}
   - 82: {fileID: 8261668}
-  - 114: {fileID: 11428526}
+  - 114: {fileID: 11489272}
   m_Layer: 0
   m_Name: Music Player
   m_TagString: Untagged
@@ -230,7 +231,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 0584602a64eecc24fbc536847867b137, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -320,25 +321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6061c74e527adc48bc6f10da9be2f54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11428526
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93dc18026c7c52c448380898bbc2c502, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundtrack:
-  - {fileID: 8300000, guid: 0584602a64eecc24fbc536847867b137, type: 3}
-  - {fileID: 8300000, guid: c68bfab7b0f7b7945b8a0eb03f549f5c, type: 3}
-  - {fileID: 8300000, guid: 452c74a77b4eb1d40acc07ddff09686f, type: 3}
-  - {fileID: 8300000, guid: 5f812e05cf6868c47980ce41c56af2a2, type: 3}
-  - {fileID: 8300000, guid: a51b79236f46f4a43bdb35f71a4cce76, type: 3}
-  - {fileID: 8300000, guid: 5297ff4c11749d241a9c876bdd20efbe, type: 3}
-  slowSpeed: 0.1
 --- !u!114 &11441828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -382,6 +364,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11464220
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b59fa8bd4c92cac4e9e4fc15b1c28fd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11466060
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -430,6 +423,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11489272
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ad759f377092c8438f166beba22535d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 8261668}
 --- !u!124 &12472266
 Behaviour:
   m_ObjectHideFlags: 1

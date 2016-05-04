@@ -72,8 +72,6 @@ public class FlipMechanicSprite : MonoBehaviour {
 
 	void Flipside()
 	{
-		if (aniTime >= 0.5f)
-			GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
 		if (flipside == 1)
 		{
 			transform.position = new Vector3(destination.x, transform.position.y, transform.position.z);

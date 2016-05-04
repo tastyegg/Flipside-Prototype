@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour {
 
         if (inFocus)
         {
-            audioPlayer.pitch = Time.timeScale * 5.0f;
+            audioPlayer.pitch = Time.timeScale * 1.0f;
         } else
         {
 
