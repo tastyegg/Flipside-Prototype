@@ -9,6 +9,9 @@ public class MenuController : MonoBehaviour {
     private int index;
     private int timer;
 
+    public string firstLevelName;
+
+
     void Start()
     {
         timer = 15;
@@ -98,7 +101,8 @@ public class MenuController : MonoBehaviour {
     {
         if (data.Equals("Start Game")) {
             //put level 1 here
-            LoadScene("test2");
+            //LoadScene("test2");
+            LoadScene(firstLevelName);
         } else if (data.Equals("Level Select")) {
             LoadScene("SelectionScreen");
         }

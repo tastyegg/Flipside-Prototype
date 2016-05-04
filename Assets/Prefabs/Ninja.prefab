@@ -344,7 +344,7 @@ MonoBehaviour:
   smokeAudio: {fileID: 8300000, guid: f1ed0dd043dc3fe46aa65e5ddfd6bb3c, type: 3}
   spawnAudio: {fileID: 8300000, guid: 930d580f989622d4d81e7fced41f3b70, type: 3}
   jumpAudio: {fileID: 8300000, guid: d66f94cf8ca407742801b78ed1c9a030, type: 3}
-  walkingAudio: {fileID: 8300000, guid: 049fb33401c327d429318f31e93a0933, type: 3}
+  walkingAudio: {fileID: 8300000, guid: 178510dc15d357b4f9598aedab7c7093, type: 3}
   focusAudio: {fileID: 8300000, guid: a5a42ea66076c1d42be5bf1ff523ee15, type: 3}
   bgm: {fileID: 8300000, guid: a51b79236f46f4a43bdb35f71a4cce76, type: 3}
   axisX: 0

@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("walking", true);
             playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
 
-            if (walkSoundTimer > WALKTIME-1)
+            if (walkSoundTimer > WALKTIME-1 && grounded)
             {
                 audioPlayer.volume = 2.0f;
                 audioPlayer.PlayOneShot(walkingAudio);
@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("walking", true);
             playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
 
-            if (walkSoundTimer > WALKTIME-1)
+            if (walkSoundTimer > WALKTIME - 1 && grounded)
             {
                 audioPlayer.volume = 2.0f;
                 audioPlayer.PlayOneShot(walkingAudio);
