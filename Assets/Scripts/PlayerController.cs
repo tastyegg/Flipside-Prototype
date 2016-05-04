@@ -128,37 +128,36 @@ public class PlayerController : MonoBehaviour {
 			}
             playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
 
-            if (walkSoundTimer > WALKTIME-1 && grounded)
-            {
-                audioPlayer.volume = 2.0f;
-                audioPlayer.PlayOneShot(walkingAudio);
-                walkFlag = true;
-                audioPlayer.volume = 1.0f;
-            }
+            //if (walkSoundTimer > WALKTIME-1 && grounded)
+            //{
+            //    audioPlayer.volume = 2.0f;
+            //    audioPlayer.PlayOneShot(walkingAudio);
+            //    walkFlag = true;
+            //    audioPlayer.volume = 1.0f;
+            //}
         }
         //player move right
         else if (Input.GetAxis("Horizontal") > 0 && (playerRB.velocity.x >= 0.0f || !grounded))
         {
             if (!facingRight && playerRB.velocity.x >= 0.0f) ChangeDirection();
             animator.SetBool("walking", true);
-//<<<<<<< HEAD
+
             playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
 
-            if (walkSoundTimer > WALKTIME - 1 && grounded)
-            {
-                //audioPlayer.volume = 2.0f;
-                audioPlayer.PlayOneShot(walkingAudio);
-                walkFlag = true;
-                //audioPlayer.volume = 1.0f;
-            }
-//=======
+            //if (walkSoundTimer > WALKTIME - 1 && grounded)
+            //{
+            //    //audioPlayer.volume = 2.0f;
+            //    audioPlayer.PlayOneShot(walkingAudio);
+            //    walkFlag = true;
+            //    //audioPlayer.volume = 1.0f;
+            //}
 			if (walkingTimer >= 1.0f && grounded)
 			{
 				audioPlayer.Play();
 				walkingTimer = 0;
 			}
 			playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
-//>>>>>>> slapsteps
+
         }
         else
 		{
