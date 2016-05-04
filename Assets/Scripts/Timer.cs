@@ -18,6 +18,17 @@ public class Timer : MonoBehaviour {
     Color silver = new Color(192.0f / 255.0f, 192.0f / 255.0f, 192.0f / 255.0f);
     Color bronze = new Color(205.0f / 255.0f, 127.0f / 255.0f, 50.0f / 255.0f);
 
+    public void restart()
+    {
+        ttime = 0.0;
+        BStar.GetComponent<Image>().fillAmount = 0.0f;
+        TStar1.GetComponent<Image>().fillAmount = 1.0f;
+        TStar2.GetComponent<Image>().fillAmount = 1.0f;
+        TStar3.GetComponent<Image>().fillAmount = 1.0f;
+        rank = 4;
+        stopped = false;
+    }
+
 	// Use this for initialization
 	void Start () {
         ttime = 0.0;

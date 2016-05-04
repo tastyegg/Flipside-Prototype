@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour {
         animator.SetBool("walking", false);
         
         //player move left
-        if (Input.GetAxis("Horizontal") < 0 && (playerRB.velocity.x <= 0.0f || !grounded))
+        if (Input.GetAxis("Horizontal") < 0 && (playerRB.velocity.x <= 1.0f || !grounded))
         {
             if (facingRight && playerRB.velocity.x <= 0.0f) ChangeDirection();
             animator.SetBool("walking", true);
@@ -130,7 +130,7 @@ public class PlayerController : MonoBehaviour {
             //}
         }
         //player move right
-        else if (Input.GetAxis("Horizontal") > 0 && (playerRB.velocity.x >= 0.0f || !grounded))
+        else if (Input.GetAxis("Horizontal") > 0 && (playerRB.velocity.x >= -1.0f || !grounded))
         {
             if (!facingRight && playerRB.velocity.x >= 0.0f) ChangeDirection();
             animator.SetBool("walking", true);
@@ -375,7 +375,10 @@ public class PlayerController : MonoBehaviour {
 			GetComponentsInChildren<ParticleSystem>()[2].gameObject.SetActive(false);
 			GetComponentsInChildren<ParticleSystem>()[2].gameObject.SetActive(false);
 			Invoke("LoadNextLevel", 2.1f);
-            double tRank = GameObject.Find("StarBox").GetComponent<Timer>().stop();
+            if (GameObject.Find("StarBox"))
+            {
+                GameObject.Find("StarBox").GetComponent<Timer>().stop();
+            }
         }
         if (collider.CompareTag("Star"))
         {
@@ -414,12 +417,14 @@ public class PlayerController : MonoBehaviour {
         if (!isDead)
         {
             isDead = true;
+            GameObject starbox = GameObject.Find("StarBox");
+            if (starbox)
+                starbox.GetComponent<Timer>().restart();
             Color tmp = GetComponent<SpriteRenderer>().color;
             tmp.a = 0;
             GetComponent<SpriteRenderer>().color = tmp;
             audioPlayer.PlayOneShot(smokeAudio);
             GetComponent<ParticleSystem>().Emit(20);
-            if (gameObject.activeSelf) StartCoroutine(Spawn(0.7f));
             foreach (GameObject g in FindObjectsOfType<GameObject>())
             {
                 FlipMechanic fm = g.GetComponent<FlipMechanic>();
@@ -427,7 +432,13 @@ public class PlayerController : MonoBehaviour {
                 {
                     fm.FlipReset();
                 }
+                FlipMechanicSprite fms = g.GetComponent<FlipMechanicSprite>();
+                if (fms)
+                {
+                    fms.FlipReset();
+                }
             }
+            if (gameObject.activeSelf) StartCoroutine(Spawn(1.5f));
         }
     }
 
