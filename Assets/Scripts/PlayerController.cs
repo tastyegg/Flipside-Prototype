@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour {
     public AudioClip focusAudio;
     public AudioClip bgm; //notreally used
 
+	float walkingTimer;
     float focusTimer;
     bool dropFocus;
 
@@ -107,7 +108,7 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-
+		walkingTimer += 8.0f * Time.deltaTime / Time.timeScale;
         convertAxisToButton(Input.GetAxis("Focus"), ref enteringFocus, ref inFocus, ref exitingFocus);
         convertAxisToButton(Input.GetAxis("Jump"), ref axisButtonDownJump, ref axisButtonJump, ref axisButtonUpJump);
         convertAxisToButton(Input.GetAxis("FlipX"), ref axisButtonDownFlipX, ref axisButtonFlipX, ref axisButtonUpFlipX);
@@ -120,6 +121,11 @@ public class PlayerController : MonoBehaviour {
         {
             if (facingRight && playerRB.velocity.x <= 0.0f) ChangeDirection();
             animator.SetBool("walking", true);
+			if (walkingTimer >= 1.0f && grounded)
+			{
+				audioPlayer.Play();
+				walkingTimer = 0;
+			}
             playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
 
             if (walkSoundTimer > WALKTIME-1 && grounded)
@@ -135,6 +141,7 @@ public class PlayerController : MonoBehaviour {
         {
             if (!facingRight && playerRB.velocity.x >= 0.0f) ChangeDirection();
             animator.SetBool("walking", true);
+<<<<<<< HEAD
             playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
 
             if (walkSoundTimer > WALKTIME - 1 && grounded)
@@ -144,11 +151,20 @@ public class PlayerController : MonoBehaviour {
                 walkFlag = true;
                 audioPlayer.volume = 1.0f;
             }
+=======
+			if (walkingTimer >= 1.0f && grounded)
+			{
+				audioPlayer.Play();
+				walkingTimer = 0;
+			}
+			playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
+>>>>>>> slapsteps
         }
         else
-        {
-            //ground friction
-            if (grounded)
+		{
+			audioPlayer.Stop();
+			//ground friction
+			if (grounded)
             {
                 //player stops immediately once velocity is low enough
                 if (playerRB.velocity.x > immediate_stop_cutoff || playerRB.velocity.x < -immediate_stop_cutoff)
@@ -162,8 +178,8 @@ public class PlayerController : MonoBehaviour {
             }
             //air friction
             else
-            {
-                playerRB.velocity = new Vector2(playerRB.velocity.x / air_stopping_power, playerRB.velocity.y);
+			{
+				playerRB.velocity = new Vector2(playerRB.velocity.x / air_stopping_power, playerRB.velocity.y);
             }
         }
        
