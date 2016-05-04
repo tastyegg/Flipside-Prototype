@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour {
         convertAxisToButton(Input.GetAxis("FlipY"), ref axisButtonDownFlipY, ref axisButtonFlipY, ref axisButtonUpFlipY);
 
         animator.SetBool("walking", false);
-        
+
         //player move left
         if (Input.GetAxis("Horizontal") < 0 && (playerRB.velocity.x <= 1.0f || !grounded))
         {
@@ -247,7 +247,24 @@ public class PlayerController : MonoBehaviour {
             audioPlayer.pitch = 1.0f;
         }
 
-		dangerCheck = false;
+        if (PlayerController.inFocus)
+        {
+            Time.timeScale = 0.1f;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            //audioPlayer.PlayOneShot(focusAudio);
+        }
+        else if (FlipMechanic.aniTime < 1.0f)
+        {
+            Time.timeScale = Mathf.Clamp(FlipMechanic.aniTime * 2, 0.0001f, 1.0f);
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        }
+        if (FlipMechanic.aniTime >= 1.0f && !PlayerController.inFocus || PlayerController.exitingFocus || (!PlayerController.inFocus && (PlayerController.axisButtonDownFlipX || PlayerController.axisButtonDownFlipY) && FlipMechanic.blinktime >= FlipMechanic.blinkmax))
+        {
+            Time.timeScale = 1.0f;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        }
+
+        dangerCheck = false;
         xdanger = false;
 		ydanger = false;
 		Vector3 xFlipPredictiveLocation = transform.localPosition;
