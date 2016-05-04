@@ -128,6 +128,22 @@ Prefab:
       propertyPath: m_LocalScale.x
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11462262, guid: eee24701355ae324a8380a633caf6456, type: 2}
+      propertyPath: m_Color.r
+      value: 0.1764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 11462262, guid: eee24701355ae324a8380a633caf6456, type: 2}
+      propertyPath: m_Color.g
+      value: 0.39215687
+      objectReference: {fileID: 0}
+    - target: {fileID: 11462262, guid: eee24701355ae324a8380a633caf6456, type: 2}
+      propertyPath: m_Color.b
+      value: 0.61960787
+      objectReference: {fileID: 0}
+    - target: {fileID: 11462262, guid: eee24701355ae324a8380a633caf6456, type: 2}
+      propertyPath: m_Color.a
+      value: 0.61960787
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eee24701355ae324a8380a633caf6456, type: 2}
   m_IsPrefabParent: 0
@@ -2079,7 +2095,7 @@ Transform:
   - {fileID: 1679487004}
   - {fileID: 679997372}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 1
 --- !u!114 &1033705383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2913,7 +2929,7 @@ Transform:
   m_LocalScale: {x: 2.190642, y: 2.1516764, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 3
 --- !u!114 &1400474739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3994,7 +4010,7 @@ Transform:
   - {fileID: 897264887}
   - {fileID: 434043530}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 5
 --- !u!1001 &1708314127
 Prefab:
   m_ObjectHideFlags: 0
@@ -4897,7 +4913,7 @@ Transform:
   m_LocalScale: {x: 0.5568305, y: 0.5616918, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 4
 --- !u!114 &2084868742
 MonoBehaviour:
   m_ObjectHideFlags: 0
