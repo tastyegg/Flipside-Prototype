@@ -8,11 +8,6 @@ public class musicScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
         audioPlayer = GetComponent<AudioSource>();
-        if (!audioPlayer.playOnAwake)
-        {
-            audioPlayer.clip = soundtrack[Random.Range(0, soundtrack.Length)];
-            audioPlayer.Play();
-        }
     }
 	
 	// Update is called once per frame
