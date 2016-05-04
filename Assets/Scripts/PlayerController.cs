@@ -76,11 +76,6 @@ public class PlayerController : MonoBehaviour {
 
 	ParticleSystem dustSystem;
 
-    //for moving sound
-    bool walkFlag;
-    public int WALKTIME = 30;
-    int walkSoundTimer;
-
     // Use this for initialization
     void Start ()
 	{
@@ -96,8 +91,6 @@ public class PlayerController : MonoBehaviour {
         axisX = false;
         axisY = false;
 		dustSystem = GetComponentsInChildren<ParticleSystem>()[3];
-        walkFlag = false;
-        walkSoundTimer = WALKTIME; 
     }
 	
 	public void Reset()
@@ -115,7 +108,7 @@ public class PlayerController : MonoBehaviour {
         convertAxisToButton(Input.GetAxis("FlipY"), ref axisButtonDownFlipY, ref axisButtonFlipY, ref axisButtonUpFlipY);
 
         animator.SetBool("walking", false);
-
+        
         //player move left
         if (Input.GetAxis("Horizontal") < 0 && (playerRB.velocity.x <= 0.0f || !grounded))
         {
@@ -141,27 +134,18 @@ public class PlayerController : MonoBehaviour {
         {
             if (!facingRight && playerRB.velocity.x >= 0.0f) ChangeDirection();
             animator.SetBool("walking", true);
-
-            playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
-
-            //if (walkSoundTimer > WALKTIME - 1 && grounded)
-            //{
-            //    //audioPlayer.volume = 2.0f;
-            //    audioPlayer.PlayOneShot(walkingAudio);
-            //    walkFlag = true;
-            //    //audioPlayer.volume = 1.0f;
-            //}
+            
 			if (walkingTimer >= 1.0f && grounded)
 			{
 				audioPlayer.Play();
 				walkingTimer = 0;
 			}
 			playerRB.AddForce(new Vector2(Input.GetAxis("Horizontal") * acceleration_speed, 0.0f));
-
         }
         else
 		{
 			audioPlayer.Stop();
+
 			//ground friction
 			if (grounded)
             {
@@ -253,6 +237,15 @@ public class PlayerController : MonoBehaviour {
 		{
 			Reset();
 		}
+
+        if (inFocus)
+        {
+            audioPlayer.pitch = Time.timeScale * 5.0f;
+        } else
+        {
+
+            audioPlayer.pitch = 1.0f;
+        }
 
 		dangerCheck = false;
         xdanger = false;
@@ -356,17 +349,6 @@ public class PlayerController : MonoBehaviour {
 
         //Sync walk animation with velocity
         animator.SetFloat("movementSpeed", Mathf.Clamp(Mathf.Abs(playerRB.velocity.x)/2.0f, 0.0f, 1.5f));
-        
-        //for walking sound delay 
-        if (walkFlag)
-        {
-            walkSoundTimer--;
-        }
-        if (walkSoundTimer < 0)
-        {
-            walkFlag = false;
-            walkSoundTimer = WALKTIME;
-        }
     }
 	
 
