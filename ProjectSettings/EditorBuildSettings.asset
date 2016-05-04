@@ -29,3 +29,17 @@ EditorBuildSettings:
     path: Assets/Scenes/level6.unity
   - enabled: 1
     path: Assets/Scenes/level7.unity
+  - enabled: 1
+    path: Assets/Scenes/TitleScreen.unity
+  - enabled: 1
+    path: Assets/Scenes/test2.unity
+  - enabled: 1
+    path: Assets/Scenes/SelectionScreen.unity
+  - enabled: 1
+    path: Assets/Scenes/flev1.unity
+  - enabled: 1
+    path: Assets/Scenes/flev2.unity
+  - enabled: 1
+    path: Assets/Scenes/flev3.unity
+  - enabled: 1
+    path: Assets/Scenes/flev4.unity

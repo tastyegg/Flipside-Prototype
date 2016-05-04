@@ -30,6 +30,7 @@ public class FlipMechanic : MonoBehaviour {
 	int CG_flipside;
 	Vector3 destination;
 	static int lastFlipAttempt;
+	int queueFlip;
 
     public bool getSeq() { return inSequence; }
 
@@ -66,6 +67,7 @@ public class FlipMechanic : MonoBehaviour {
         xrot = 1;
         yrot = 1;
 		lastFlipAttempt = 0;
+		queueFlip = 0;
 	}
 
 	void Flipside()
@@ -188,7 +190,10 @@ public class FlipMechanic : MonoBehaviour {
 	{
 		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
         GetComponent<SpriteRenderer>().color = basecolor;
-
+        foreach (Transform child in transform)
+        {
+            child.GetComponent<SpriteRenderer>().color = basecolor;
+        }
         if (blinktime < blinkmax){
 			Vector3 errorPosition = transform.localPosition;
 			Vector3 errorAngle = transform.localEulerAngles;
@@ -229,37 +234,43 @@ public class FlipMechanic : MonoBehaviour {
 				{
 					if (previewFlipside != 0 && !PlayerController.dangerCheck)
 					{
-						GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
-						flipside = previewFlipside;
-						if (!aniTimeReset)
+						if (flipsideD == previewFlipside || aniTime >= 1.0f)
 						{
-							if (flipsideD == previewFlipside)
+							GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
+							flipside = previewFlipside;
+							if (!aniTimeReset)
 							{
-								FollowPlayer.reverse = true;
-								aniTime = 1.0f - aniTime;
+								if (flipsideD == previewFlipside)
+								{
+									FollowPlayer.reverse = true;
+									aniTime = 1.0f - aniTime;
+								}
+								else
+								{
+									FollowPlayer.reverse = false;
+									aniTime = 0;
+								}
+								aniTimeReset = true;
 							}
-							else
+							flipsideD = previewFlipside;
+							if (flipside % 2 == 1)
 							{
-								FollowPlayer.reverse = false;
-								aniTime = 0;
+								if (CG_flipside % 2 == 0)
+									CG_flipside++;
+								else
+									CG_flipside--;
 							}
-							aniTimeReset = true;
-						}
-						flipsideD = previewFlipside;
-						if (flipside % 2 == 1)
+							if (flipside >= 2)
+								CG_flipside += 2;
+							previewFlipside = 0;
+							destination = previewGoal;
+							inSequence = true;
+							xrot = (xrot + (flipside % 2)) % 2;
+							yrot = (yrot + (flipside / 2)) % 2;
+						} else
 						{
-							if (CG_flipside % 2 == 0)
-								CG_flipside++;
-							else
-								CG_flipside--;
+							queueFlip = previewFlipside;
 						}
-						if (flipside >= 2)
-							CG_flipside += 2;
-						previewFlipside = 0;
-						destination = previewGoal;
-						inSequence = true;
-						xrot = (xrot + (flipside % 2)) %2;
-                        yrot = (yrot + (flipside / 2)) % 2;
 					}
                     else if(previewFlipside != 0 && PlayerController.dangerCheck)
 					{
@@ -280,31 +291,37 @@ public class FlipMechanic : MonoBehaviour {
                 }
                 else if (PlayerController.axisButtonDownFlipX)
 				{
-					GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
-					if (CG_flipside % 2 == 0)
-						CG_flipside++;
-					else
-						CG_flipside--;
-					flipside = 1;
-					if (!aniTimeReset)
+					if (flipsideD == 1 || aniTime >= 1.0f)
 					{
-						if (flipsideD == 1)
-						{
-							FollowPlayer.reverse = !FollowPlayer.reverse;
-							aniTime = 1.0f - aniTime;
-						}
+						GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
+						if (CG_flipside % 2 == 0)
+							CG_flipside++;
 						else
+							CG_flipside--;
+						flipside = 1;
+						if (!aniTimeReset)
 						{
-							FollowPlayer.reverse = false;
-							aniTime = 0;
+							if (flipsideD == 1)
+							{
+								FollowPlayer.reverse = !FollowPlayer.reverse;
+								aniTime = 1.0f - aniTime;
+							}
+							else
+							{
+								FollowPlayer.reverse = false;
+								aniTime = 0;
+							}
+							aniTimeReset = true;
 						}
-						aniTimeReset = true;
+						flipsideD = flipside;
+						destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
+						inSequence = true;
+						done = false;
+						xrot = (xrot + 1) % 2;
+					} else
+					{
+						queueFlip = 1;
 					}
-					flipsideD = flipside;
-                    destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
-                    inSequence = true;
-					done = false;
-                    xrot = (xrot + 1) % 2;
                 }
                 if (PlayerController.ydanger && PlayerController.axisButtonDownFlipY)
 				{
@@ -314,28 +331,34 @@ public class FlipMechanic : MonoBehaviour {
                 }
                 else if (PlayerController.axisButtonDownFlipY)
 				{
-					GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
-					CG_flipside += 2;
-					flipside = 2;
-					if (!aniTimeReset)
+					if (flipsideD == 2 || aniTime >= 1.0f)
 					{
-						if (flipsideD == 2)
+						GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
+						CG_flipside += 2;
+						flipside = 2;
+						if (!aniTimeReset)
 						{
-							FollowPlayer.reverse = !FollowPlayer.reverse;
-							aniTime = 1.0f - aniTime;
+							if (flipsideD == 2)
+							{
+								FollowPlayer.reverse = !FollowPlayer.reverse;
+								aniTime = 1.0f - aniTime;
+							}
+							else
+							{
+								FollowPlayer.reverse = false;
+								aniTime = 0;
+							}
+							aniTimeReset = true;
 						}
-						else
-						{
-							FollowPlayer.reverse = false;
-							aniTime = 0;
-						}
-						aniTimeReset = true;
+						flipsideD = flipside;
+						destination = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
+						inSequence = true;
+						done = false;
+						yrot = (yrot + 1) % 2;
+					} else
+					{
+						queueFlip = 2;
 					}
-					flipsideD = flipside;
-                    destination = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
-                    inSequence = true;
-					done = false;
-                    yrot = (yrot + 1) % 2;
                 }
             }
 
@@ -346,12 +369,42 @@ public class FlipMechanic : MonoBehaviour {
 			Color ghostColor = basecolor;
 			ghostColor.a = FlipMechanic.aniTime * 0.2f;
 			GetComponent<SpriteRenderer>().color = ghostColor;
+            foreach (Transform child in transform)
+            {
+                child.GetComponent<SpriteRenderer>().color = ghostColor;
+            }
 			Flipside();
-			if (aniTime >= 1.0f)
+			if (aniTime >= 1.0f || (queueFlip != 0 && aniTime == 0))
 			{
-				PlayerController.dangerCheck = false;
-				inSequence = false;
-				done = true;
+				if (queueFlip != 0 && (queueFlip % 2 == 0 || (queueFlip % 2 == 1 && !PlayerController.xdanger)) && (queueFlip < 2 || (queueFlip >= 2 && !PlayerController.ydanger)))
+				{
+					GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
+					flipside = queueFlip;
+					FollowPlayer.reverse = false;
+					aniTime = 0;
+					flipsideD = queueFlip;
+					if (flipside % 2 == 1)
+					{
+						if (CG_flipside % 2 == 0)
+							CG_flipside++;
+						else
+							CG_flipside--;
+					}
+					if (flipside >= 2)
+						CG_flipside += 2;
+					destination = new Vector3((queueFlip % 2 == 0 ? 1 : -1) * transform.position.x, (queueFlip >= 2 ? -1 : 1) * transform.position.y, transform.position.z);
+					queueFlip = 0;
+					inSequence = true;
+					xrot = (xrot + (flipside % 2)) % 2;
+					yrot = (yrot + (flipside / 2)) % 2;
+				}
+				else
+				{
+					queueFlip = 0;
+					PlayerController.dangerCheck = false;
+					inSequence = false;
+					done = true;
+				}
 			}
 		}
 
