@@ -12,7 +12,7 @@ public class MusicPlayer : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         MusicBox mb = GameObject.Find("MusicBox").GetComponent<MusicBox>();
-        if (mb.musicind != musicind)
+        if (mb && mb.musicind != musicind)
         {
             player.Stop();
             player.clip = mb.bgm.clip;
