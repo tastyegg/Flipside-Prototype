@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour {
 	public float animationSpeed = 11.0f;
 	public float previewAnimationSpeed = 5.0f;
 	public float blinkSpeed = 6.0f;
-	public float slowSpeed = 0.1f;
     public float walkVelocity = 5.5f;
     public float jumpForce = 7.5f;
     public float FOCUS_TIMER = 10.0f;
@@ -16,7 +15,6 @@ public class PlayerController : MonoBehaviour {
 	Rigidbody2D playerRB;
     private Animator animator;
     private AudioSource audioPlayer;
-    private AudioSource bgmPlayer;
 
 	bool grounded;
     bool facingRight;
@@ -72,25 +70,26 @@ public class PlayerController : MonoBehaviour {
     public float jump_hold_min;
     public float run_factor;
 
+    private Vector3 spawnPosition;
+    private bool isDead;
+
 	ParticleSystem dustSystem;
 
     // Use this for initialization
     void Start ()
 	{
-		playerRB = GetComponent<Rigidbody2D>();
+        spawnPosition = transform.position;
+        playerRB = GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
         audioPlayer = this.GetComponent<AudioSource>();
-        bgmPlayer = this.GetComponents<AudioSource>()[1];
         recordedPosition = transform.position;
         facingRight = true;
-        StartCoroutine("Spawn");
+        StartCoroutine(Spawn(0.0f));
         focusTimer = FOCUS_TIMER;
         dropFocus = false;
         axisX = false;
         axisY = false;
 		dustSystem = GetComponentsInChildren<ParticleSystem>()[3];
-        //bgmPlayer.PlayOneShot(bgm);
-        //bgmPlayer.loop = true;
     }
 	
 	public void Reset()
@@ -101,6 +100,7 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+
         convertAxisToButton(Input.GetAxis("Focus"), ref enteringFocus, ref inFocus, ref exitingFocus);
         convertAxisToButton(Input.GetAxis("Jump"), ref axisButtonDownJump, ref axisButtonJump, ref axisButtonUpJump);
         convertAxisToButton(Input.GetAxis("FlipX"), ref axisButtonDownFlipX, ref axisButtonFlipX, ref axisButtonUpFlipX);
@@ -193,29 +193,10 @@ public class PlayerController : MonoBehaviour {
 		if (FlipMechanic.blinktime <= FlipMechanic.blinkmax)
 			FlipMechanic.blinktime += blinkSpeed * Time.deltaTime / Time.timeScale;
 
-		if (inFocus)
-		{
-			Time.timeScale = slowSpeed;
-			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-			//audioPlayer.PlayOneShot(focusAudio);
-			bgmPlayer.pitch = Time.timeScale * 2.0f;
-		}
-		if (!inFocus && FlipMechanic.aniTime < 1.0f)
-		{
-			Time.timeScale = Mathf.Clamp(FlipMechanic.aniTime * 2, 0.0001f, 1.0f);
-			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-			bgmPlayer.pitch = Time.timeScale * 2.0f;
-		}
-		if (FlipMechanic.aniTime >= 1.0f && !inFocus || exitingFocus || (!inFocus && (axisButtonDownFlipX || axisButtonDownFlipY) && FlipMechanic.blinktime >= FlipMechanic.blinkmax))
-		{
-			Time.timeScale = 1.0f;
-			Time.fixedDeltaTime = 0.02f * Time.timeScale;
-			//audioPlayer.Stop();
-			bgmPlayer.pitch = Time.timeScale;
-		}
 		if (Input.GetButtonDown("Exit"))
 		{
-			SceneManager.LoadScene(0);
+			//SceneManager.LoadScene(0);
+            LoadScene("TitleScreen"); //temporary
 		} else if (Input.GetButtonDown("Reset"))
 		{
 			Reset();
@@ -339,6 +320,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (collider.CompareTag("Finish") && GetComponent<SpriteRenderer>().color.a != 0)
 		{
+            playerRB.isKinematic = true;
             Color tmp = GetComponent<SpriteRenderer>().color;
             tmp.a = 0;
             GetComponent<SpriteRenderer>().color = tmp;
@@ -367,7 +349,7 @@ public class PlayerController : MonoBehaviour {
         if (Camera.allCamerasCount > 0)
         {
             Vector3 posPixel = Camera.allCameras[0].WorldToScreenPoint(transform.position);
-            if (!(posPixel.y > 0 && posPixel.y < Camera.allCameras[0].pixelHeight))
+            if (!(posPixel.y > 0 && posPixel.y < Camera.allCameras[0].pixelHeight) || !(posPixel.x > 0 && posPixel.x < Camera.allCameras[0].pixelHeight))
                 Die();
         }
         else
@@ -384,18 +366,28 @@ public class PlayerController : MonoBehaviour {
 
     public void Die()
 	{
-		bgmPlayer.Stop();
-		Color tmp = GetComponent<SpriteRenderer>().color;
-        tmp.a = 0;
-        GetComponent<SpriteRenderer>().color = tmp;
-        audioPlayer.PlayOneShot(smokeAudio);
-        GetComponent<ParticleSystem>().Emit(20);
-        Invoke("Reset", 0.7f);
-        transform.position = new Vector3(int.MaxValue, 0, 0);
+        if (!isDead)
+        {
+            isDead = true;
+            Color tmp = GetComponent<SpriteRenderer>().color;
+            tmp.a = 0;
+            GetComponent<SpriteRenderer>().color = tmp;
+            audioPlayer.PlayOneShot(smokeAudio);
+            GetComponent<ParticleSystem>().Emit(20);
+            if (gameObject.activeSelf) StartCoroutine(Spawn(0.7f));
+        }
     }
 
-    IEnumerator Spawn()
+    IEnumerator Spawn(float delayStart)
     {
+        transform.Find("Mirage Particle System").GetComponent<ParticleSystem>().Stop();
+        transform.Find("Dust Particle System").GetComponent<ParticleSystem>().Stop();
+        yield return new WaitForSeconds(delayStart);
+        isDead = false;
+        transform.position = spawnPosition;
+        transform.Find("Mirage Particle System").GetComponent<ParticleSystem>().Play();
+        transform.Find("Dust Particle System").GetComponent<ParticleSystem>().Play();
+        playerRB.velocity = new Vector2(0.0f, 0.0f);
         Color tmp = GetComponent<SpriteRenderer>().color;
         tmp.a = 0;
         GetComponent<SpriteRenderer>().color = tmp;
@@ -427,5 +419,10 @@ public class PlayerController : MonoBehaviour {
                 button = false;
             }
         }
+    }
+
+    public void LoadScene(string level)
+    {
+        SceneManager.LoadScene(level);
     }
 }

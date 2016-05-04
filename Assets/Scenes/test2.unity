@@ -544,6 +544,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 157980, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
+      propertyPath: m_Name
+      value: Ninja
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
   m_IsPrefabParent: 0
@@ -901,7 +905,7 @@ Transform:
   - {fileID: 2014307211}
   - {fileID: 1965742510}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!1 &772809077
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,7 +1090,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22415940, guid: 7b9ad9cfb6e8b554d82d52705dd2c28a, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 22415940, guid: 7b9ad9cfb6e8b554d82d52705dd2c28a, type: 2}
       propertyPath: m_AnchoredPosition.x
