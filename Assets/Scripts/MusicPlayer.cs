@@ -29,4 +29,15 @@ public class MusicPlayer : MonoBehaviour {
             }
         }
 	}
+
+	void LateUpdate()
+	{
+		if (PlayerController.inFocus)
+		{
+			player.pitch = Time.timeScale * 3.0f;
+		} else
+		{
+			player.pitch = Time.timeScale;
+		}
+	}
 }
