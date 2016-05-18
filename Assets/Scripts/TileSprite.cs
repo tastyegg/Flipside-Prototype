@@ -15,12 +15,12 @@ public class TileSprite : MonoBehaviour
     {
         // Get the current sprite with an unscaled size
         sprite = GetComponent<SpriteRenderer>();
-        Vector2 spriteSize = new Vector2(sprite.bounds.size.x / transform.localScale.x, sprite.bounds.size.y / transform.localScale.y);
+        Vector2 spriteSize = new Vector2(sprite.bounds.size.x / (transform.localScale.x), sprite.bounds.size.y / transform.localScale.y);
 
         // Generate a child prefab of the sprite renderer
         GameObject childPrefab = new GameObject();
         SpriteRenderer childSprite = childPrefab.AddComponent<SpriteRenderer>();
-        childPrefab.transform.position = transform.position;
+        childPrefab.transform.localPosition = transform.localPosition;
         childSprite.sprite = sprite.sprite;
 
         // Loop through and spit out repeated tiles
@@ -29,14 +29,14 @@ public class TileSprite : MonoBehaviour
         for (int i = 1, l = (int)Mathf.Round(sprite.bounds.size.y); i < l; i++)
         {
             child = Instantiate(childPrefab) as GameObject;
-            child.transform.position = transform.position - (new Vector3(0, spriteSize.y, 0) * i);
+            child.transform.localPosition = transform.localPosition - (new Vector3(0, spriteSize.y, 0) * i);
             child.transform.parent = transform;
         }
         
         for (int i = 1, l = (int)Mathf.Round(sprite.bounds.size.x); i < l; i++)
         {
             child = Instantiate(childPrefab) as GameObject;
-            child.transform.position = transform.position - (new Vector3(spriteSize.x, 0, 0) * i);
+            child.transform.localPosition = transform.localPosition - (new Vector3(spriteSize.x, 0, 0) * i);
             child.transform.parent = transform;
         }
 
@@ -47,4 +47,13 @@ public class TileSprite : MonoBehaviour
         sprite.enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
     }
+
+	void Update()
+	{
+		Color c = GetComponent<SpriteRenderer>().color;
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			transform.GetChild(i).GetComponent<SpriteRenderer>().color = c;
+		}
+	}
 }

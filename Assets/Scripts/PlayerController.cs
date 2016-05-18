@@ -18,9 +18,6 @@ public class PlayerController : MonoBehaviour {
 
 	bool grounded;
     bool facingRight;
-	public static bool dangerCheck;
-    public static bool xdanger;
-    public static bool ydanger;
     public Transform groundCheckLeft;
     public Transform groundCheckRight;
     public LayerMask whatIsGround;
@@ -75,10 +72,13 @@ public class PlayerController : MonoBehaviour {
     private bool isDead;
 
 	ParticleSystem dustSystem;
+	FlipMechanic flip;
 
     // Use this for initialization
     void Start ()
 	{
+		flip = GetComponent<FlipMechanic>();
+
         spawnPosition = transform.position;
         playerRB = GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
@@ -200,34 +200,7 @@ public class PlayerController : MonoBehaviour {
             jumpHoldTimer = 0.0f;
             jumpHoldCanceled = true;
         }
-
-		FlipMechanic.aniTimeReset = false;
-		if (FlipMechanic.aniTime <= 1.0f)
-			FlipMechanic.aniTime += animationSpeed * Time.deltaTime / Time.timeScale;
-		else
-		{
-			FlipMechanic.flipsideD = 0;
-			FollowPlayer.reverse = false;
-		}
-		if (FlipMechanic.previewAniTime <= 1.0f)
-			FlipMechanic.previewAniTime += previewAnimationSpeed * Time.deltaTime / Time.timeScale;
-
-		if (FlipMechanic.blinktime <= FlipMechanic.blinkmax)
-			FlipMechanic.blinktime += blinkSpeed * Time.deltaTime / Time.timeScale;
-
-        FlipMechanicSprite.aniTimeReset = false;
-        if (FlipMechanicSprite.aniTime <= 1.0f)
-            FlipMechanicSprite.aniTime += animationSpeed * Time.deltaTime / Time.timeScale;
-        else
-        {
-            FlipMechanicSprite.flipsideD = 0;
-            FollowPlayer.reverse = false;
-        }
-        if (FlipMechanicSprite.previewAniTime <= 1.0f)
-            FlipMechanicSprite.previewAniTime += previewAnimationSpeed * Time.deltaTime / Time.timeScale;
-
-        if (FlipMechanicSprite.blinktime <= FlipMechanicSprite.blinkmax)
-            FlipMechanicSprite.blinktime += blinkSpeed * Time.deltaTime / Time.timeScale;
+		
 
 		if (Input.GetButtonDown("Exit"))
 		{
@@ -239,106 +212,17 @@ public class PlayerController : MonoBehaviour {
 		}
 
         if (inFocus)
-        {
-            audioPlayer.pitch = Time.timeScale * 1.0f;
-        } else
-        {
-
-            audioPlayer.pitch = 1.0f;
-        }
-
-        if (PlayerController.inFocus)
-        {
-            Time.timeScale = 0.1f;
-            Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            //audioPlayer.PlayOneShot(focusAudio);
-        }
-        else if (FlipMechanic.aniTime < 1.0f)
-        {
-            Time.timeScale = Mathf.Clamp(FlipMechanic.aniTime * 2, 0.0001f, 1.0f);
-            Time.fixedDeltaTime = 0.02f * Time.timeScale;
-        }
-        if (FlipMechanic.aniTime >= 1.0f && !PlayerController.inFocus || PlayerController.exitingFocus || (!PlayerController.inFocus && (PlayerController.axisButtonDownFlipX || PlayerController.axisButtonDownFlipY) && FlipMechanic.blinktime >= FlipMechanic.blinkmax))
-        {
-            Time.timeScale = 1.0f;
-            Time.fixedDeltaTime = 0.02f * Time.timeScale;
-        }
-
-        dangerCheck = false;
-        xdanger = false;
-		ydanger = false;
-		Vector3 xFlipPredictiveLocation = transform.localPosition;
-		Vector3 yFlipPredictiveLocation = transform.localPosition;
-		Vector3 xyFlipPredictiveLocation = transform.localPosition;
-		xFlipPredictiveLocation.x *= -1;
-		yFlipPredictiveLocation.y *= -1;
-		xyFlipPredictiveLocation.x *= -1;
-		xyFlipPredictiveLocation.y *= -1;
-
-        float sqrad = 0.25f;
-		foreach (GameObject g in FindObjectsOfType<GameObject>())
-        {
-            FlipMechanic f = g.GetComponent<FlipMechanic>();
-            if (f)
-			{
-                Vector3 ploc = transform.localPosition;
-                ploc.x *= -1;
-
-				Collider2D c = f.GetComponent<Collider2D>();
-                if (c.OverlapPoint(new Vector2(ploc.x + sqrad, ploc.y + sqrad)) || c.OverlapPoint(new Vector2(ploc.x - sqrad, ploc.y + sqrad)) || c.OverlapPoint(new Vector2(ploc.x - sqrad, ploc.y - sqrad)) || c.OverlapPoint(new Vector2(ploc.x + sqrad, ploc.y - sqrad)))
-				{
-					xdanger = true;
-					if (FlipMechanic.StaticPreviewFlipside == 1)
-						dangerCheck = true;
-				}
-                ploc = transform.localPosition;
-                ploc.y *= -1;
-                if (c.OverlapPoint(new Vector2(ploc.x + sqrad, ploc.y + sqrad)) || c.OverlapPoint(new Vector2(ploc.x - sqrad, ploc.y + sqrad)) || c.OverlapPoint(new Vector2(ploc.x - sqrad, ploc.y - sqrad)) || c.OverlapPoint(new Vector2(ploc.x + sqrad, ploc.y - sqrad)))
-                {
-					ydanger = true;
-					if (FlipMechanic.StaticPreviewFlipside == 2)
-						dangerCheck = true;
-				}
-                ploc.x *= -1;
-                if (FlipMechanic.StaticPreviewFlipside == 3 && (c.OverlapPoint(new Vector2(ploc.x + sqrad, ploc.y + sqrad)) || c.OverlapPoint(new Vector2(ploc.x - sqrad, ploc.y + sqrad)) || c.OverlapPoint(new Vector2(ploc.x - sqrad, ploc.y - sqrad)) || c.OverlapPoint(new Vector2(ploc.x + sqrad, ploc.y - sqrad))))
-				{
-					dangerCheck = true;
-				}
-			}
-        }
-
-		foreach (GameObject g in FindObjectsOfType<GameObject>())
 		{
-			FlipMechanic f = g.GetComponent<FlipMechanic>();
-			if (f && f.preview)
-			{
-				if (dangerCheck && FlipMechanic.aniTime >= 1.0f)
-					f.preview.GetComponent<SpriteRenderer>().color = FlipMechanic.errcolor;
-				else
-					f.preview.GetComponent<SpriteRenderer>().color = FlipMechanic.previewColor;
-			}
-
-		}
-        //for focus
-        if (dropFocus)
-        {
-            focusTimer -= rateOfDecay;
+			Time.timeScale = 0.1f;
+			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+			audioPlayer.pitch = Time.timeScale * 1.0f;
+        } else
+		{
+			Time.timeScale = 1.0f;
+			Time.fixedDeltaTime = 0.02f * Time.timeScale;
+			audioPlayer.pitch = 1.0f;
         }
     }
-
-    //for the focus mode
-    void startFocus()
-    {
-        dropFocus = true;
-    }
-
-    void resetFocus()
-    {
-        dropFocus = false;
-        focusTimer = 10.0f;
-    }
-
-    public float getFocus() { return focusTimer; }
 
     void FixedUpdate()
     {
@@ -442,19 +326,9 @@ public class PlayerController : MonoBehaviour {
             GetComponent<SpriteRenderer>().color = tmp;
             audioPlayer.PlayOneShot(smokeAudio);
             GetComponent<ParticleSystem>().Emit(20);
-            foreach (GameObject g in FindObjectsOfType<GameObject>())
-            {
-                FlipMechanic fm = g.GetComponent<FlipMechanic>();
-                if (fm)
-                {
-                    fm.FlipReset();
-                }
-                FlipMechanicSprite fms = g.GetComponent<FlipMechanicSprite>();
-                if (fms)
-                {
-                    fms.FlipReset();
-                }
-            }
+
+			flip.Reset();
+
             if (gameObject.activeSelf) StartCoroutine(Spawn(1.5f));
         }
     }

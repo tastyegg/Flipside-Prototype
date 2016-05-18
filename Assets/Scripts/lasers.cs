@@ -6,6 +6,7 @@ public class lasers : MonoBehaviour
 {
 	public int direction;
 	public GameObject player;
+	FlipMechanic flip;
 	PlayerController pc;
 	LineRenderer lr;
 	RaycastHit2D[] rchs2d;
@@ -17,6 +18,7 @@ public class lasers : MonoBehaviour
 	{
 		lr = gameObject.GetComponent<LineRenderer>();
 		pc = player.GetComponent<PlayerController>();
+		flip = player.GetComponent<FlipMechanic>();
         lastHitPoint = transform.position;
 	}
 
@@ -86,7 +88,7 @@ public class lasers : MonoBehaviour
             pc.Die();
         }
 
-        lastHitPoint = Vector3.Lerp(lastHitPoint, npos, FlipMechanic.aniTime);
+        lastHitPoint = Vector3.Lerp(lastHitPoint, npos, flip.aniTime);
         lr.SetPosition(1, lastHitPoint);
         //Disables rendering during flip
         if (laserHit <= 0) {

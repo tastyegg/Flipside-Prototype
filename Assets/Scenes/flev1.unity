@@ -125,7 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &22983024
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -196,7 +195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &26852797
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -267,7 +265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &67021410
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -338,7 +335,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &68220232
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -409,7 +405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &69235945
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -480,7 +475,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &100082132
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -571,10 +565,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 100552317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
+  m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!114 &100552321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -668,7 +661,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &115755567
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -739,7 +731,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &146528445
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -840,7 +831,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!1 &181067940
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,7 +871,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &181067943
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -982,7 +971,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!1 &218788867
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,10 +1031,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 218788867}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
+  m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!114 &218788871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1170,7 +1157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!1 &278295322
 GameObject:
   m_ObjectHideFlags: 0
@@ -1211,7 +1197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &278295325
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1328,6 +1313,21 @@ Transform:
   - {fileID: 1522093543}
   m_Father: {fileID: 0}
   m_RootOrder: 19
+--- !u!1 &312157238 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 157980, guid: f9fb5e6e190ebad43826b4e65a18a312, type: 2}
+  m_PrefabInternal: {fileID: 1679337039}
+--- !u!114 &312157249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 312157238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb43cdd8d01d7b46b78a3fde6ad4fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &357204066
 Prefab:
   m_ObjectHideFlags: 0
@@ -1416,7 +1416,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &384469197
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1487,7 +1486,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &475890742
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1640,7 +1638,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &507906539
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1731,10 +1728,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 541083449}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
+  m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!114 &541083453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1828,7 +1824,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &542311407
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1949,7 +1944,7 @@ Transform:
   m_LocalScale: {x: 16, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
 --- !u!114 &563671041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1972,10 +1967,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 563671036}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
+  m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!1 &568046569
 GameObject:
   m_ObjectHideFlags: 0
@@ -2016,7 +2010,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &568046572
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2087,7 +2080,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &570640987
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2158,7 +2150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &575561847
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2229,7 +2220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &604307028
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2330,7 +2320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!1 &638797009
 GameObject:
   m_ObjectHideFlags: 0
@@ -2371,7 +2360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &638797012
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2442,7 +2430,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &662878116
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2513,7 +2500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &713339463
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2656,7 +2642,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &763655353
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2727,7 +2712,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &773760411
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2900,7 +2884,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &807661543
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2971,7 +2954,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &839441841
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3042,7 +3024,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &865766930
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3101,7 +3082,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &902943597
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3214,7 +3194,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!1 &943233590
 GameObject:
   m_ObjectHideFlags: 0
@@ -3255,7 +3234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &943233593
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3346,10 +3324,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 943613003}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
+  m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!114 &943613007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3443,7 +3420,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &944207797
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3545,7 +3521,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!60 &1017391164
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -3614,7 +3589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1021506113
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3685,7 +3659,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1032050150
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3813,7 +3786,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!1 &1131581215
 GameObject:
   m_ObjectHideFlags: 0
@@ -3854,7 +3826,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1131581218
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3945,10 +3916,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1150440142}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
+  m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!114 &1150440146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4042,7 +4012,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1174380427
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4113,7 +4082,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1257627917
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4184,7 +4152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1277811635
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4255,7 +4222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1281782413
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4388,10 +4354,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1342116559}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
+  m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!114 &1342116563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4527,7 +4492,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1398711454
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4598,7 +4562,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1489260121
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4669,7 +4632,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1522093545
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4740,7 +4702,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1538923590
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4831,10 +4792,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1555045010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
+  m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!114 &1555045014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4948,10 +4908,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1567093998}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca3688e9197a31f4d99475db2c961222, type: 3}
+  m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!114 &1567094002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5045,7 +5004,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1581818492
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5116,7 +5074,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1660559738
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5229,7 +5186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1763967112
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5330,7 +5286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!1 &1815142303
 GameObject:
   m_ObjectHideFlags: 0
@@ -5371,7 +5326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1815142306
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5430,7 +5384,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1824157864
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5513,7 +5466,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1858027139
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5584,7 +5536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1871328988
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5685,7 +5636,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!1 &1945295375
 GameObject:
   m_ObjectHideFlags: 0
@@ -5726,7 +5676,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1945295378
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5827,7 +5776,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!1 &1972574549
 GameObject:
   m_ObjectHideFlags: 0
@@ -5868,7 +5816,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &1972574552
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5939,7 +5886,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &2054396399
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6010,7 +5956,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &2110212257
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6081,7 +6026,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}
 --- !u!212 &2137896516
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6182,4 +6126,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3dfa049711c2b43872c409e6daeef9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewGoalTemp: {fileID: 0}

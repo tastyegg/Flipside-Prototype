@@ -1,444 +1,206 @@
-﻿/*
-	Flips the game object around the center x and y position.
-
-*/
-
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class FlipMechanic : MonoBehaviour {
-    public static Color previewColor = new Color(0.0f, 0.7f, 1.0f, 0.3f);
-    public static Color errcolor = new Color(0.7f, 0.0f, 0.0f, 0.2f);
-    public static Color basecolor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-	public static float aniTime = 1.0f;
-	public static float previewAniTime = 0.0f;
-	public static int flipsideD;
-    public static bool done;
-	public static bool aniTimeReset;
+	public Color baseColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+	public Color previewColor = new Color(0.3f, 0.3f, 0.8f, 0.4f);
+	public Color errorColor = new Color(0.8f, 0.2f, 0.2f, 0.8f);
+	public float aniTime { get; private set; }
+	public float aniTimePreview { get; private set; }
+	public float animationSpeed = 3.0f;
+	public float preivewAnimationSpeed = 3.0f;
+	float errorTime;
+	public int flipside { get; private set; }
+	int flipsidePreview;
+	int flipsideBefore;
 
-	public GameObject preview { get; private set; }
+	PlayerController player;
+	List<Flippable> blocks;
 
-	Vector3 previewStart;
-	Vector3 previewStartRotation;
-	public Vector3 previewGoal { get; private set; }
-	Vector3 previewGoalRotation;
-    int previewFlipside;
-	public static int StaticPreviewFlipside { get; private set; }
-
-	bool inSequence;    //Time for frozen animation
-	int flipside;   //1 for horizontial, 2 for vertical
-	int CG_flipside;
-	Vector3 destination;
-	static int lastFlipAttempt;
-	int queueFlip;
-
-    public bool getSeq() { return inSequence; }
-
-    //for red checking
-    public GameObject previewGoalTemp;
-    
-    //Redblinking
-    public static float blinktime;
-    public static float blinkmax = 2.0f;
-
-    int xrot;
-    int yrot;
-
-	void Start ()
-	{
-		CG_flipside = 0;
-		inSequence = false;
-		preview = new GameObject(transform.name + " (Preview)");
-		preview.transform.parent = transform.parent;
-		preview.transform.position = transform.position;
-		preview.transform.localScale = transform.localScale;
-        preview.layer = LayerMask.NameToLayer("WallPreview");
-		preview.tag = "WallPreview";
-		SpriteRenderer previewSprite = preview.AddComponent<SpriteRenderer>();
-		previewSprite.sprite = GetComponent<SpriteRenderer>().sprite;
-		previewSprite.material = GetComponent<SpriteRenderer>().material;
-		previewSprite.color = Color.clear;
+	// Use this for initialization
+	void Start () {
+		aniTime = 1.0f;
+		aniTimePreview = 1.0f;
+		errorTime = 1.0f;
 		flipside = 0;
-        //added for red preview
-        previewGoalTemp = preview;
-        previewGoalTemp.AddComponent<PolygonCollider2D>();
-        previewGoalTemp.GetComponent<PolygonCollider2D>().isTrigger = true;
-        blinktime = blinkmax;
-        xrot = 1;
-        yrot = 1;
-		lastFlipAttempt = 0;
-		queueFlip = 0;
+		blocks = new List<Flippable>();
+
+		blocks.AddRange(FindObjectsOfType<Flippable>());
+		player = FindObjectOfType<PlayerController>();
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		if (aniTime < 1.0f)
+		{
+			aniTime += animationSpeed * Time.deltaTime / Time.timeScale;
+			if (aniTime > 1.0f)
+				aniTime = 1.0f;
+		}
+		if (aniTimePreview < 1.0f)
+		{
+			aniTimePreview += preivewAnimationSpeed * Time.deltaTime / Time.timeScale;
+			if (aniTimePreview > 1.0f)
+				aniTimePreview = 1.0f;
+		}
+		if (errorTime < 1.0f)
+		{
+			errorTime += animationSpeed * Time.deltaTime / Time.timeScale;
+			if (errorTime > 1.0f)
+			{
+				ChangePreviewColor(Color.clear);
+				errorTime = 1.0f;
+			}
+			else if (!Input.GetButton("Focus"))
+			{
+				ChangePreviewColor(errorColor);
+			}
+		}
+
+		flipsideBefore = flipside;
+		ActivatePreview();
+		if (!Input.GetButton("Focus"))
+		{
+			ActivateFlip();
+		}
 	}
 
-	void Flipside()
+	void ActivatePreview()
 	{
-		if (aniTime >= 0.5f)
-			GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
-		if (flipside == 1)
+		if (Input.GetButtonDown("Focus"))
 		{
-			transform.position = new Vector3(destination.x, transform.position.y, transform.position.z);
-			transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
-			preview.transform.eulerAngles = transform.eulerAngles;
-			preview.transform.position = transform.position;
-			preview.transform.localScale = transform.localScale;
+			errorTime = 1.0f;
+			flipsidePreview = flipside;
 		}
-		else if (flipside == 2)
+		if (Input.GetButton("Focus"))
 		{
-			transform.position = new Vector3(transform.position.x, destination.y, transform.position.z);
-			transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
-			preview.transform.eulerAngles = transform.eulerAngles;
-			preview.transform.position = transform.position;
-			preview.transform.localScale = transform.localScale;
-		}
-		else if (flipside == 3)
-		{
-			transform.position = new Vector3(destination.x, destination.y, transform.position.z);
-			transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
-			if (aniTime >= 0.5f)
+			if (Input.GetButtonDown("FlipX"))
 			{
-				preview.transform.position = new Vector3(destination.x, destination.y, transform.position.z);
-				preview.transform.eulerAngles = new Vector3(180 + 180 * yrot, 180 + 180 * xrot, 0.0f);
-				preview.transform.localScale = transform.localScale;
+				flipsidePreview = (flipsidePreview + 1) % 2 + (flipsidePreview / 2) * 2;
+			}
+			if (Input.GetButtonDown("FlipY"))
+			{
+				flipsidePreview = (flipsidePreview + 2) % 4;
+			}
+			FlipPreviewBlocks();
+			if (CheckPlayerCollisionOnPreview())
+			{
+				ChangePreviewColor(errorColor);
 			} else
 			{
-				preview.transform.position = new Vector3(destination.x, -destination.y, transform.position.z);
-				preview.transform.eulerAngles = new Vector3(180 * yrot, 180 * xrot, 0.0f);
-				Vector3 previewScale = transform.localScale;
-				previewScale.x *= -1;
-				preview.transform.localScale = previewScale;
+				ChangePreviewColor(previewColor);
+			}
+		}
+		else if (Input.GetButtonUp("Focus"))
+		{
+			ChangePreviewColor(Color.clear);
+			flipside = flipsidePreview;
+			FlipBlocks();
+		}
+	}
+
+	bool CheckPlayerCollisionOnPreview()
+	{
+		foreach (Flippable f in blocks)
+		{
+			Collider2D col = f.previewObject.GetComponent<Collider2D>();
+			if (col && col.OverlapPoint(player.transform.localPosition))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void FlipPreviewBlocks()
+	{
+		foreach (Flippable f in blocks)
+		{
+			if (f)
+			{
+				Vector3 newPosition = f.originalPosition;
+				Vector3 newScale = f.originalScale;
+				if (flipsidePreview % 2 == 1)
+				{
+					newPosition.x = -newPosition.x;
+					newScale.x = -newScale.x;
+				}
+				if ((flipsidePreview / 2) % 2 == 1)
+				{
+					newPosition.y = -newPosition.y;
+					newScale.y = -newScale.y;
+				}
+				f.previewObject.transform.localPosition = newPosition;
+				f.previewObject.transform.localScale = newScale;
 			}
 		}
 	}
 
-	void FlipsidePreview()
+	void ActivateFlip()
 	{
-        //previewSprite.color = previewColor;
-
-        //broken line of code
-        //if (Input.GetButtonDown("FlipX") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisX && !axisX)
-        if (PlayerController.axisButtonDownFlipX)
-        {
-            previewStart = previewGoal;
-            if (previewFlipside % 2 == 1)
-            {
-                previewFlipside -= 1;
-                previewGoal = new Vector3(transform.position.x, previewGoal.y, previewGoal.z);
-            }
-            else if (previewFlipside % 2 == 0)
-            {
-                previewFlipside += 1;
-                previewGoal = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
-            }
-            previewAniTime = 0;
-            previewStartRotation = new Vector3(previewGoalRotation.x, previewGoalRotation.y, previewGoalRotation.z);
-            previewGoalRotation = new Vector3(previewGoalRotation.x, (previewGoalRotation.y + 180) % 360, previewGoalRotation.z);
-        }
-        //broken line of code
-        //if (Input.GetButtonDown("FlipY") || GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().axisY && !axisY)
-        if (PlayerController.axisButtonDownFlipY)
-        {
-            previewStart = previewGoal;
-            if (previewFlipside > 1)
-            {
-                previewFlipside -= 2;
-                previewGoal = new Vector3(previewGoal.x, transform.position.y, previewGoal.z);
-            }
-            else if (previewFlipside < 2)
-            {
-                previewFlipside += 2;
-                previewGoal = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
-            }
-			previewAniTime = 0;
-            previewStartRotation = new Vector3(previewGoalRotation.x, previewGoalRotation.y, previewGoalRotation.z);
-            previewGoalRotation = new Vector3((previewGoalRotation.x + 180) % 360, previewGoalRotation.y, previewGoalRotation.z);
-        }
-        if (Input.GetButtonDown("Cancel"))
-        {
-            previewStart = previewGoal;
-            previewFlipside = 0;
-            previewGoal = new Vector3(transform.position.x, transform.position.y, previewGoal.z);
-			previewAniTime = 0;
-            previewStartRotation = new Vector3(previewGoalRotation.x, previewGoalRotation.y, previewGoalRotation.z);
-            previewGoalRotation = new Vector3(transform.rotation.x * -180, transform.rotation.y * -180, transform.rotation.z * -180);
-        }
-		StaticPreviewFlipside = previewFlipside;
-
-        previewGoalTemp.transform.position = previewGoal; //added for red
-        
-		preview.transform.position = new Vector3(Mathf.Lerp(previewStart.x, previewGoal.x, previewAniTime), Mathf.Lerp(previewStart.y, previewGoal.y, previewAniTime), preview.transform.position.z);
-		preview.transform.eulerAngles = new Vector3(Mathf.Lerp(previewStartRotation.x, previewGoalRotation.x, previewAniTime), Mathf.Lerp(previewStartRotation.y, previewGoalRotation.y, previewAniTime), previewGoalRotation.z);
-    }
-
-	void reverseFlipside()
-	{
-		if (flipside == 1)
+		if (Input.GetButtonDown("FlipX"))
 		{
-			destination = new Vector3(-destination.x, destination.y, destination.z);
+			flipside = (flipside + 1) % 2 + (flipside / 2) * 2;
+			FlipBlocks();
 		}
-		else if (flipside == 2)
+		if (Input.GetButtonDown("FlipY"))
 		{
-			destination = new Vector3(destination.x, -destination.y, destination.z);
-		}
-		else if (flipside == 3)
-		{
-			destination = new Vector3(-destination.x, -destination.y, destination.z);
+			flipside = (flipside + 2) % 4;
+			FlipBlocks();
 		}
 	}
 
-    public void FlipReset()
-    {
-        queueFlip = 0;
-
-        GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
-        flipside = 0;
-        if (transform.localEulerAngles.y > 170 && transform.localEulerAngles.z <  10)
-            flipside = 1;
-        if (transform.localEulerAngles.y > 170 && transform.localEulerAngles.z > 170)
-            flipside = 2;
-        if (transform.localEulerAngles.y <  10 && transform.localEulerAngles.z > 170)
-            flipside = 3;
-
-        aniTime = 0;
-        flipsideD = flipside;
-        if (flipside % 2 == 1)
-        {
-            if (CG_flipside % 2 == 0)
-                CG_flipside++;
-            else
-                CG_flipside--;
-        }
-        if (flipside >= 2)
-            CG_flipside += 2;
-        previewFlipside = 0;
-        destination = new Vector3((flipside % 2 == 0 ? 1 : -1) * transform.position.x, (flipside < 2 ? 1 : -1) * transform.position.y, transform.position.z);
-        inSequence = true;
-        FollowPlayer.reverse = false;
-        xrot = (xrot + (flipside % 2)) % 2;
-        yrot = (yrot + (flipside / 2)) % 2;
-    }
-
-	void Update ()
+	void FlipBlocks()
 	{
-		SpriteRenderer previewSprite = preview.GetComponent<SpriteRenderer>();
-        GetComponent<SpriteRenderer>().color = basecolor;
-        foreach (Transform child in transform)
-        {
-            child.GetComponent<SpriteRenderer>().color = basecolor;
-        }
-        if (blinktime < blinkmax){
-			Vector3 errorPosition = transform.localPosition;
-			Vector3 errorAngle = transform.localEulerAngles;
-			if (lastFlipAttempt >= 2)
-			{
-				errorPosition.y *= -1;
-				errorAngle.x = (errorAngle.x + 180) % 360;
-			}
-			if (lastFlipAttempt % 2 == 1)
-			{
-				errorPosition.x *= -1;
-				errorAngle.y = (errorAngle.y + 180) % 360;
-			}
-			errorPosition.z -= 0.001f;
-			preview.transform.localPosition = errorPosition;
-			preview.transform.localEulerAngles = errorAngle;
-			previewSprite.GetComponent<SpriteRenderer>().color = errcolor;
-        }
-        else
+		if (flipside != flipsideBefore)
 		{
-			if (PlayerController.inFocus)
+			flipsidePreview = flipside;
+			FlipPreviewBlocks();
+			if (!CheckPlayerCollisionOnPreview())
 			{
-				if (PlayerController.enteringFocus)
+				foreach (Flippable f in blocks)
 				{
-					previewFlipside = 0;
-					previewStart = transform.position;
-					previewStartRotation = transform.eulerAngles;
-					previewGoal = transform.position;
-					previewGoalRotation = transform.eulerAngles;
-					done = false;
-                }
-				FlipsidePreview();
-            }
-			else {
-				previewSprite.color = Color.clear;
-
-                if (PlayerController.exitingFocus)
-				{
-					if (previewFlipside != 0 && !PlayerController.dangerCheck)
+					if (f)
 					{
-						if (flipsideD == previewFlipside || aniTime >= 1.0f)
+						Vector3 newPosition = f.originalPosition;
+						Vector3 newScale = f.originalScale;
+						if (flipside % 2 == 1)
 						{
-							GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
-							flipside = previewFlipside;
-							if (!aniTimeReset)
-							{
-								if (flipsideD == previewFlipside)
-								{
-									FollowPlayer.reverse = true;
-									aniTime = 1.0f - aniTime;
-								}
-								else
-								{
-									FollowPlayer.reverse = false;
-									aniTime = 0;
-								}
-								aniTimeReset = true;
-							}
-							flipsideD = previewFlipside;
-							if (flipside % 2 == 1)
-							{
-								if (CG_flipside % 2 == 0)
-									CG_flipside++;
-								else
-									CG_flipside--;
-							}
-							if (flipside >= 2)
-								CG_flipside += 2;
-							previewFlipside = 0;
-							destination = previewGoal;
-							inSequence = true;
-							xrot = (xrot + (flipside % 2)) % 2;
-							yrot = (yrot + (flipside / 2)) % 2;
-						} else
-						{
-							queueFlip = previewFlipside;
+							newPosition.x = -newPosition.x;
+							newScale.x = -newScale.x;
 						}
+						if ((flipside / 2) % 2 == 1)
+						{
+							newPosition.y = -newPosition.y;
+							newScale.y = -newScale.y;
+						}
+						f.transform.localPosition = newPosition;
+						f.transform.localScale = newScale;
 					}
-                    else if(previewFlipside != 0 && PlayerController.dangerCheck)
-					{
-						lastFlipAttempt = previewFlipside;
-						blinktime = 0.0f;
-                        done = true;
-                    }
-                    else
-                    {
-                        done = true;
-                    }
 				}
-                if (PlayerController.xdanger && PlayerController.axisButtonDownFlipX)
-                {
-					lastFlipAttempt = 1;
-					blinktime = 0.0f;
-                    done = true;
-                }
-                else if (PlayerController.axisButtonDownFlipX)
-				{
-					if (flipsideD == 1 || aniTime >= 1.0f)
-					{
-						GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
-						if (CG_flipside % 2 == 0)
-							CG_flipside++;
-						else
-							CG_flipside--;
-						flipside = 1;
-						if (!aniTimeReset)
-						{
-							if (flipsideD == 1)
-							{
-								FollowPlayer.reverse = !FollowPlayer.reverse;
-								aniTime = 1.0f - aniTime;
-							}
-							else
-							{
-								FollowPlayer.reverse = false;
-								aniTime = 0;
-							}
-							aniTimeReset = true;
-						}
-						flipsideD = flipside;
-						destination = new Vector3(-transform.position.x, previewGoal.y, previewGoal.z);
-						inSequence = true;
-						done = false;
-						xrot = (xrot + 1) % 2;
-					} else
-					{
-						queueFlip = 1;
-					}
-                }
-                if (PlayerController.ydanger && PlayerController.axisButtonDownFlipY)
-				{
-					lastFlipAttempt = 2;
-					blinktime = 0.0f;
-                    done = true;
-                }
-                else if (PlayerController.axisButtonDownFlipY)
-				{
-					if (flipsideD == 2 || aniTime >= 1.0f)
-					{
-						GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
-						CG_flipside += 2;
-						flipside = 2;
-						if (!aniTimeReset)
-						{
-							if (flipsideD == 2)
-							{
-								FollowPlayer.reverse = !FollowPlayer.reverse;
-								aniTime = 1.0f - aniTime;
-							}
-							else
-							{
-								FollowPlayer.reverse = false;
-								aniTime = 0;
-							}
-							aniTimeReset = true;
-						}
-						flipsideD = flipside;
-						destination = new Vector3(previewGoal.x, -transform.position.y, previewGoal.z);
-						inSequence = true;
-						done = false;
-						yrot = (yrot + 1) % 2;
-					} else
-					{
-						queueFlip = 2;
-					}
-                }
-            }
-
-		}
-		if (inSequence)
-		{
-			previewSprite.color = basecolor;
-			Color ghostColor = basecolor;
-			ghostColor.a = FlipMechanic.aniTime * 0.2f;
-			GetComponent<SpriteRenderer>().color = ghostColor;
-            foreach (Transform child in transform)
-            {
-                child.GetComponent<SpriteRenderer>().color = ghostColor;
-            }
-			Flipside();
-			if (aniTime >= 1.0f || (queueFlip != 0 && aniTime == 0))
+				ChangePreviewColor(Color.clear);
+				errorTime = 1.0f;
+			}
+			else
 			{
-				if (queueFlip != 0 && (queueFlip % 2 == 0 || (queueFlip % 2 == 1 && !PlayerController.xdanger)) && (queueFlip < 2 || (queueFlip >= 2 && !PlayerController.ydanger)))
-				{
-					GetComponent<SpriteRenderer>().material.SetFloat("Flipside", CG_flipside % 4);
-					flipside = queueFlip;
-					FollowPlayer.reverse = false;
-					aniTime = 0;
-					flipsideD = queueFlip;
-					if (flipside % 2 == 1)
-					{
-						if (CG_flipside % 2 == 0)
-							CG_flipside++;
-						else
-							CG_flipside--;
-					}
-					if (flipside >= 2)
-						CG_flipside += 2;
-					destination = new Vector3((queueFlip % 2 == 0 ? 1 : -1) * transform.position.x, (queueFlip >= 2 ? -1 : 1) * transform.position.y, transform.position.z);
-					queueFlip = 0;
-					inSequence = true;
-					xrot = (xrot + (flipside % 2)) % 2;
-					yrot = (yrot + (flipside / 2)) % 2;
-				}
-				else
-				{
-					queueFlip = 0;
-					PlayerController.dangerCheck = false;
-					inSequence = false;
-					done = true;
-				}
+				flipside = flipsideBefore;
+				errorTime = 0.0f;
 			}
 		}
-
 	}
-    
+
+	void ChangePreviewColor(Color c)
+	{
+		foreach (Flippable f in blocks)
+		{
+			SpriteRenderer sr = f.previewObject.GetComponent<SpriteRenderer>();
+			sr.color = c;
+		}
+	}
+
+	public void Reset()
+	{
+		flipside = 0;
+		FlipBlocks();
+	}
 }
