@@ -4,6 +4,9 @@ using System.Collections;
 public class FollowPlayer : MonoBehaviour
 {
 	FlipMechanic flip;
+	int initialFlip;
+	int initialFlipPreview;
+
 	public static bool reverse;
 	float zPos;
 
@@ -11,12 +14,76 @@ public class FollowPlayer : MonoBehaviour
 	void Start ()
 	{
 		flip = GameObject.FindObjectOfType<FlipMechanic>();
+
 		zPos = transform.position.z;
 	}
-	
+
+	void OnLevelWasLoaded(int level)
+	{
+		flip = GameObject.FindObjectOfType<FlipMechanic>();
+	}
+
 	void LateUpdate()
 	{
+		if (Input.GetButton("Focus"))
+		{
+			if (flip.directionFlipPreview == 0)
+			{
+				transform.position = new Vector3(0, 0, zPos);
+				transform.localEulerAngles = new Vector3(0, 0, 0);
+			}
+			else
+			{
+				transform.position = new Vector3(0, 0, -zPos);
+				transform.localEulerAngles = new Vector3(0, 180, 0);
+			}
 
+			if (flip.directionFlipPreview == 1)
+			{
+				transform.RotateAround(Vector3.zero, Vector3.up, Mathf.Lerp(0.0f, 180.0f, flip.aniTimePreview));
+			}
+			else if (flip.directionFlipPreview == 2)
+			{
+				transform.localEulerAngles = new Vector3(0, 180, 180);
+				transform.RotateAround(Vector3.zero, Vector3.right, Mathf.Lerp(0.0f, 180.0f, flip.aniTimePreview));
+			}
+		} else
+		{
+			if (flip.directionFlip == 0)
+			{
+				transform.position = new Vector3(0, 0, zPos);
+				transform.localEulerAngles = new Vector3(0, 0, 0);
+			}
+			else
+			{
+				transform.position = new Vector3(0, 0, -zPos);
+				transform.localEulerAngles = new Vector3(0, 180, 0);
+			}
+
+			if (flip.directionFlip == 1)
+			{
+				transform.RotateAround(Vector3.zero, Vector3.up, Mathf.Lerp(0.0f, 180.0f, flip.aniTime));
+			}
+			else if (flip.directionFlip == 2)
+			{
+				transform.localEulerAngles = new Vector3(0, 180, 180);
+				transform.RotateAround(Vector3.zero, Vector3.right, Mathf.Lerp(0.0f, 180.0f, flip.aniTime));
+			}
+			else if (flip.directionFlip == 3)
+			{
+				if (flip.aniTime < 0.5f)
+				{
+					transform.position = new Vector3(0, 0, zPos);
+					transform.localEulerAngles = new Vector3(0, 0, 180);
+					transform.RotateAround(Vector3.zero, Vector3.up, Mathf.Lerp(0.0f, 180.0f, flip.aniTime * 2));
+				}
+				else
+				{
+					transform.localEulerAngles = new Vector3(0, 180, 180);
+					transform.RotateAround(Vector3.zero, Vector3.right, Mathf.Lerp(0.0f, 180.0f, flip.aniTime * 2 - 1));
+				}
+			}
+		}
 	}
 
 	// Update is called once per frame

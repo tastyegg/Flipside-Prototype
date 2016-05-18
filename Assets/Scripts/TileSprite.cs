@@ -11,7 +11,7 @@ public class TileSprite : MonoBehaviour
 {
     SpriteRenderer sprite;
 
-    void Awake()
+    void Start()
     {
         // Get the current sprite with an unscaled size
         sprite = GetComponent<SpriteRenderer>();
@@ -22,6 +22,7 @@ public class TileSprite : MonoBehaviour
         SpriteRenderer childSprite = childPrefab.AddComponent<SpriteRenderer>();
         childPrefab.transform.localPosition = transform.localPosition;
         childSprite.sprite = sprite.sprite;
+		childPrefab.layer = gameObject.layer;
 
         // Loop through and spit out repeated tiles
         GameObject child;
@@ -48,7 +49,7 @@ public class TileSprite : MonoBehaviour
         GetComponent<SpriteRenderer>().enabled = false;
     }
 
-	void Update()
+	void LateUpdate()
 	{
 		Color c = GetComponent<SpriteRenderer>().color;
 		for (int i = 0; i < transform.childCount; i++)

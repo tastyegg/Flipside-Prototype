@@ -49,6 +49,7 @@ GameObject:
   - 95: {fileID: 9579158}
   - 61: {fileID: 6132496}
   - 82: {fileID: 8266974}
+  - 114: {fileID: 11432240}
   m_Layer: 16
   m_Name: Ninja
   m_TagString: Player
@@ -112,7 +113,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 157980}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15, y: -3, z: 0}
+  m_LocalPosition: {x: -16.5, y: -10.5, z: 0}
   m_LocalScale: {x: 1.334791, y: 1.334791, z: 1.334791}
   m_Children:
   - {fileID: 479108}
@@ -318,6 +319,22 @@ MonoBehaviour:
   snapValue: 0.5
   depth: 0
   editFixedSize: 0
+--- !u!114 &11432240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 157980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb43cdd8d01d7b46b78a3fde6ad4fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  previewColor: {r: 0.3, g: 0.3, b: 0.8, a: 0.4}
+  errorColor: {r: 0.8, g: 0.2, b: 0.2, a: 0.8}
+  animationSpeed: 2
+  preivewAnimationSpeed: 3
 --- !u!114 &11478174
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -357,7 +374,6 @@ MonoBehaviour:
   jump_hold_max: 0.155
   jump_hold_min: 0.1
   run_factor: 1
-  WALKTIME: 5
 --- !u!198 &19813646
 ParticleSystem:
   m_ObjectHideFlags: 1

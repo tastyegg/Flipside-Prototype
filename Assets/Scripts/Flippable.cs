@@ -8,13 +8,13 @@ public class Flippable : MonoBehaviour {
 
 	void Start()
 	{
-		originalPosition = transform.localPosition;
+		originalPosition = transform.position;
 		originalRotation = transform.localEulerAngles;
 		originalScale = transform.localScale;
 
 		previewObject = new GameObject("Preview of " + name);
 		previewObject.transform.SetParent(transform.parent);
-		previewObject.transform.localPosition = transform.localPosition;
+		previewObject.transform.position = transform.position;
 		previewObject.transform.localRotation = transform.localRotation;
 		previewObject.transform.localScale = transform.localScale;
 		SpriteRenderer sr = GetComponent<SpriteRenderer>();
