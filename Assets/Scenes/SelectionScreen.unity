@@ -185,7 +185,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 244764928}
+  m_TargetGraphic: {fileID: 1415008964}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -595,7 +595,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 1280357293}
+  m_TargetGraphic: {fileID: 2092909284}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -942,7 +942,7 @@ GameObject:
   - component: {fileID: 2092909285}
   - component: {fileID: 2092909284}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Text - Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

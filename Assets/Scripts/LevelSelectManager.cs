@@ -44,23 +44,23 @@ public class LevelSelectManager : MonoBehaviour {
             
         } 
 
-        if (Input.GetAxis("Horizontal") > 0.1f && timer > 14 && navIdx)
+        if ((Input.GetAxis("Horizontal") > 0.1f && timer > 14 || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && navIdx)
         {
             timer = 14;
             selectRight();
         }
-        else if (Input.GetAxis("Horizontal") < -0.1f && timer > 14 && navIdx)
+        else if ((Input.GetAxis("Horizontal") < -0.1f && timer > 14 || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && navIdx)
         {
             timer = 14;
             selectLeft();
         }
 
-        if ((Input.GetAxis("Vertical") > 0.1f && timer2 > 14) || (Input.GetKeyDown(KeyCode.W) && timer2 > 14))
+        if ((Input.GetAxis("Vertical") > 0.1f && timer2 > 14) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             timer2 = 14;
             navIdx = !navIdx;
         }
-        else if ((Input.GetAxis("Vertical") < -0.1f && timer2 > 14) || (Input.GetKeyDown(KeyCode.S) && timer2 > 14))
+        else if ((Input.GetAxis("Vertical") < -0.1f && timer2 > 14) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             timer2 = 14;
             navIdx = !navIdx;
